@@ -1,0 +1,87 @@
+\documentclass{article}
+
+% Imports
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+
+% Header
+\setlength{\headheight}{48.14pt} 
+\fancyhf{}
+\fancyhead[OL]{
+\includegraphics[scale=0.3]{../Images/AUlogo.png}
+\vspace{-0.5cm}
+}
+\fancyhead[OR]{
+\begin{tabular}{l}
+\textbf{\sc Bachelor Contract}       \\
+Date: \today              \\
+Page \thepage/\pageref{LastPage}\\
+~~
+\end{tabular}}
+
+\newcommand{\timeest}[1]{$\mathbf{#1}$}% used to write time estimations without excessive math-mode
+\newcommand{\draft}[1]{\textcolor{Red}{Draft: #1}}
+
+\begin{document}
+\pagestyle{fancy}
+
+% Meta-information about group/advisors/etc.
+\bgroup\def\arraystretch{1.5}
+\begin{table}[h]
+\begin{tabular}{ll}
+\textbf{Advisor}     & Sophia Yakoubov  \\
+\textbf{Students}    & Emil Mors \& Mikkel Katholm  \\
+\textbf{Languages}   & English \\
+\textbf{Text tools}  & \LaTeX, Typst         \\
+\textbf{Other tools} & Git, Python, VS Code
+\end{tabular}
+\end{table}
+\egroup\vspace{-0.cm}
+
+\subsection*{Project Description}
+This project examines ranked choice voting in the UC framework. The goals for this project are to review, analyze, and become familiar with currently published research on electronic voting using ranked voting and how it can be used and implemented in the UC framework. Furthermore, we will define the security parameters such as privacy, correctness, and verifiability. Finally, we will design a protocol using the UC framework to settle an election using one or more types of ranked choice voting schemes, while preserving security. The knowledge gathered throughout this project will be formulated in a paper and possibly a working example to showcase the protocol in practice.
+
+\subsection*{Provisional Table of Contents}
+\begin{itemize}
+    \item Abstract (10--20 lines)
+    \item Section 1: Introduction (1--2 pages)
+    \item Section 2: Review of literature (4--6 pages)
+    \item Section 3: Description of Task A (4--8 pages) \\
+    Define security and review security of subprocesses.
+    \item Section 4: Description of Task B (4--8 pages) \\
+    Designing the protocol for ranked choice voting 
+    \item Section 5: Description of Task C (4--8 pages) \\
+    Cover pitfalls and more advanced security than previous sections, mainly based on theory and minimal coding.
+    \item Section 6: Comparison to other work and ideas for future work (2--4 pages)
+    \item Section 7: Conclusion (1--2 pages)
+    \item Acknowledgements (3--5 lines)
+    \item References ($\frac{1}{2}$--4 page)
+    \item Appendix with programming code, tables, full proofs, etc. (5--20 pages)
+\end{itemize}
+
+\newpage
+\subsection*{Provisional Time Plan}
+
+\paragraph{First week of September (15 hours)}~\\\noindent
+Planning of activities and scheduling.
+
+\paragraph{Rest of September and first half of October (\timeest{3\times 15} hours)}~\\\noindent
+Read literature and make draft of Sections 2--3 in the report.
+
+\paragraph{Rest of October and first week of November (\timeest{2\times 15+2\times 30} hours)}~\\\noindent
+Completion of Task A and draft of Sections 3--4 in the report.
+
+\paragraph{Rest of November (\timeest{3\times 30} hours)}~\\\noindent
+Completion of Task B and draft of Sections 4--5 in the report.
+
+\paragraph{First three weeks of December (\timeest{3\times 30} hours)}~\\\noindent
+Completion of Task C and draft of remaining sections in the report.
+
+\paragraph{Last week of December (\timeest{30} hours)}~\\\noindent
+Write the missing parts, merge drafts, ensure consistency, and proofread.
+
+\end{document}

@@ -13,8 +13,6 @@ class Ballot:
         self.modified_ballot:type_BALLOT = deepcopy(self.ballot)
     
     def __str__(self) -> str:
-        og_rows = [" ".join(map(str, row)) for row in self.ballot]
-        og_formatted = "\n".join(og_rows)
         modified_rows = [" ".join(map(str, row)) for row in self.modified_ballot]
         modified_formatted = "\n".join(modified_rows)
 
@@ -29,7 +27,6 @@ class Ballot:
         for i in range(n):
             for j in range(n):
                 ballot[i][j] = 1 if ranks[i] == j else 0
-
         return ballot
     
     def edit_ballot(self, row: int, col: int, new_val: int) -> None:
@@ -67,3 +64,27 @@ class Ballot:
         for row in self.modified_ballot:
             sums.append(sum(row))
         return sums
+    
+
+class Round:
+    def __init__(self, ballots: List[Ballot]) -> None:
+        self.ballots = ballots
+        self.c = ballots[0].c
+
+    def prepare_ballot(self, ballot: Ballot, eliminated_candidates: type_ELIMINATED_CANDS) -> List[int]:
+            ballot.remove_eliminated_candidates(eliminated_candidates)
+            ballot.remove_non_highest_priority()
+            return ballot.sum_of_rows()
+
+    def prepare_all_ballots(self, eliminated_candidates: type_ELIMINATED_CANDS) -> List[List[int]]:
+        sums = []
+        for ballot in self.ballots:
+            sums.append(self.prepare_ballot(ballot, eliminated_candidates))
+        return sums
+    
+    def sum_vectors(self, vectors: List[List[int]]) -> List[int]:
+        res_vector = [0 for _ in range(self.c)]
+        for list in vectors:
+            for i, value in enumerate(list):
+                res_vector[i] += value
+        return res_vector

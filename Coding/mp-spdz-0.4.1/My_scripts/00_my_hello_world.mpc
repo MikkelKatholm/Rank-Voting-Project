@@ -20,9 +20,9 @@ def make_ballot(voter_id: int) -> Matrix:
             Priority 1: Candidate 0
             Priority 2: Candidate 1  
         Then the resulting ballot matrix will be:
-            [0, 1, 0]  # Candidate 0 has priority 1
+           [[0, 1, 0]  # Candidate 0 has priority 1
             [0, 0, 1]  # Candidate 1 has priority 2
-            [1, 0, 0]  # Candidate 2 has priority 0
+            [1, 0, 0]] # Candidate 2 has priority 0
     """
 
     # Array to hold secret-shared priorities (one secret integer per candidate position)
@@ -54,21 +54,71 @@ def make_ballot(voter_id: int) -> Matrix:
 
     return ballot_matrix
 
+def make_all_ballots() -> list[Matrix]:
+    return [make_ballot(voter_id) for voter_id in range(NUM_VOTERS)]
+
+def remove_eliminated_candidates(ballot: Matrix, active_candidates) -> Matrix:
+    """ Remove eliminated candidates from the ballot matrix. 
+    
+    :param ballot: A NUM_CANDIDATES x NUM_CANDIDATES secret-shared ballot matrix.
+    :param active_candidates: A list of 0/1 secret-shared bits indicating active candidates.
+    :return: A modified ballot matrix with eliminated candidates removed.
+    """
+#   NOTE: Not sure if we need to use secure loops here??? Both version work but not sure on security implications.
+#    @for_range(NUM_CANDIDATES)
+#    def _(row):
+#        @for_range(NUM_CANDIDATES)
+#        def _(col):
+#            ballot[row][col] = ballot[row][col] * active_candidates[row]
+    
+    for row in range(NUM_CANDIDATES):
+        for col in range(NUM_CANDIDATES):
+            ballot[row][col] = ballot[row][col] * active_candidates[row]
+
+
+    return ballot
+
+def eliminate_candidate(active_candidates, cand_id):
+    """ Eliminate a candidate by setting their active flag to 0
+    
+    :param active_candidates: A list of 0/1 secret-shared bits indicating active candidates.
+    :param cand_id: The candidate ID to eliminate.
+    :return: Updated active_candidates list with the specified candidate eliminated.
+    """
+    # NOTE: does this mean that a party can see how is eliminated based on what value is changed in active_candidates?
+    
+    active_candidates[cand_id] = active_candidates[cand_id] * sint(0)
+    return active_candidates
+
+def initialize_active_candidates():
+    """ Initialize all candidates as active (1). 
+    :return: A list of secret-shared bits indicating all candidates are active.
+    """
+    active_candidates = Array(NUM_CANDIDATES, sint)
+    active_candidates.assign_all(sint(1))
+    return active_candidates
 
 # Main function must be the lowest in the file!!!
 @compiler.register_function('rcv_main')
 def rcv_main():
     """Main function to create and process a secret-shared ballot matrix."""
-    voter_ids = [i for i in range(NUM_VOTERS)]  # Example with one voter (party 0)
-    for voter_id in voter_ids:
-        ballot = make_ballot(voter_id)
 
+    ballots = make_all_ballots()
+    active_candidates = initialize_active_candidates()
+    active_candidates = eliminate_candidate(active_candidates, 1) # [1,0,1]
+    ballots = [remove_eliminated_candidates(ballot, active_candidates) for ballot in ballots]
+
+    for ballot in ballots:
         print_ln_to(0, 'Ballot matrix (revealed for debugging):')
         revealed_ballot = ballot.reveal()  # Remove this line in production!
 
         for col in range(NUM_CANDIDATES):
             for row in range(NUM_CANDIDATES):
                 print_ln_to(0, 'ballot_matrix[%s][%s] = %s', row, col, revealed_ballot[row][col])
+
+    revealed_candidates = active_candidates.reveal()
+    for i, cand in enumerate(revealed_candidates):
+        print_ln_to(0, 'active_candidates[%s] = %s', i, cand)
 
 if __name__ == "__main__":
     compiler.compile_func()

@@ -43,45 +43,47 @@ Page \thepage/\pageref{LastPage}\\
 \egroup\vspace{-0.cm}
 
 \subsection*{Project Description}
-This project examines ranked choice voting in the UC framework. The goals for this project are to review, analyze, and become familiar with currently published research on electronic voting using ranked voting and how it can be used and implemented in the UC framework. Furthermore, we will define the security parameters such as privacy, correctness, and verifiability. Finally, we will design a protocol using the UC framework to settle an election using one or more types of ranked choice voting schemes, while preserving security. The knowledge gathered throughout this project will be formulated in a paper and possibly a working example to showcase the protocol in practice.
+This project investigates privacy-preserving electronic voting with a focus on ranked-choice methods. The aim is to define and analyze a clear security framework for ranked-choice voting (RCV) by extending existing ideal functionalities from plurality voting to RCV. The project will review prior work on electronic voting and existing security definitions. Furthermore, we will propose an ideal functionality for privacy-preserving ranked-choice tallying and design a protocol that achieves this functionality using standard cryptographic primitives. We will implement and evaluate a prototype. If time permits, we will also explore how this work can be extended as a component within the UC framework. The deliverables include a formal specification of the functionality, a protocol with security arguments, a prototype implementation, and a final report.
 
 \subsection*{Provisional Table of Contents}
 \begin{itemize}
     \item Abstract (10--20 lines)
     \item Section 1: Introduction (1--2 pages)
-    \item Section 2: Review of literature (4--6 pages)
-    \item Section 3: Description of security and subprocesses (4--8 pages) \\
-    Define security and review security of subprocesses.
-    \item Section 4: The protocol (4--8 pages) \\
-    Designing the protocol for ranked choice voting 
-    \item Section 5: Further theory and advanced security (4--8 pages) \\
-    Cover pitfalls and more advanced security than previous sections, mainly based on theory and minimal coding.
-    \item Section 6: Comparison to other work and ideas for future work (2--4 pages)
+    \item Section 2: Literature Review (4--6 pages) \\
+    Existing work on electronic voting, ranked-choice tallying, and security definitions.
+    \item Section 3: Security Framework (4--6 pages) \\
+    Review of existing security notions and extension of ideal functionalities to ranked-choice voting.
+    \item Section 4: Protocol Design (4--8 pages) \\
+    Proposed protocol for privacy-preserving ranked-choice voting.
+    \item Section 5: Prototype and Evaluation (4--6 pages) \\
+    Implementation details, performance measurements, and analysis.
+    \item Section 6: Discussion and Extensions (2--4 pages) \\
+    Relation to prior work, potential UC integration, and future directions.
     \item Section 7: Conclusion (1--2 pages)
     \item Acknowledgements (3--5 lines)
-    \item References ($\frac{1}{2}$--4 page)
-    \item Appendix with programming code, tables, full proofs, etc. (5--20 pages)
+    \item References ($\frac{1}{2}$--4 pages)
+    \item Appendix with code, tables, and detailed proofs (5--20 pages)
 \end{itemize}
 
 \newpage
 \subsection*{Provisional Time Plan}
 
 \paragraph{First week of September (15 hours)}~\\\noindent
-Planning of activities and scheduling.
+Planning activities, refining research questions, and scheduling.
 
 \paragraph{Rest of September and first half of October (\timeest{3\times 15} hours)}~\\\noindent
-Read literature and make draft of Sections 2-3 in the report.
+Literature review and drafting Sections 2--3.
 
 \paragraph{Rest of October and first week of November (\timeest{2\times 15+2\times 30} hours)}~\\\noindent
-Completion of section 2-3 and draft of Sections 4 in the report.
+Completion of Sections 2--3 and draft of Section 4 (protocol design).
 
 \paragraph{Rest of November (\timeest{3\times 30} hours)}~\\\noindent
-Completion of section 3-4 and draft of Sections 5 in the report.
+Refinement of Section 4 and draft of Section 5 (prototype and evaluation).
 
 \paragraph{First three weeks of December (\timeest{3\times 30} hours)}~\\\noindent
-Completion of section 4-5 and draft of remaining sections in the report.
+Completion of Sections 4--5 and draft of Section 6 (discussion and extensions).
 
 \paragraph{Last week of December (\timeest{30} hours)}~\\\noindent
-Write the missing parts, merge drafts, ensure consistency, and proofread.
+Write missing parts, merge drafts, ensure consistency, and proofread.
 
 \end{document}

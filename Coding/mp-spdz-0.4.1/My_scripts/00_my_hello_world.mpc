@@ -64,17 +64,38 @@ def remove_eliminated_candidates(ballot: Matrix, active_candidates) -> Matrix:
     :param active_candidates: A list of 0/1 secret-shared bits indicating active candidates.
     :return: A modified ballot matrix with eliminated candidates removed.
     """
-#   NOTE: Not sure if we need to use secure loops here??? Both version work but not sure on security implications.
-#    @for_range(NUM_CANDIDATES)
-#    def _(row):
-#        @for_range(NUM_CANDIDATES)
-#        def _(col):
-#            ballot[row][col] = ballot[row][col] * active_candidates[row]
-    
+
     for row in range(NUM_CANDIDATES):
         for col in range(NUM_CANDIDATES):
             ballot[row][col] = ballot[row][col] * active_candidates[row]
+    return ballot
 
+def remove_non_highest_priority(ballot: Matrix) -> Matrix:
+    """ Remove non-highest priority candidates from the ballot matrix.
+    
+    :param ballot: A NUM_CANDIDATES x NUM_CANDIDATES secret-shared ballot matrix.
+    :return: A modified ballot matrix with only the highest priority candidate retained.
+
+    Example:
+    >>> remove_non_highest_priority(ballot)
+        If the ballot matrix is:
+           [[0, 0, 0]  # Candidate 0 is eliminated
+            [0, 0, 1]  # Candidate 1 has priority 2
+            [1, 0, 0]] # Candidate 2 has priority 0
+        Then the resulting ballot matrix will be:
+            [[0, 0, 0]  # Candidate 0 is eliminated
+             [0, 0, 0]  # Candidate 1 is not highest priority
+             [1, 0, 0]] # Candidate 2 is highest priority
+    """
+    found_highest = Array(1, sint)
+    found_highest[0] = sint(1)
+    @for_range(NUM_CANDIDATES)
+    def _(col):
+        @for_range(NUM_CANDIDATES)
+        def _(row):
+            is_highest = ballot[row][col] * (found_highest[0])
+            ballot[row][col] = is_highest
+            found_highest[0] = found_highest[0] - is_highest
 
     return ballot
 
@@ -86,8 +107,13 @@ def eliminate_candidate(active_candidates, cand_id):
     :return: Updated active_candidates list with the specified candidate eliminated.
     """
     # NOTE: does this mean that a party can see how is eliminated based on what value is changed in active_candidates?
-    
-    active_candidates[cand_id] = active_candidates[cand_id] * sint(0)
+
+
+    @for_range(NUM_CANDIDATES)
+    def _(i):
+        condition = (i == cand_id)
+        active_candidates[i] = condition.if_else(sint(0), sint(1) * active_candidates[i])
+
     return active_candidates
 
 def initialize_active_candidates():
@@ -98,6 +124,8 @@ def initialize_active_candidates():
     active_candidates.assign_all(sint(1))
     return active_candidates
 
+
+
 # Main function must be the lowest in the file!!!
 @compiler.register_function('rcv_main')
 def rcv_main():
@@ -105,8 +133,9 @@ def rcv_main():
 
     ballots = make_all_ballots()
     active_candidates = initialize_active_candidates()
-    active_candidates = eliminate_candidate(active_candidates, 1) # [1,0,1]
+    active_candidates = eliminate_candidate(active_candidates, sint(1)) # [1,0,1]
     ballots = [remove_eliminated_candidates(ballot, active_candidates) for ballot in ballots]
+    ballots = [remove_non_highest_priority(ballot) for ballot in ballots]
 
     for ballot in ballots:
         print_ln_to(0, 'Ballot matrix (revealed for debugging):')

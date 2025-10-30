@@ -1,6 +1,7 @@
 # secure_ballot.mpc
 import os, sys
 sys.path.insert(0, os.path.dirname(sys.argv[0]) + '/..')
+
 from Compiler.library import *
 from Compiler.compilerLib import Compiler
 from consts import *

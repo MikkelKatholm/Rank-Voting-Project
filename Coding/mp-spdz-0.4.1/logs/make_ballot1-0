@@ -1,0 +1,18 @@
+Using statistical security parameter 40
+Ballot matrix (revealed for debugging):
+ballot_matrix[0][0] = 0
+ballot_matrix[1][0] = 0
+ballot_matrix[2][0] = 1
+ballot_matrix[0][1] = 1
+ballot_matrix[1][1] = 0
+ballot_matrix[2][1] = 0
+ballot_matrix[0][2] = 0
+ballot_matrix[1][2] = 1
+ballot_matrix[2][2] = 0
+The following benchmarks are including preprocessing (offline phase).
+Time = 1.1701 seconds 
+Data sent = 51.2259 MB in ~643 rounds (party 0 only; use '-v' for more details)
+Global data sent = 81.9698 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)

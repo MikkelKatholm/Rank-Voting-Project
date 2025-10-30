@@ -1,0 +1,16 @@
+{
+    "python.analysis.typeCheckingMode": "off",
+          // Make missing type hints show as errors
+    "python.analysis.diagnosticSeverityOverrides": {
+      "reportMissingParameterType": "none",
+      "reportMissingTypeArgument": "none",
+      "reportMissingTypeStubs": "none",
+      "reportMissingModuleSource": "none",
+      "reportUnknownParameterType": "none",
+      "reportUnknownVariableType": "none",
+      "reportUnknownArgumentType": "none",
+      "reportUnknownMemberType": "none",
+      "reportMissingReturnType": "none",
+      "reportUnusedImport": "none"
+    }
+}

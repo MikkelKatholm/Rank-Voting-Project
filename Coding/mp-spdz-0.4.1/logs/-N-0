@@ -1,0 +1,55 @@
+Using statistical security parameter 40
+Ballot matrix (revealed for debugging):
+ballot_matrix[0][0] = 0
+ballot_matrix[1][0] = 0
+ballot_matrix[2][0] = 1
+ballot_matrix[0][1] = 0
+ballot_matrix[1][1] = 0
+ballot_matrix[2][1] = 0
+ballot_matrix[0][2] = 0
+ballot_matrix[1][2] = 0
+ballot_matrix[2][2] = 0
+Ballot matrix (revealed for debugging):
+ballot_matrix[0][0] = 1
+ballot_matrix[1][0] = 0
+ballot_matrix[2][0] = 0
+ballot_matrix[0][1] = 0
+ballot_matrix[1][1] = 0
+ballot_matrix[2][1] = 0
+ballot_matrix[0][2] = 0
+ballot_matrix[1][2] = 0
+ballot_matrix[2][2] = 0
+Ballot matrix (revealed for debugging):
+ballot_matrix[0][0] = 1
+ballot_matrix[1][0] = 0
+ballot_matrix[2][0] = 0
+ballot_matrix[0][1] = 0
+ballot_matrix[1][1] = 0
+ballot_matrix[2][1] = 0
+ballot_matrix[0][2] = 0
+ballot_matrix[1][2] = 0
+ballot_matrix[2][2] = 0
+active_candidates[0] = 1
+active_candidates[1] = 0
+active_candidates[2] = 1
+Row sums (revealed for debugging):
+Voter 0, Candidate 0: Sum = 0
+Voter 0, Candidate 1: Sum = 0
+Voter 0, Candidate 2: Sum = 1
+Voter 1, Candidate 0: Sum = 1
+Voter 1, Candidate 1: Sum = 0
+Voter 1, Candidate 2: Sum = 0
+Voter 2, Candidate 0: Sum = 1
+Voter 2, Candidate 1: Sum = 0
+Voter 2, Candidate 2: Sum = 0
+Total sums (revealed for debugging):
+Candidate 0: Total Sum = 2
+Candidate 1: Total Sum = 0
+Candidate 2: Total Sum = 1
+The following benchmarks are including preprocessing (offline phase).
+Time = 3.91138 seconds 
+Data sent = 242.578 MB in ~3753 rounds (party 0 only; use '-v' for more details)
+Global data sent = 727.241 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)

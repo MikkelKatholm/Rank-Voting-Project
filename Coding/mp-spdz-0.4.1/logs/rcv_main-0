@@ -1,8 +1,8 @@
 Using statistical security parameter 40
 The winning candidate is: 0
 The following benchmarks are including preprocessing (offline phase).
-Time = 6.71805 seconds 
-Data sent = 346.549 MB in ~5511 rounds (party 0 only; use '-v' for more details)
+Time = 6.73839 seconds 
+Data sent = 346.549 MB in ~5513 rounds (party 0 only; use '-v' for more details)
 Global data sent = 1038.9 MB (all parties)
 This program might benefit from some protocol options.
 Consider adding the following at the beginning of your code:

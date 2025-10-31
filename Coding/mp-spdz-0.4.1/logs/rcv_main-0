@@ -1,25 +1,28 @@
 Using statistical security parameter 40
-Ballot from ballot2.txt: [0, 0, 0, 0, 0, 0, 1, 1, 1]
-Ballot from ballot1.txt: [1, 1, 1, 0, 0, 0, 0, 0, 0]
-Ballot from ballot3.txt: [1, 1, 1, 0, 0, 0, 0, 0, 0]
-Ballot from ballot4.txt: [1, 1, 1, 0, 0, 0, 0, 0, 0]
-Round 0 - Initial Ballot 0: [0, 0, 0, 0, 0, 0, 1, 1, 1]
-Round 0 - Initial Ballot 0: [1, 1, 1, 0, 0, 0, 0, 0, 0]
-Round 0 - Initial Ballot 0: [1, 1, 1, 0, 0, 0, 0, 0, 0]
-Round 0 vote counts: [2, 0, 1]
+5 ballots created.
+Round 0 - Initial Ballot 0: [0, 0, 0, 0, 0, 0, 1, 0, 0]
+Round 0 - Initial Ballot 1: [0, 0, 0, 0, 0, 0, 1, 0, 0]
+Round 0 - Initial Ballot 2: [1, 0, 0, 0, 0, 0, 0, 0, 0]
+Round 0 - Initial Ballot 3: [1, 0, 0, 0, 0, 0, 0, 0, 0]
+Round 0 - Initial Ballot 4: [1, 0, 0, 0, 0, 0, 0, 0, 0]
+Round 0 vote counts: [3, 0, 2]
 Round 1 - Initial Ballot 0: [0, 0, 0, 0, 0, 0, 1, 0, 0]
-Round 1 - Initial Ballot 0: [1, 0, 0, 0, 0, 0, 0, 0, 0]
-Round 1 - Initial Ballot 0: [1, 0, 0, 0, 0, 0, 0, 0, 0]
-Round 1 vote counts: [2, 0, 1]
-Round 2 - Initial Ballot 0: [0, 0, 0, 0, 0, 0, 1, 0, 0]
-Round 2 - Initial Ballot 0: [1, 0, 0, 0, 0, 0, 0, 0, 0]
-Round 2 - Initial Ballot 0: [1, 0, 0, 0, 0, 0, 0, 0, 0]
-Round 2 vote counts: [2, 0, 0]
+Round 1 - Initial Ballot 1: [0, 0, 0, 0, 0, 0, 1, 0, 0]
+Round 1 - Initial Ballot 2: [1, 0, 0, 0, 0, 0, 0, 0, 0]
+Round 1 - Initial Ballot 3: [1, 0, 0, 0, 0, 0, 0, 0, 0]
+Round 1 - Initial Ballot 4: [1, 0, 0, 0, 0, 0, 0, 0, 0]
+Round 1 vote counts: [3, 0, 2]
+Round 2 - Initial Ballot 0: [0, 0, 0, 0, 0, 0, 0, 0, 0]
+Round 2 - Initial Ballot 1: [0, 0, 0, 0, 0, 0, 0, 0, 0]
+Round 2 - Initial Ballot 2: [1, 0, 0, 0, 0, 0, 0, 0, 0]
+Round 2 - Initial Ballot 3: [1, 0, 0, 0, 0, 0, 0, 0, 0]
+Round 2 - Initial Ballot 4: [1, 0, 0, 0, 0, 0, 0, 0, 0]
+Round 2 vote counts: [3, 0, 0]
 The winning candidate is: 0
 The following benchmarks are including preprocessing (offline phase).
-Time = 5.92103 seconds 
-Data sent = 367.061 MB in ~6683 rounds (party 0 only; use '-v' for more details)
-Global data sent = 1100.28 MB (all parties)
+Time = 6.71151 seconds 
+Data sent = 471.975 MB in ~8161 rounds (party 0 only; use '-v' for more details)
+Global data sent = 1414.87 MB (all parties)
 This program might benefit from some protocol options.
 Consider adding the following at the beginning of your code:
 	program.use_edabit(True)

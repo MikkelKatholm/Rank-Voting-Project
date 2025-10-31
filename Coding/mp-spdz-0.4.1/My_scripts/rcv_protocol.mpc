@@ -55,6 +55,9 @@ def make_ballot(voter_id: int) -> Matrix:
 
     return ballot_matrix
 
+
+
+
 def make_all_ballots() -> list[Matrix]:
     return [make_ballot(voter_id) for voter_id in range(NUM_VOTERS)]
 
@@ -213,10 +216,9 @@ def update_eliminated_candidates(vector: Array, active_candidates: Array) -> Arr
 
     return eliminate_candidate(active_candidates, smallest_index)
 
-
 def run_protocol():
     """ Run the RCV protocol. """
-    ballots = make_all_ballots()
+    ballots = make_ballots_alternative("../ballots")
     active_candidates = initialize_active_candidates()
     winner = -1
 
@@ -225,11 +227,15 @@ def run_protocol():
         round_ballots: list[Matrix] = ballots[:]
         row_sums_array: list[Array] = []
         for ballot_id in range(NUM_VOTERS):
+            debug_print(round_ballots[ballot_id], f"Round {round} - Initial Ballot 0")
             round_ballots[ballot_id] = remove_eliminated_candidates(round_ballots[ballot_id], active_candidates)
             round_ballots[ballot_id] = remove_non_highest_priority(round_ballots[ballot_id])
             row_sums = sum_rows(round_ballots[ballot_id])
             row_sums_array.append(row_sums)
         vote_vector = sum_vectors(row_sums_array)
+        vote_vector_copy = vote_vector[:]
+        print_ln_to(0, 'Round %s vote counts: %s', round, vote_vector_copy.reveal())
+
         if round < NUM_CANDIDATES - 1:
             active_candidates = update_eliminated_candidates(vote_vector, active_candidates)
         else:
@@ -237,6 +243,12 @@ def run_protocol():
             winner_id = find_winner(vote_vector)
             winner = reveal_winner(winner_id)
     return winner
+
+def debug_print(secret_stuff, msg="Debug"):
+    to_reveal = secret_stuff[:]
+    print_ln_to(0, '%s: %s', msg, to_reveal.reveal())
+
+
 
 # Main function must be the lowest in the file!!!
 @compiler.register_function('rcv_main')

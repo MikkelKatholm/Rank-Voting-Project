@@ -34,23 +34,16 @@ def make_ballots(input_directory_name: str, output_directory_name: str):
     from os import listdir
     file_list = listdir(input_directory_name)
     for file_name in file_list:
-        priorities = Array(NUM_CANDIDATES, sint)
         priorities_from_file = [int(value) for value in open(f"{input_directory_name}/{file_name}", "r").read().split()]
-        for idx in range(NUM_CANDIDATES):
-            print(f"Assigning priority {priorities_from_file[0]} to candidate {idx}")    
-            priorities[idx] = sint(priorities_from_file[idx])
-
-        ballot_matrix = Matrix(NUM_CANDIDATES, NUM_CANDIDATES, value_type=sint)
-        @for_range(NUM_CANDIDATES)
-        def _(i):
-            @for_range(NUM_CANDIDATES)
-            def _(j):
-                is_priority = (priorities[j] == i)
-                ballot_matrix[i][j] = is_priority.if_else(sint(1), sint(0))
-        debug_print(ballot_matrix, f"Ballot from {file_name}")
-        # write ballot_matrix to output file
-        Matrix.write_to_file(ballot_matrix)
-
+        #format as python matrix [[],[],[]]
+        ballot_matrix = []
+        for i in range(NUM_CANDIDATES):
+            row = []
+            for j in range(NUM_CANDIDATES):
+                is_priority = (priorities_from_file[j] == i)
+                row.append(1 if is_priority else 0)
+            ballot_matrix.append(row)
+        secret_shard_ballot = sint.input_tensor_via(0, ballot_matrix)
 
 
 @compiler.register_function("make_ballots_main")

@@ -31,7 +31,7 @@ def make_ballot(voter_id: int) -> Matrix:
 
     # Get secret input from party 0 (the voter). Each call returns a sint.
     # In an interactive/test run, party 0 must provide these inputs.
-    priorities_from_file = sint.get_input_from(voter_id, size=NUM_CANDIDATES)
+    priorities_from_file = sint.get_input_from(voter_id, size=NUM_PARTIES * VOTES_PER_PARTY[voter_id])
     
     for idx in range(NUM_CANDIDATES):
         priorities[idx] = priorities_from_file[idx]
@@ -218,7 +218,7 @@ def update_eliminated_candidates(vector: Array, active_candidates: Array) -> Arr
 
 def run_protocol():
     """ Run the RCV protocol. """
-    ballots = make_ballots_alternative("../ballots")
+    ballots = make_all_ballots()
     active_candidates = initialize_active_candidates()
     winner = -1
 

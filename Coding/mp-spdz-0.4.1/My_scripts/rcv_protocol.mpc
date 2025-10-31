@@ -9,52 +9,6 @@ is_debug = False
 
 compiler = Compiler()
 
-@compiler.register_function('make_ballot')
-def make_ballot(voter_id: int) -> Matrix:
-    """Create a secret-shared ballot matrix from secret-shared priorities.
-    
-    :return: A NUM_CANDIDATES x NUM_CANDIDATES secret-shared ballot matrix. Each row i corresponds to candidate i, and each column j corresponds to priority j. Entry (i,j) is 1 if candidate i has priority j, else 0.
-
-    Example:
-    >>> make_ballot()
-        If there are 3 candidates and the voter's secret priorities are [2, 0, 1]:
-            Priority 0: Candidate 2
-            Priority 1: Candidate 0
-            Priority 2: Candidate 1  
-        Then the resulting ballot matrix will be:
-           [[0, 1, 0]  # Candidate 0 has priority 1
-            [0, 0, 1]  # Candidate 1 has priority 2
-            [1, 0, 0]] # Candidate 2 has priority 0
-    """
-    # Array to hold secret-shared priorities (one secret integer per candidate position)
-    priorities = Array(NUM_CANDIDATES, sint)
-
-    # Get secret input from party 0 (the voter). Each call returns a sint.
-    # In an interactive/test run, party 0 must provide these inputs.
-    priorities_from_file = sint.get_input_from(voter_id, size=NUM_PARTIES * VOTES_PER_PARTY[voter_id])
-    
-    for idx in range(NUM_CANDIDATES):
-        priorities[idx] = priorities_from_file[idx]
-
-    # Create a secret-shared matrix for the ballot (sint entries)
-    ballot_matrix = Matrix(NUM_CANDIDATES, NUM_CANDIDATES, value_type=sint)
-
-    # Build matrix using secure loops (i and j are regint)
-    @for_range(NUM_CANDIDATES)
-    def _(i):
-        @for_range(NUM_CANDIDATES)
-        def _(j):
-            # compare secret priorities[j] with public i
-            # Most mp-spdz implementations overload '==' for secret/public compare.
-            # That returns a secret bit (sint or sbit-like) that we can use in an if_else.
-            is_priority = (priorities[j] == i)
-
-            # Convert the equality bit into 1/0 stored as sint
-            # if_else(true_val, false_val) exists on many mp-spdz secret-bit objects.
-            ballot_matrix[i][j] = is_priority.if_else(sint(1), sint(0))
-
-    return ballot_matrix
-
 def make_ballots_for_party(party_id: int) -> list[Matrix]:
     """ Create secret-shared ballots for all voters in a given party.
     
@@ -91,7 +45,7 @@ def make_ballots_for_party(party_id: int) -> list[Matrix]:
 
     return ballots
 
-def make_all_ballots2() -> list[Matrix]:
+def make_all_ballots() -> list[Matrix]:
     """ Create secret-shared ballots for all voters across all parties.
     
     :return: A list of secret-shared ballot matrices for all voters.
@@ -101,9 +55,6 @@ def make_all_ballots2() -> list[Matrix]:
         party_ballots = make_ballots_for_party(party_id)
         all_ballots.extend(party_ballots)
     return all_ballots
-
-def make_all_ballots() -> list[Matrix]:
-    return [make_ballot(voter_id) for voter_id in range(NUM_VOTERS)]
 
 def remove_eliminated_candidates(ballot: Matrix, active_candidates: Array) -> Matrix:
     """ Remove eliminated candidates from the ballot matrix. 
@@ -276,7 +227,7 @@ def copy_matrix(matrix: Matrix) -> Matrix:
 def run_protocol():
     """ Run the RCV protocol. """
 
-    ballots = make_all_ballots2()
+    ballots = make_all_ballots()
     print_ln_to(0, '%s ballots created.', len(ballots))
 
     active_candidates = initialize_active_candidates()
@@ -294,7 +245,7 @@ def run_protocol():
             row_sums_array.append(row_sums)
         vote_vector = sum_vectors(row_sums_array)
         vote_vector_copy = vote_vector[:]
-        print_ln_to(0, 'Round %s vote counts: %s', round, vote_vector_copy.reveal())
+        debug_print(vote_vector, f"Vote vector at end of round {round}")
 
         if round < NUM_CANDIDATES - 1:
             active_candidates = update_eliminated_candidates(vote_vector, active_candidates)
@@ -309,8 +260,6 @@ def debug_print(secret_stuff, msg="Debug"):
         return
     to_reveal = secret_stuff[:]
     print_ln_to(0, '%s: %s', msg, to_reveal.reveal())
-
-
 
 # Main function must be the lowest in the file!!!
 @compiler.register_function('rcv_main')

@@ -1,3 +1,4 @@
+
 NUM_CANDIDATES = 3
 
 VOTES_PER_PARTY = [2, 28, 1]

@@ -1,12 +1,9 @@
 Using statistical security parameter 40
 31 ballots created.
-Round 0 vote counts: [29, 0, 2]
-Round 1 vote counts: [29, 0, 2]
-Round 2 vote counts: [31, 0, 0]
 The winning candidate is: 0
 The following benchmarks are including preprocessing (offline phase).
-Time = 26.7803 seconds 
-Data sent = 2077.57 MB in ~39737 rounds (party 0 only; use '-v' for more details)
+Time = 26.8177 seconds 
+Data sent = 2077.57 MB in ~39701 rounds (party 0 only; use '-v' for more details)
 Global data sent = 6227.72 MB (all parties)
 This program might benefit from some protocol options.
 Consider adding the following at the beginning of your code:

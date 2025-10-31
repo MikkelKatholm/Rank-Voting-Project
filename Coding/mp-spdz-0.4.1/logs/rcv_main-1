@@ -1,7 +1,7 @@
 Using statistical security parameter 40
 The following benchmarks are including preprocessing (offline phase).
-Time = 26.7819 seconds 
-Data sent = 2075.08 MB in ~28900 rounds (party 1 only; use '-v' for more details)
+Time = 26.8178 seconds 
+Data sent = 2075.08 MB in ~28874 rounds (party 1 only; use '-v' for more details)
 Global data sent = 6227.72 MB (all parties)
 This program might benefit from some protocol options.
 Consider adding the following at the beginning of your code:

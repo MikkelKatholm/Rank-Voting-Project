@@ -15,33 +15,19 @@ def make_ballots_for_party(party_id: int) -> list[Matrix]:
     :return: A list of NUM_VOTERS_PER_PARTY[party_id] secret-shared ballot matrices.
     """
     num_votes = VOTES_PER_PARTY[party_id]
-    size_of_input = NUM_CANDIDATES * num_votes
+    size_of_input = NUM_CANDIDATES * NUM_CANDIDATES * num_votes
     ballots: list[Matrix] = []
 
     flat_priorities = sint.get_input_from(party_id, size=size_of_input)
 
     # Build a ballot for each voter
     for voter_idx in range(num_votes):
-        # Extract the slice of priorities for this voter (secret sints)
-        start = voter_idx * NUM_CANDIDATES
-        end = start + NUM_CANDIDATES
-        # You can either copy into an Array or use directly from flat_priorities
-        priorities = Array(NUM_CANDIDATES, sint)
-        for j in range(NUM_CANDIDATES):
-            priorities[j] = flat_priorities[start + j]
-
-        # Create ballot matrix (NUM_CANDIDATES x NUM_CANDIDATES)
-        ballot_matrix = Matrix(NUM_CANDIDATES, NUM_CANDIDATES, value_type=sint)
-        @for_range(NUM_CANDIDATES)
-        def _(i):
-            @for_range(NUM_CANDIDATES)
-            def _(j):
-                # priorities[j] == i ? 1 : 0
-                is_priority = (priorities[j] == i)
-                ballot_matrix[i][j] = is_priority.if_else(sint(1), sint(0))
-
-        ballots.append(ballot_matrix)
-
+        ballot  = Matrix(NUM_CANDIDATES, NUM_CANDIDATES, value_type=sint)
+        for row in range(NUM_CANDIDATES):
+            for col in range(NUM_CANDIDATES):
+                index = voter_idx * NUM_CANDIDATES * NUM_CANDIDATES + row * NUM_CANDIDATES + col
+                ballot[row][col] = flat_priorities[index]
+        ballots.append(ballot)
     return ballots
 
 def make_all_ballots() -> list[Matrix]:
@@ -271,6 +257,6 @@ def main():
     rcv_main()
 
 # Make sure to call !!!
-# Run it using ./compile.py My_scripts/rcv_protocol.mpc && Scripts/mascot.sh rcv_protocol -N 3
+# Run it using ./compile.py My_scripts/rcv_matrix.mpc && Scripts/mascot.sh rcv_matrix -N 3
 
 main()

@@ -257,6 +257,6 @@ def main():
     rcv_main()
 
 # Make sure to call !!!
-# Run it using ./compile.py My_scripts/rcv_matrix.mpc && Scripts/mascot.sh rcv_matrix -N 3
+# Run it using ./compile.py My_scripts/rcv_matrix.mpc && Scripts/mascot.sh rcv_matrix -N 3 -IF My_scripts/Player-Data/matrix
 
 main()

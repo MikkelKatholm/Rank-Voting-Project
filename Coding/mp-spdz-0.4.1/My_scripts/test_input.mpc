@@ -1,0 +1,10 @@
+# test_input.mpc
+from Compiler.library import *
+
+x = sint.get_input_from(0)
+y = sint.get_input_from(1)
+z = x + y
+print_ln('Sum is %s', z.reveal())
+
+# To run with data from out folder My_scripts/Player-Data, use:
+# Scripts/compile-run.py -E mascot My_scripts/test_input.mpc -- -IF My_scripts/Player-Data/test_input

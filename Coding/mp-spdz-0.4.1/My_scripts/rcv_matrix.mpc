@@ -12,9 +12,9 @@ def make_ballots_for_party(party_id: int) -> list[Matrix]:
     """ Create secret-shared ballots for all voters in a given party.
     
     :param party_id: The ID of the party for which to create ballots.
-    :return: A list of NUM_VOTERS_PER_PARTY[party_id] secret-shared ballot matrices.
+    :return: A list of NUM_VOTES_PER_PARTY[party_id] secret-shared ballot matrices.
     """
-    num_votes = VOTES_PER_PARTY[party_id]
+    num_votes = NUM_VOTES
     size_of_input = NUM_CANDIDATES * NUM_CANDIDATES * num_votes
     ballots: list[Matrix] = []
 
@@ -151,7 +151,7 @@ def majority(vector: Array) -> tuple[sint, Array]:
     has_majority = sint(0)
     @for_range(NUM_CANDIDATES)
     def _(i): 
-        condition = (vector[i] > sint(NUM_VOTERS // 2))
+        condition = (vector[i] > sint(NUM_VOTES // 2))
         has_majority = condition.if_else(has_majority + sint(1), has_majority + sint(0))
 
     return has_majority, vector
@@ -165,7 +165,7 @@ def find_winner(vector: Array) -> sint:
 
     @for_range(NUM_CANDIDATES)
     def _(i):
-        is_winner = (vector[i] > sint(NUM_VOTERS // 2))
+        is_winner = (vector[i] > sint(NUM_VOTES // 2))
         winner_id.update(is_winner.if_else(sint(i), winner_id))
 
     return winner_id
@@ -186,7 +186,7 @@ def update_eliminated_candidates(vector: Array, active_candidates: Array) -> Arr
     :param active_candidates: A list of 0/1 secret-shared bits indicating active candidates.
     :return: A secret-shared bit array indicating the eliminated candidate.
     """
-    smallest_value = sint(NUM_VOTERS + 1)
+    smallest_value = sint(NUM_VOTES + 1)
     smallest_index = sint(-1)
 
     @for_range(NUM_CANDIDATES)
@@ -223,7 +223,7 @@ def run_protocol():
         round_ballots: list[Matrix] = [copy_matrix(b) for b in ballots]
         row_sums_array: list[Array] = []
         debug_print(active_candidates, "Active candidates at start of round")
-        for ballot_id in range(NUM_VOTERS):
+        for ballot_id in range(NUM_VOTES):
             round_ballots[ballot_id] = remove_eliminated_candidates(round_ballots[ballot_id], active_candidates)
             round_ballots[ballot_id] = remove_non_highest_priority(round_ballots[ballot_id])
             row_sums = sum_rows(round_ballots[ballot_id])
@@ -237,7 +237,7 @@ def run_protocol():
         else:
             # Last round, find and reveal the winner
             winner_id = find_winner(vote_vector)
-            winner = reveal_winner(winner_id)
+            winner = winner_id
     return winner
 
 def debug_print(secret_stuff, msg="Debug"):

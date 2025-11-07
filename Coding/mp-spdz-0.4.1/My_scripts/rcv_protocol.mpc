@@ -261,6 +261,7 @@ def debug_print(secret_stuff, msg="Debug"):
     print_ln_to(0, '%s: %s', msg, to_reveal.reveal())
 
 # Main function must be the lowest in the file!!!
+
 def rcv_main():
     """Main function to create and process a secret-shared ballot matrix."""
     winner = run_protocol()

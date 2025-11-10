@@ -28,6 +28,7 @@ def make_ballots_for_party(party_id: int) -> list[Matrix]:
                 index = voter_idx * NUM_CANDIDATES * NUM_CANDIDATES + row * NUM_CANDIDATES + col
                 ballot[row][col] = flat_priorities[index]
         ballots.append(ballot)
+        debug_print(ballot, f"Ballot for voter {voter_idx} in party {party_id}")
     return ballots
 
 def make_all_ballots() -> list[Matrix]:
@@ -134,13 +135,10 @@ def sum_vectors(vectors: list[Array]) -> Array:
     """
     result = Array(NUM_CANDIDATES, sint)
     result.assign_all(sint(0))
-
-    for vector in vectors:
-        @for_range(NUM_CANDIDATES)
-        def _(i):
-            condition = vector[i]
-            result[i] = condition.if_else(result[i] + sint(1), result[i] + sint(0))
     
+    for i in range(NUM_CANDIDATES):
+        for vector in vectors:
+            result[i] += vector[i]
     return result
 
 def majority(vector: Array) -> tuple[sint, Array]:
@@ -237,8 +235,9 @@ def run_protocol():
         else:
             # Last round, find and reveal the winner
             winner_id = find_winner(vote_vector)
-            winner = winner_id
+            winner = winner_id.reveal()
     return winner
+
 
 def debug_print(secret_stuff, msg="Debug"):
     if not is_debug:

@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+"""
+client_sum.py
+Connects to the MP-SPDZ servers and sends a single input value.
+Receives the total sum computed by the MPC parties.
+"""
+import sys
+
+sys.path.append('../')
+
+from ExternalIO.client import *
+from ExternalIO.domains import *
+
+client_id = int(sys.argv[1])
+
+with open(f"My_scripts2/client_inputs/{client_id}_client") as f:
+    client_input = [[int(y.strip()) for y in x.split()] for x in f.readlines()]
+
+client = Client(['localhost'] * NUM_SERVERS, 14000, client_id)
+

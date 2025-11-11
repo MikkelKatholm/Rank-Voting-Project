@@ -16,15 +16,8 @@ from Compiler.library import *
 
 client_id = int(sys.argv[1])
 
-# Read a file on the form
-# 0 1 2
-# 3 4 5
-# ...
-#outputting a list of integers i.e [0,1,2,3,4,5,...]
 with open(f"My_scripts2/client_inputs/{client_id}_client") as f:
-    client_input = [int(x) for x in " ".join(f.readlines()).split()]
-
-input_list = [sint(x) for x in client_input]
+    input_list = [int(x) for x in f.read().split()]
 
 client = Client(['localhost'] * NUM_SERVERS, PORT_NUM, client_id)
 
@@ -36,6 +29,8 @@ for socket in client.sockets:
     os.Send(socket)
 
 def run(input_list):
+    print(f"[Client {client_id}] Sending input to servers...")
     client.send_private_inputs(input_list)
+    print(f"[Client {client_id}] Done.")
 
 run(input_list)

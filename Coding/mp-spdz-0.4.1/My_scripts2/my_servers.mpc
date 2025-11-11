@@ -6,7 +6,7 @@ N_THREADS = 4
 def accept_client():
     client_socket_id = accept_client_connection(PORT_NUM)
     last = regint.read_from_socket(client_socket_id)
-    return client_socket_id, last
+    return client_socket_id
 
 def close_connection(num_clients):
     @for_range(num_clients)
@@ -14,47 +14,46 @@ def close_connection(num_clients):
         closeclientconnection(i)
 
 def get_client_input(client_socket_id):
-    client_matrix = Matrix(NUM_CANDIDATES, NUM_CANDIDATES, sint).assign_all(0)
-    
-    received_values = sint.receive_from_client(1, client_socket_id, size = 1)[0]
+    # Receive NUM_CANDIDATES^2 secret inputs from client
+    flat_values = sint.receive_from_client(1, client_socket_id,
+                                           size=NUM_CANDIDATES * NUM_CANDIDATES)
 
-    return received_values
+    # Create matrix
+    matrix = Matrix(NUM_CANDIDATES, NUM_CANDIDATES, sint)
+
+    for row in range(NUM_CANDIDATES):
+        for col in range(NUM_CANDIDATES):
+            matrix[row][col] = flat_values[row * NUM_CANDIDATES + col]
+
+    return matrix
 
 def main():
     listen_for_clients(PORT_NUM)
     
     def do_stuff():
         client_sockets = Array(NUM_CLIENTS, regint)
-        number_clients = MemValue(regint(0))
-        client_ids = Array(NUM_CLIENTS, sint)
-        inputs_seen = Array(NUM_CLIENTS, regint)
-        inputs_seen.assign_all(0)
 
-        @do_while
-        def client_connections():
-            client_id, last = accept_client()
-            client_sockets[client_id] = client_id
-            client_ids[client_id] = client_id
-            inputs_seen[client_id] = 1
-            @if_(last == 1)
-            def _():
-                number_clients.write(client_id + 1)
-            return (sum(inputs_seen) < number_clients) + (number_clients == 0)
-    
-        def run():
-            client_values = []
+        # Accept connections from clients
+        @for_range(NUM_CLIENTS)
+        def _(client_id):
+            client_sockets[client_id] = accept_client()
 
-            @for_range_multithread(N_THREADS, 1, number_clients)
-            def _(client_id):
-                client_values.append(get_client_input(client_id))
+        client_matrices = [None] * NUM_CLIENTS
+        @for_range(NUM_CLIENTS)
+        def _(client_id):
+            client_matrix = get_client_input(client_sockets[client_id])
+            client_matrices[client_id] = client_matrix
 
-            result = client_values[0]
+        #reveal all matrices
+        @for_range(NUM_CLIENTS)
+        def _(client_id):
+            client_matrix = client_matrices[client_id]
+            client_matrix.reveal()
+            print_ln(f"Client {client_id} matrix: {client_matrix}")
 
-            # reveal the result to servers
-            result.reveal()
 
         run()
-        close_connection(number_clients)
+        close_connection(NUM_CLIENTS)
 
         return True
     

@@ -6,6 +6,7 @@ from Compiler.library import *
 from My_scripts.consts import *
 from My_scripts.Shamir import Shamir
 
+
 is_debug = True
 
 
@@ -66,10 +67,6 @@ def reconstruct_secret(shares: list[sint]) -> sint:
 
 def reconstruct_ballots(ballots: list[list[Matrix]]) -> list[Matrix]:
     output_ballots = [Matrix(NUM_CANDIDATES, NUM_CANDIDATES, sint) for _ in range(NUM_VOTES)]
-
-    x_values = Array(NUM_SHARES, sint).assign_all(0)
-    for i in range(NUM_SHARES):
-        x_values[i] = sint(i + 1)
 
     for voter_id in range(NUM_VOTES):
         for row in range(NUM_CANDIDATES):

@@ -1,6 +1,7 @@
 import os
 import Shamir
 from consts import *
+import random
 
 Matrix = list[list[int]]
 
@@ -21,25 +22,34 @@ def build_all_matrices(ballots: list[list[int]]) -> list[Matrix]:
         matrices.append(matrix)
     return matrices
 
-def share_matrix(matrix: Matrix, ss_scheme: Shamir.Shamir) -> list[Matrix]:
+def share_matrix(matrix: Matrix) -> list[Matrix]:
     size = len(matrix)
     share_matrices = [[[0]*size for _ in range(size)] for _ in range(NUM_PARTIES)]
-
     for row in range(size):
         for col in range(size):
-            shares = ss_scheme.gen_shares(matrix[row][col])
+            shares = gen_shares(matrix[row][col])
             for party in range(NUM_PARTIES):
-                share_matrices[party][row][col] = shares[party][1]
+                share_matrices[party][row][col] = shares[party]
     return share_matrices
 
-def secret_share_matrices(matrices: list[Matrix], ss_scheme: Shamir.Shamir) -> list[list[Matrix]]:
+def gen_rand_int(lower: int, upper: int) -> int:
+    return random.randint(lower, upper)
+
+def gen_shares(secret: int) -> list[int]:
+    shares = [gen_rand_int(1, FIELD_SIZE-1) for _ in range(THRESHOLD-1)]
+    last_share = (secret - sum(shares)) % FIELD_SIZE
+    shares.append(last_share)
+    return shares
+
+
+def secret_share_matrices(matrices: list[Matrix]) -> list[list[Matrix]]:
     all_shared_matrices = []
     for matrix in matrices:
-        shared_matrices = share_matrix(matrix, ss_scheme)
+        shared_matrices = share_matrix(matrix)
         all_shared_matrices.append(shared_matrices)
     return all_shared_matrices
 
-def reconstruct_matrix(shares: list[Matrix], ss_scheme: Shamir.Shamir) -> Matrix:
+def reconstruct_matrix(shares: list[Matrix]) -> Matrix:
     size = len(shares[0])
     reconstructed_matrix = [[0]*size for _ in range(size)]
 
@@ -48,20 +58,24 @@ def reconstruct_matrix(shares: list[Matrix], ss_scheme: Shamir.Shamir) -> Matrix
             share_list = []
             for party in range(NUM_PARTIES):
                 share_list.append( (party+1, shares[party][row][col]) )
-            secret = ss_scheme.reconstruct_secrets(share_list, 1)
-            reconstructed_matrix[row][col] = secret[0]
+            secret = sum(shares) % FIELD_SIZE
+            reconstructed_matrix[row][col] = secret
     return reconstructed_matrix
 
-def gen_random_priorities(num_candidates: int) -> list[int]:
-    from random import shuffle
+def gen_random_priorities(num_candidates: int, rank_all: bool = True) -> list[int]:
     priorities = list(range(num_candidates))
-    shuffle(priorities)
+    random.shuffle(priorities)
+
+    if not rank_all:
+        cut_off = random.randint(1, num_candidates)
+        priorities = priorities[:cut_off]
+        priorities = priorities + [-1] * (num_candidates - cut_off)
     return priorities
 
-def generate_ballots(num_ballots: int, num_candidates: int) -> list[list[int]]:
+def generate_ballots(num_ballots: int, num_candidates: int, rank_all: bool = True) -> list[list[int]]:
     ballots = []
     for _ in range(num_ballots):
-        priorities = gen_random_priorities(num_candidates)
+        priorities = gen_random_priorities(num_candidates, rank_all)
         ballots.append(priorities)
     return ballots
 
@@ -116,10 +130,14 @@ def write_all_ballots(ss_matrices: list[list[Matrix]]):
     
 
 if __name__ == "__main__":
-    ballots = generate_ballots(NUM_VOTES, NUM_CANDIDATES)
+    ballots = generate_ballots(NUM_VOTES, NUM_CANDIDATES, rank_all=False)
     matrices = build_all_matrices(ballots)
-    ss_scheme = Shamir.Shamir(FIELD_SIZE, NUM_SHARES, THRESHOLD)
-    secret_shared_matrices = secret_share_matrices(matrices, ss_scheme)    
+    for matrix in matrices:
+        print("Generated Matrix:")
+        for row in matrix:
+            print(row)
+        print()
+    secret_shared_matrices = secret_share_matrices(matrices)
 
     write_all_ballots(secret_shared_matrices)
     print("Ballots written to files.")

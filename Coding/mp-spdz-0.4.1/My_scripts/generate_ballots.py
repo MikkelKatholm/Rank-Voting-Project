@@ -7,7 +7,6 @@ Matrix = list[list[int]]
 
 def build_matrix(priorities: list[int]) -> Matrix:
     size = len(priorities)
-    
     matrix = [[0]*size for _ in range(size)]
     for row in range(size):
         for col in range(size):
@@ -41,7 +40,6 @@ def gen_shares(secret: int) -> list[int]:
     shares.append(last_share)
     return shares
 
-
 def secret_share_matrices(matrices: list[Matrix]) -> list[list[Matrix]]:
     all_shared_matrices = []
     for matrix in matrices:
@@ -52,7 +50,6 @@ def secret_share_matrices(matrices: list[Matrix]) -> list[list[Matrix]]:
 def reconstruct_matrix(shares: list[Matrix]) -> Matrix:
     size = len(shares[0])
     reconstructed_matrix = [[0]*size for _ in range(size)]
-
     for row in range(size):
         for col in range(size):
             share_list = []
@@ -79,11 +76,20 @@ def generate_ballots(num_ballots: int, num_candidates: int, rank_all: bool = Tru
         ballots.append(priorities)
     return ballots
 
+def generate_blank_ballots(num_ballots: int, num_candidates: int) -> list[list[int]]:
+    ballots = []
+    for _ in range(num_ballots):
+        priorities = [-1] * num_candidates
+        ballots.append(priorities)
+    return ballots
+
 def simulate_election(ballots: list[list[int]]) -> int:
+    # NOTE: There is a bug in this function.
     winner = None
     eliminated_candidates = {}
 
     while winner is None:
+        print("New round of counting votes...")
         votes_in_round = {}
         for ballot in ballots:
             for prio in ballot:
@@ -94,10 +100,10 @@ def simulate_election(ballots: list[list[int]]) -> int:
 
         total_votes = sum(votes_in_round.values())
         for candidate, votes in votes_in_round.items():
-            if votes > total_votes / 2:
+            if votes > total_votes // 2:
                 winner = candidate
                 break
-
+        
         if winner is not None:
             break
         min_votes = min(votes_in_round.values())
@@ -108,7 +114,7 @@ def simulate_election(ballots: list[list[int]]) -> int:
     return winner
 
 def write_ballots_to_file(ballots: list[Matrix], party_id: int):
-    file_name = f"My_scripts/Player-Data/matrix-P{party_id}-0"
+    file_name = f"Player-Data/matrix-P{party_id}-0"
     with open(file_name, 'a') as f:
         for ballot in ballots:
             for row in ballot:
@@ -117,10 +123,10 @@ def write_ballots_to_file(ballots: list[Matrix], party_id: int):
             f.write('\n')  # Separate ballots by a blank line
 
 def delete_existing_ballot_files(prefix: str):
-    all_files = os.listdir("My_scripts/Player-Data/")
+    all_files = os.listdir("Player-Data/")
     for file_name in all_files:
         if file_name.startswith(prefix):
-            os.remove(os.path.join("My_scripts/Player-Data/", file_name))
+            os.remove(os.path.join("Player-Data/", file_name))
 
 def write_all_ballots(ss_matrices: list[list[Matrix]]):
     delete_existing_ballot_files("matrix")
@@ -130,7 +136,12 @@ def write_all_ballots(ss_matrices: list[list[Matrix]]):
     
 
 if __name__ == "__main__":
-    ballots = generate_ballots(NUM_VOTES, NUM_CANDIDATES, rank_all=False)
+    NUM_REAL_VOTES = min(NUM_VOTES, NUM_VOTES)
+    NUM_BLANK_VOTES = NUM_VOTES - NUM_REAL_VOTES
+    
+    ballots = generate_ballots(NUM_REAL_VOTES, NUM_CANDIDATES, rank_all=True)
+    blank_ballots = generate_blank_ballots(NUM_BLANK_VOTES, NUM_CANDIDATES)
+    ballots.extend(blank_ballots)
     matrices = build_all_matrices(ballots)
     for matrix in matrices:
         print("Generated Matrix:")
@@ -138,6 +149,7 @@ if __name__ == "__main__":
             print(row)
         print()
     secret_shared_matrices = secret_share_matrices(matrices)
+        
 
     write_all_ballots(secret_shared_matrices)
     print("Ballots written to files.")

@@ -283,7 +283,6 @@ def run_protocol():
             winner = winner_id.reveal()
     return winner
 
-
 def debug_print(secret_stuff, msg="Debug"):
     if not is_debug:
         return

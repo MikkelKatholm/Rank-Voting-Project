@@ -1,9 +1,9 @@
 Using statistical security parameter 40
-The winning candidate is: 5
+The winning candidate is: 6
 The following benchmarks are including preprocessing (offline phase).
-Time = 205.178 seconds 
-Data sent = 16797.3 MB in ~193255 rounds (party 0 only; use '-v' for more details)
-Global data sent = 67107 MB (all parties)
+Time = 135.057 seconds 
+Data sent = 11198.2 MB in ~131527 rounds (party 0 only; use '-v' for more details)
+Global data sent = 33567.2 MB (all parties)
 This program might benefit from some protocol options.
 Consider adding the following at the beginning of your code:
 	program.use_edabit(True)

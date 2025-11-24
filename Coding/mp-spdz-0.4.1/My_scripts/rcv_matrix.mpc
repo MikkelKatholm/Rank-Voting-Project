@@ -1,7 +1,11 @@
-# secure_ballot.mpc
+# Program name: rcv_matrix.mpc
+# Description: Implementation of Ranked Choice Voting (RCV) protocol using secret-shared matrices with no leakage besides the winner.
+# Leaks:
+#  - Reveals the winning candidate ID to all parties at the end of the protocol.
+# Authors: Mikkel Katholm % Emil Mors, Aarhus University
+
 import os, sys
 sys.path.insert(0, os.path.dirname(sys.argv[0]) + '/..')
-
 from Compiler.library import *
 from Compiler.instructions import time, start, stop
 from My_scripts.consts import *

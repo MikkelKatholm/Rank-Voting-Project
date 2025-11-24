@@ -1,4 +1,11 @@
-# secure_ballot.mpc
+# Program name: rcv_matrix_leak.mpc
+# Description: Implementation of Ranked Choice Voting (RCV) protocol using secret-shared matrices with intentional information leakage to speed up the process.
+# Leaks:
+#  - At the end of each round, reveals the vote counts for all candidates to all parties.
+#  - Reveals the winning candidate ID to all parties at the end of the protocol.
+# Authors: Mikkel Katholm % Emil Mors, Aarhus University
+
+
 import os, sys
 sys.path.insert(0, os.path.dirname(sys.argv[0]) + '/..')
 
@@ -140,7 +147,8 @@ def eliminate_candidate(active_candidates: Array, cand_id: sint) -> Array:
     @for_range(NUM_CANDIDATES)
     def _(i):
         condition = (i == cand_id)
-        active_candidates[i] = condition.if_else(cint(0), active_candidates[i])
+        active_candidates[i] = condition.if_else(cint(0), cint(1) * active_candidates[i])
+
 
     return active_candidates
 
@@ -237,7 +245,7 @@ def update_eliminated_candidates(vector: Array, active_candidates: Array) -> Arr
         is_smallest = (adjusted_value < smallest_value)
         smallest_value.update(is_smallest.if_else(adjusted_value, smallest_value))
         smallest_index.update(is_smallest.if_else(cint(i), smallest_index))
-
+    debug_print(smallest_index, "Smallest index to eliminate")
     return eliminate_candidate(active_candidates, smallest_index)
 
 def copy_matrix(matrix: Matrix) -> Matrix:
@@ -254,44 +262,72 @@ def copy_matrix(matrix: Matrix) -> Matrix:
             new_m[i][j] = matrix[i][j]
     return new_m
 
+def find_winner_leak(vector: Array, last_round: bool) -> cint:
+
+    # If last round, find and reveal the winner
+    winner_id = cint(-1)
+    if last_round:
+        @for_range(NUM_CANDIDATES)
+        def _(i):
+            is_winner = (vector[i] != cint(0))  # Since we only call this in the last round where one candidate must win
+            winner_id.update(is_winner.if_else(cint(i), winner_id))
+        return winner_id    
+    
+    # check for majority
+    votes_needed = cint(NUM_VOTES // 2)
+    
+    @for_range(NUM_CANDIDATES)
+    def _(i):
+        has_majority = (vector[i] > votes_needed)
+        winner_id.update(has_majority.if_else(cint(i), winner_id))
+    return winner_id
+
 
 def run_protocol():
     """ Run the RCV protocol. """
 
     all_shared_ballots = read_all_shared_ballots()
     ballots = reconstruct_ballots(all_shared_ballots)                                                               # Type: list[Matrix]
+    winner = cint(-1)
     active_candidates = initialize_active_candidates()                                                              # Type: Array[cint]
-    winner = -1                                                                                                     # Type: int     
 
     # Do a round
     for round in range(NUM_CANDIDATES):
-        round_ballots: list[Matrix] = [copy_matrix(b) for b in ballots]                                             # Type: list[Matrix]    
-        row_sums_array: list[Array] = []                                                                            # Type: list[Array]
-        debug_print(active_candidates, "Active candidates at start of round")
-        for ballot_id in range(NUM_VOTES):
-            round_ballots[ballot_id] = remove_eliminated_candidates(round_ballots[ballot_id], active_candidates)    # Should work
-            round_ballots[ballot_id] = remove_non_highest_priority(round_ballots[ballot_id])                        # Should work
-            row_sums = sum_rows(round_ballots[ballot_id])
-            row_sums_array.append(row_sums)                                                                         # Should work
-        vote_vector = sum_vectors(row_sums_array)                                                                   # Should work
-        debug_print(vote_vector, f"Vote vector at end of round {round}")
 
-        clear_vote_vector = vote_vector.reveal()
+        @if_e(winner == cint(-1))
+        def _():
+            # winner not found yet
+            round_ballots: list[Matrix] = [copy_matrix(b) for b in ballots]                                             # Type: list[Matrix]    
+            row_sums_array: list[Array] = []                                                                            # Type: list[Array]
+            debug_print(active_candidates, "Active candidates at start of round")
+            for ballot_id in range(NUM_VOTES):
+                round_ballots[ballot_id] = remove_eliminated_candidates(round_ballots[ballot_id], active_candidates)    # Should work
+                round_ballots[ballot_id] = remove_non_highest_priority(round_ballots[ballot_id])                        # Should work
+                row_sums = sum_rows(round_ballots[ballot_id])
+                row_sums_array.append(row_sums)                                                                         # Should work
+            vote_vector = sum_vectors(row_sums_array)                                                                   # Should work
+            debug_print(vote_vector, f"Vote vector at end of round {round}")
+            
 
-    
-        if round < NUM_CANDIDATES - 1:
-            active_candidates = update_eliminated_candidates(clear_vote_vector, active_candidates)
-        else:
-            # Last round, find and reveal the winner
-            winner_id = find_winner(vote_vector)
-            winner = winner_id.reveal()
+            clear_vote_vector = vote_vector.reveal()
+            
+            active_candidates.assign(update_eliminated_candidates(clear_vote_vector, active_candidates))
+            winner_id = find_winner_leak(clear_vote_vector, round == NUM_CANDIDATES - 1)
+            winner.update(winner_id)
+            debug_print(winner, "Winner at end of round")
+        @else_
+        def _():
+            break_loop
+
     return winner
 
 def debug_print(secret_stuff, msg="Debug"):
     if not is_debug:
         return
-    to_reveal = secret_stuff[:]
-    print_ln_to(0, '%s: %s', msg, to_reveal.reveal())
+    if type(secret_stuff) == cint:
+        print_ln_to(0, '%s: %s', msg, secret_stuff)
+    else:
+        print_ln_to(0, '%s: %s', msg, secret_stuff[:].reveal())
 
 # Main function must be the lowest in the file!!!
 def rcv_main():

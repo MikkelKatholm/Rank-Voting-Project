@@ -39,7 +39,7 @@ THRESHOLD = NUM_PARTIES"
 echo "$file_contents" > consts.py
 
 if [ "$gen_ballots" = true ] ; then
-    python generate_ballots.py
+    python3 generate_ballots.py
 else
     echo "Skipping ballot generation."
 fi

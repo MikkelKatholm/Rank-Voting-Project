@@ -1,45 +1,9 @@
 Using statistical security parameter 40
-Active candidates at start of round: [1, 1, 1]
-Before removing non-highest priority: [1, 0, 0, 0, 1, 0, 0, 0, 1]
-After removing non-highest priority : [1, 0, 0, 0, 0, 0, 0, 0, 0]
-Before removing non-highest priority: [0, 1, 0, 1, 0, 0, 0, 0, 1]
-After removing non-highest priority : [0, 0, 0, 1, 0, 0, 0, 0, 0]
-Before removing non-highest priority: [1, 0, 0, 0, 0, 1, 0, 1, 0]
-After removing non-highest priority : [1, 0, 0, 0, 0, 0, 0, 0, 0]
-Before removing non-highest priority: [0, 1, 0, 1, 0, 0, 0, 0, 1]
-After removing non-highest priority : [0, 0, 0, 1, 0, 0, 0, 0, 0]
-Before removing non-highest priority: [0, 0, 1, 1, 0, 0, 0, 1, 0]
-After removing non-highest priority : [0, 0, 0, 1, 0, 0, 0, 0, 0]
-Vote vector at end of round 0: [2, 3, 0]
-Active candidates at start of round: [1, 1, 0]
-Before removing non-highest priority: [1, 0, 0, 0, 1, 0, 0, 0, 0]
-After removing non-highest priority : [1, 0, 0, 0, 0, 0, 0, 0, 0]
-Before removing non-highest priority: [0, 1, 0, 1, 0, 0, 0, 0, 0]
-After removing non-highest priority : [0, 0, 0, 1, 0, 0, 0, 0, 0]
-Before removing non-highest priority: [1, 0, 0, 0, 0, 1, 0, 0, 0]
-After removing non-highest priority : [1, 0, 0, 0, 0, 0, 0, 0, 0]
-Before removing non-highest priority: [0, 1, 0, 1, 0, 0, 0, 0, 0]
-After removing non-highest priority : [0, 0, 0, 1, 0, 0, 0, 0, 0]
-Before removing non-highest priority: [0, 0, 1, 1, 0, 0, 0, 0, 0]
-After removing non-highest priority : [0, 0, 0, 1, 0, 0, 0, 0, 0]
-Vote vector at end of round 1: [2, 3, 0]
-Active candidates at start of round: [0, 1, 0]
-Before removing non-highest priority: [0, 0, 0, 0, 1, 0, 0, 0, 0]
-After removing non-highest priority : [0, 0, 0, 0, 1, 0, 0, 0, 0]
-Before removing non-highest priority: [0, 0, 0, 1, 0, 0, 0, 0, 0]
-After removing non-highest priority : [0, 0, 0, 1, 0, 0, 0, 0, 0]
-Before removing non-highest priority: [0, 0, 0, 0, 0, 1, 0, 0, 0]
-After removing non-highest priority : [0, 0, 0, 0, 0, 1, 0, 0, 0]
-Before removing non-highest priority: [0, 0, 0, 1, 0, 0, 0, 0, 0]
-After removing non-highest priority : [0, 0, 0, 1, 0, 0, 0, 0, 0]
-Before removing non-highest priority: [0, 0, 0, 1, 0, 0, 0, 0, 0]
-After removing non-highest priority : [0, 0, 0, 1, 0, 0, 0, 0, 0]
-Vote vector at end of round 2: [0, 5, 0]
-The winning candidate is: 1
+The winning candidate is: 2
 The following benchmarks are including preprocessing (offline phase).
-Time = 6.01757 seconds 
-Data sent = 349.021 MB in ~2853 rounds (party 0 only; use '-v' for more details)
-Global data sent = 1046.3 MB (all parties)
+Time = 28.3825 seconds 
+Data sent = 2613.19 MB in ~19923 rounds (party 0 only; use '-v' for more details)
+Global data sent = 7833.22 MB (all parties)
 This program might benefit from some protocol options.
 Consider adding the following at the beginning of your code:
 	program.use_edabit(True)

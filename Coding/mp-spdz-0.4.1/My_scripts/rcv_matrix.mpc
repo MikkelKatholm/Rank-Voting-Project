@@ -232,7 +232,7 @@ def update_eliminated_candidates(vector: Array, active_candidates: Array) -> Arr
     @for_range(NUM_CANDIDATES)
     def _(i):
         # if active_candidates[i] == 1 => vector[i] = vector[i]
-        # if active_candidates[i] == 0 => vector[i] = (NUM_VOTS + 1) (large number)
+        # if active_candidates[i] == 0 => vector[i] = (NUM_VOTES + 1) (large number)
         adjusted_value = vector[i] + (sint(1) - active_candidates[i]) * sint((NUM_VOTES + 1))
         is_smallest = (adjusted_value < smallest_value)
         smallest_value.update(is_smallest.if_else(adjusted_value, smallest_value))

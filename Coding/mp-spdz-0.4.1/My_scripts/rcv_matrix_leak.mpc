@@ -13,7 +13,7 @@ from Compiler.types import *
 from Compiler.library import *
 from My_scripts.consts import *
 
-#program.use_edabit(True)
+program.use_edabit(True)
 
 is_debug = False
 SEC_PARAM = 40

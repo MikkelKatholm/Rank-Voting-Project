@@ -46,4 +46,4 @@ fi
 
 ./../compile.py rcv_matrix_leak.mpc
 
-../Scripts/mascot.sh rcv_matrix_leak -N $s_val -IF Player-Data/matrix
+../Scripts/mascot.sh rcv_matrix_leak -N $s_val -IF Player-Data/matrix  -v

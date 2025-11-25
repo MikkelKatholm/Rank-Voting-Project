@@ -1,8 +1,35 @@
 Using statistical security parameter 40
+No modulus found in Player-Data//3-p-128/Params-Data, generating 128-bit prime
+Setup took 0.0510014 seconds.
+Compiler: ./../compile.py rcv_matrix_leak.mpc
+	1200 dabits of SPDZ gfp left
+Significant amount of unused dabits of SPDZ gfp distorting the benchmark. For more accurate benchmarks, consider reducing the batch size with --batch-size.
+	252 triples of Tinier left
+Significant amount of unused triples of Tinier distorting the benchmark. This protocol has a large minimum batch size, which makes this unavoidable for small programs.
+Detailed costs:
+          1840 integer inputs
+         16883 integer openings
+Spent 0.0144035 seconds (0.004327 MB, 192 rounds) on the online phase and 4.98427 seconds (340.671 MB, 357 rounds) on the preprocessing/offline phase.
+Communication details:
+Broadcasting 0.003816 MB in 153 rounds, taking 0.0385132 seconds
+Exchanging one-to-one 251.368 MB in 64 rounds, taking 0.417535 seconds
+Receiving directly 0.46729 MB in 96 rounds, taking 0.0386334 seconds
+Receiving one-to-one 88.8315 MB in 68 rounds, taking 0.424491 seconds
+Sending directly 0.4075 MB in 90 rounds, taking 0.00164422 seconds
+Sending one-to-one 88.8315 MB in 66 rounds, taking 0.0197195 seconds
+Sending to all 0.029895 MB in 3 rounds, taking 9.7639e-05 seconds
+Sending/receiving 0.000288 MB in 9 rounds, taking 0.00152087 seconds
+CPU time = 7.74016
 The following benchmarks are including preprocessing (offline phase).
-Time = 100.293 seconds 
-Data sent = 8850.55 MB in ~43307 rounds (party 2 only; use '-v' for more details)
-Global data sent = 26562.5 MB (all parties)
-This program might benefit from some protocol options.
-Consider adding the following at the beginning of your code:
-	program.use_edabit(True)
+Time = 5.01494 seconds 
+Data sent = 340.675 MB in ~549 rounds (party 2 only)
+Global data sent = 1022.43 MB (all parties)
+Actual preprocessing cost of program:
+  Type int
+           600         daBits
+  Type bit
+          1800        Triples
+          5400   Input tuples (1800 1800 1800)
+Coordination took 0.00248581 seconds
+Coordination took 0.00395143 seconds
+Command line: /home/mkatholm/Documents/Skole/Aarhus_Universitet_Datalogi/9_Semester/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -v -pn 13493 -h localhost -N 3

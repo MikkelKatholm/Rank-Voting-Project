@@ -16,6 +16,12 @@ from My_scripts.consts import *
 program.use_edabit(True)
 
 is_debug = False
+SEC_PARAM = 40
+# NBITS must be >= GC statistical security parameter to avoid internal XORS range errors
+NBITS = max(SEC_PARAM, (NUM_VOTES + 1).bit_length())
+sb=sbits.get_type(NBITS)
+siv = sbitintvec.get_type(NBITS)
+
 
 def read_ballot_for_party(party_id: int) -> list[Matrix]:
     """ Create secret-shared ballots for all voters in a given party.
@@ -30,11 +36,11 @@ def read_ballot_for_party(party_id: int) -> list[Matrix]:
     # NOTE: I have absolutely no idea why n_bits has to be at least 40 here, but otherwise the program crashes with error
     # "Using statistical security parameter 40
     #  Fatal error at rcv_matrix_leak-0:763 (XORS): vector::_M_range_check: __n (which is 12) >= this->size() (which is 12)""
-    flat_priorities = [sbits.get_input_from(party_id, n_bits=40) for _ in range(size_of_input)]
+    flat_priorities = [sb.get_input_from(party_id, n_bits=NBITS) for _ in range(size_of_input)]
     
     # Build a ballot for each voter
     for voter_idx in range(num_votes):
-        ballot = Matrix(NUM_CANDIDATES, NUM_CANDIDATES, value_type=sbits)
+        ballot = Matrix(NUM_CANDIDATES, NUM_CANDIDATES, value_type=sb)
         for row in range(NUM_CANDIDATES):
             for col in range(NUM_CANDIDATES):
                 index = voter_idx * NUM_CANDIDATES * NUM_CANDIDATES + row * NUM_CANDIDATES + col
@@ -54,20 +60,20 @@ def read_all_shared_ballots() -> list[list[Matrix]]:
     return all_ballots   
 
 
-def reconstruct_secret(shares: list[sbits]) -> sbits:
+def reconstruct_secret(shares: list[sb]) -> sb:
     """ Reconstruct a secret-shared bit from its shares.
     
     :param shares: A list of secret-shared bits from different parties.
     :return: The reconstructed secret-shared bit.
     """
-    result = sbits(0)
+    result = sb(0)
     for share in shares:
         result = result ^ share
     return result
 
 
 def reconstruct_ballots(ballots: list[list[Matrix]]) -> list[Matrix]:
-    output_ballots = [Matrix(NUM_CANDIDATES, NUM_CANDIDATES, sbits) for _ in range(NUM_VOTES)]
+    output_ballots = [Matrix(NUM_CANDIDATES, NUM_CANDIDATES, sb) for _ in range(NUM_VOTES)]
 
     for voter_id in range(NUM_VOTES):
         for row in range(NUM_CANDIDATES):
@@ -114,7 +120,7 @@ def remove_non_highest_priority(ballot: Matrix) -> Matrix:
 
 #    debug_print(ballot, "Before removing non-highest priority")
 
-    found_highest = sbits(1)
+    found_highest = sb(1)
     @for_range(NUM_CANDIDATES)
     def _(col):
         @for_range(NUM_CANDIDATES)
@@ -153,22 +159,59 @@ def initialize_active_candidates() -> Array:
     active_candidates.assign_all(cbits(1))
     return active_candidates
 
-def sum_rows(ballot: Matrix) -> Array:
+def sum_rows(ballot: Matrix) -> sbitintvec:
     """ Sum each row of the ballot matrix.
     
     :param ballot: A NUM_CANDIDATES x NUM_CANDIDATES secret-shared ballot matrix.
     :return: An array of secret-shared integers representing the sum of each row.
     """
-    sum_of_rows = Array(NUM_CANDIDATES, sbits)
 
+    print_ln_to(0, "Summing rows of ballot matrix: %s", ballot.reveal_list())
+
+    a = siv([sb(3), sb(5)])
+    b = siv([sb(4), sb(6)])
+    c = (a + b)
+    c = (c + a).elements()
+#    print_ln("type of c: %s", type(c))
+#    print_ln("type of c[0]: %s", type(c[0]))
+#    print_ln('add: %s, %s', c[0].reveal(), c[1].reveal())
+
+
+    # get rows as list of sbits
+    rows_as_lists = []
     for row in range(NUM_CANDIDATES):
-        row_sum = sbits(0)
+        row_list = []
         for col in range(NUM_CANDIDATES):
-            row_sum ^= ballot[row][col]
-        sum_of_rows[row] = row_sum
-    return sum_of_rows
+            row_list.append(ballot[col][row])
+        rows_as_lists.append(row_list)
+#    print_ln_to(0, "Ballot rows as lists: %s", [r for r in rows_as_lists])
 
-def sum_vectors(vectors: list[Array]) -> Array:
+#    for row in range(NUM_CANDIDATES):
+ #       print_ln_to(0, "[%s, %s] of type %s, %s" , rows_as_lists[row][0].reveal(), rows_as_lists[row][1].reveal(), type(rows_as_lists[row][0]), type(rows_as_lists[row][1]))
+
+
+    summed_list = siv([sb(0) for _ in range(NUM_CANDIDATES)])
+    for row in range(NUM_CANDIDATES):
+  #      print_ln("Adding [%s, %s] to %s", rows_as_lists[row][0].reveal(), rows_as_lists[row][1].reveal(), summed_list.reveal())
+        row_vector = siv(rows_as_lists[row])
+        summed_list = (summed_list + row_vector)
+        
+    d = summed_list.elements()
+
+    print_ln("stuff after adding a to summed_list: %s, %s", d[0].reveal(), d[1].reveal())
+
+    return summed_list
+
+
+
+#    for row in range(NUM_CANDIDATES):
+#        row_sum = sb(0)
+#        for col in range(NUM_CANDIDATES):
+#            row_sum += ballot[row][col]
+#        sum_of_rows[row] = row_sum
+#    return sum_of_rows
+
+def sum_vectors(vectors: list[sbitintvec]) -> sbitintvec:
     """ Sum a list of secret-shared bit arrays element-wise.
     
     :param vectors: A list of secret-shared bits arrays.
@@ -178,15 +221,12 @@ def sum_vectors(vectors: list[Array]) -> Array:
     >>> sum_vectors([Array([1,0,1]), Array([0,1,1]), Array([1,1,0])])
         returns Array([2,2,2])
     """
-    result = Array(NUM_CANDIDATES, sint)
-    result.assign_all(sint(0))
+    result = siv([sb(0) for _ in range(NUM_CANDIDATES)])
 
-    for vector in vectors:
-        @for_range(NUM_CANDIDATES)
-        def _(i):
-            a = sint(vector[i])[0]
-            result[i] = result[i] + a   # vector[i] is sint
+    for v in vectors:
+        result = (result + v)
     return result
+
 
 def majority(vector: Array) -> tuple[sint, Array]:
     """ Determine if any candidate has a majority and return the winner.
@@ -254,7 +294,7 @@ def copy_matrix(matrix: Matrix) -> Matrix:
     :param matrix: A secret-shared matrix to copy.
     :return: A new secret-shared matrix that is a copy of the input matrix.
     """
-    new_m = Matrix(NUM_CANDIDATES, NUM_CANDIDATES, value_type=sbits)
+    new_m = Matrix(NUM_CANDIDATES, NUM_CANDIDATES, value_type=sb)
     @for_range(NUM_CANDIDATES)
     def _(i):
         @for_range(NUM_CANDIDATES)
@@ -288,52 +328,41 @@ def find_winner_leak(vector: Array, last_round: bool) -> cint:
         winner_id.update(has_majority.if_else(cint(i), winner_id))
     return winner_id
 
-def pri(msg: str):
-    print_ln_to(0, msg)
 
 def run_protocol():
     """ Run the RCV protocol. """
 
-    pri("Starting protocol")
     all_shared_ballots = read_all_shared_ballots()
-    pri("All shared ballots read")
     
     ballots = reconstruct_ballots(all_shared_ballots)                                                               # Type: list[Matrix]
-    pri("Ballots reconstructed")
 
     winner = cint(-1)
 
     active_candidates = initialize_active_candidates()                                                              # Type: Array[cint]
-    pri("Active candidates initialized")
 
     # Do a round
     for round in range(NUM_CANDIDATES):
-        pri(f"Starting round {round}")
         @if_e(winner == cint(-1))
         def _():
             # winner not found yet
             round_ballots: list[Matrix] = [copy_matrix(b) for b in ballots]                                             # Type: list[Matrix]    
-            row_sums_array: list[Array] = []                                                                            # Type: list[Array]
+            row_sums_array: list[sbitintvec] = []                                                                            # Type: list[Array]
             for ballot_id in range(NUM_VOTES):
-                pri("starting rem eli")
                 round_ballots[ballot_id] = remove_eliminated_candidates(round_ballots[ballot_id], active_candidates)    # Should work
-                pri("starting rem non high")
                 round_ballots[ballot_id] = remove_non_highest_priority(round_ballots[ballot_id])                        # Should work
 
-                pri("starting sum rows")
                 row_sums = sum_rows(round_ballots[ballot_id])
                 row_sums_array.append(row_sums)                                                                         # Should work
-            pri("starting sum vectors")
+                debug_print(round_ballots[ballot_id], f"Round {round} ballot {ballot_id} after processing")
             vote_vector = sum_vectors(row_sums_array)                                                                   # Should work
-            debug_print(vote_vector, f"Vote vector at end of round {round}")            
-            clear_vote_vector = vote_vector.reveal()
-            
-            pri("starting update elim cand")
-            active_candidates.assign(update_eliminated_candidates(clear_vote_vector, active_candidates))
-            pri("starting find winner leak")
-            winner_id = find_winner_leak(clear_vote_vector, round == NUM_CANDIDATES - 1)
-            winner.update(winner_id)
-            debug_print(winner, "Winner at end of round")
+#            print_ln_to(0, "Vote vector revealed at round %s: %s", round, vote_vector.reveal_list())
+#            debug_print(vote_vector, f"Vote vector at end of round {round}")            
+#            clear_vote_vector = vote_vector.reveal()
+#            
+##            active_candidates.assign(update_eliminated_candidates(clear_vote_vector, active_candidates))
+#            winner_id = find_winner_leak(clear_vote_vector, round == NUM_CANDIDATES - 1)
+#            winner.update(winner_id)
+#            debug_print(winner, "Winner at end of round")
         @else_
         def _():
             break_loop

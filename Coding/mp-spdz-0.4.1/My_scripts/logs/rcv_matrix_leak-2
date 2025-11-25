@@ -1,35 +1,26 @@
 Using statistical security parameter 40
 No modulus found in Player-Data//3-p-128/Params-Data, generating 128-bit prime
-Setup took 0.0510014 seconds.
+Setup took 0.0481245 seconds.
 Compiler: ./../compile.py rcv_matrix_leak.mpc
-	1200 dabits of SPDZ gfp left
-Significant amount of unused dabits of SPDZ gfp distorting the benchmark. For more accurate benchmarks, consider reducing the batch size with --batch-size.
-	252 triples of Tinier left
-Significant amount of unused triples of Tinier distorting the benchmark. This protocol has a large minimum batch size, which makes this unavoidable for small programs.
-Detailed costs:
-          1840 integer inputs
-         16883 integer openings
-Spent 0.0144035 seconds (0.004327 MB, 192 rounds) on the online phase and 4.98427 seconds (340.671 MB, 357 rounds) on the preprocessing/offline phase.
+	528 triples of Tinier left
+Spent 0.0384945 seconds (0.0052 MB, 404 rounds) on the online phase and 0.372894 seconds (23.6767 MB, 349 rounds) on the preprocessing/offline phase.
 Communication details:
-Broadcasting 0.003816 MB in 153 rounds, taking 0.0385132 seconds
-Exchanging one-to-one 251.368 MB in 64 rounds, taking 0.417535 seconds
-Receiving directly 0.46729 MB in 96 rounds, taking 0.0386334 seconds
-Receiving one-to-one 88.8315 MB in 68 rounds, taking 0.424491 seconds
-Sending directly 0.4075 MB in 90 rounds, taking 0.00164422 seconds
-Sending one-to-one 88.8315 MB in 66 rounds, taking 0.0197195 seconds
-Sending to all 0.029895 MB in 3 rounds, taking 9.7639e-05 seconds
-Sending/receiving 0.000288 MB in 9 rounds, taking 0.00152087 seconds
-CPU time = 7.74016
+Broadcasting 0.00336 MB in 137 rounds, taking 0.0139031 seconds
+Exchanging one-to-one 19.8106 MB in 72 rounds, taking 0.0614641 seconds
+Receiving directly 0.067984 MB in 207 rounds, taking 0.0387901 seconds
+Receiving one-to-one 3.79651 MB in 65 rounds, taking 0.000921842 seconds
+Sending directly 0.067864 MB in 205 rounds, taking 0.0036933 seconds
+Sending one-to-one 3.79651 MB in 63 rounds, taking 0.000121944 seconds
+Sending to all 6e-05 MB in 1 rounds, taking 2.7169e-05 seconds
+Sending/receiving 9.6e-05 MB in 3 rounds, taking 0.000218396 seconds
+CPU time = 0.452744
 The following benchmarks are including preprocessing (offline phase).
-Time = 5.01494 seconds 
-Data sent = 340.675 MB in ~549 rounds (party 2 only)
-Global data sent = 1022.43 MB (all parties)
+Time = 0.413038 seconds 
+Data sent = 23.6819 MB in ~753 rounds (party 2 only)
+Global data sent = 71.1135 MB (all parties)
 Actual preprocessing cost of program:
-  Type int
-           600         daBits
   Type bit
-          1800        Triples
-          5400   Input tuples (1800 1800 1800)
-Coordination took 0.00248581 seconds
-Coordination took 0.00395143 seconds
-Command line: /home/mkatholm/Documents/Skole/Aarhus_Universitet_Datalogi/9_Semester/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -v -pn 13493 -h localhost -N 3
+          7680        Triples
+          1440   Input tuples (480 480 480)
+Coordination took 0.00565991 seconds
+Command line: /home/mkatholm/Documents/Skole/Aarhus_Universitet_Datalogi/9_Semester/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -v -pn 19461 -h localhost -N 3

@@ -9,9 +9,7 @@ import os, sys
 sys.path.insert(0, os.path.dirname(sys.argv[0]) + '/..')
 
 from Compiler.library import *
-from Compiler.instructions import time, start, stop
 from My_scripts.consts import *
-from My_scripts.Shamir import Shamir
 
 is_debug = False
 

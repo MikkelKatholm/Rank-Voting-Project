@@ -1,41 +1,246 @@
 Using statistical security parameter 40
-No modulus found in Player-Data//3-p-128/Params-Data, generating 128-bit prime
-Setup took 0.0475966 seconds.
-Summing rows of ballot matrix: [0, 0, 1, 0]
-stuff after adding a to summed_list: 0, 1
-Summing rows of ballot matrix: [1, 0, 0, 0]
-stuff after adding a to summed_list: 1, 0
-Summing rows of ballot matrix: [0, 0, 1, 0]
-stuff after adding a to summed_list: 0, 1
-stuff after summing vectors: 1, 2
-Summing rows of ballot matrix: [0, 0, 1, 0]
-stuff after adding a to summed_list: 0, 1
-Summing rows of ballot matrix: [1, 0, 0, 0]
-stuff after adding a to summed_list: 1, 0
-Summing rows of ballot matrix: [0, 0, 1, 0]
-stuff after adding a to summed_list: 0, 1
-stuff after summing vectors: 1, 2
-The winning candidate is: -1
-Compiler: ./../compile.py rcv_matrix_leak.mpc
-	528 triples of Tinier left
-Spent 0.0383272 seconds (0.007336 MB, 744 rounds) on the online phase and 0.373173 seconds (23.7424 MB, 457 rounds) on the preprocessing/offline phase.
-Communication details:
-Broadcasting 0.00336 MB in 137 rounds, taking 0.0254233 seconds
-Exchanging one-to-one 19.8106 MB in 72 rounds, taking 0.049237 seconds
-Receiving directly 0.135848 MB in 412 rounds, taking 0.0183601 seconds
-Receiving one-to-one 3.79651 MB in 83 rounds, taking 0.0018814 seconds
-Sending directly 0.135728 MB in 410 rounds, taking 0.0100414 seconds
-Sending one-to-one 3.79651 MB in 83 rounds, taking 0.00037149 seconds
-Sending to all 6e-05 MB in 1 rounds, taking 2.5073e-05 seconds
-Sending/receiving 9.6e-05 MB in 3 rounds, taking 0.000187804 seconds
-CPU time = 0.475321
+Active candidates at start of round 0: [1, 1, 1]
+
+ --- Processing ballot 0 in round 0 ---
+Ballot 0 at start of round 0
+[0, 1, 0]
+[0, 0, 1]
+[1, 0, 0]
+Ballot 0 after removing eliminated candidates in round 0
+[0, 1, 0]
+[0, 0, 1]
+[1, 0, 0]
+Ballot 0 after removing non-highest priority in round 0
+[0, 0, 0]
+[0, 0, 0]
+[1, 0, 0]
+row sum for ballot 0 in round 0: [0, 0, 1]
+
+ --- Processing ballot 1 in round 0 ---
+Ballot 1 at start of round 0
+[1, 0, 0]
+[0, 0, 1]
+[0, 1, 0]
+Ballot 1 after removing eliminated candidates in round 0
+[1, 0, 0]
+[0, 0, 1]
+[0, 1, 0]
+Ballot 1 after removing non-highest priority in round 0
+[1, 0, 0]
+[0, 0, 0]
+[0, 0, 0]
+row sum for ballot 1 in round 0: [1, 0, 0]
+
+ --- Processing ballot 2 in round 0 ---
+Ballot 2 at start of round 0
+[1, 0, 0]
+[0, 1, 0]
+[0, 0, 1]
+Ballot 2 after removing eliminated candidates in round 0
+[1, 0, 0]
+[0, 1, 0]
+[0, 0, 1]
+Ballot 2 after removing non-highest priority in round 0
+[1, 0, 0]
+[0, 0, 0]
+[0, 0, 0]
+row sum for ballot 2 in round 0: [1, 0, 0]
+
+ --- Processing ballot 3 in round 0 ---
+Ballot 3 at start of round 0
+[0, 1, 0]
+[1, 0, 0]
+[0, 0, 1]
+Ballot 3 after removing eliminated candidates in round 0
+[0, 1, 0]
+[1, 0, 0]
+[0, 0, 1]
+Ballot 3 after removing non-highest priority in round 0
+[0, 0, 0]
+[1, 0, 0]
+[0, 0, 0]
+row sum for ballot 3 in round 0: [0, 1, 0]
+
+ --- Processing ballot 4 in round 0 ---
+Ballot 4 at start of round 0
+[0, 1, 0]
+[0, 0, 1]
+[1, 0, 0]
+Ballot 4 after removing eliminated candidates in round 0
+[0, 1, 0]
+[0, 0, 1]
+[1, 0, 0]
+Ballot 4 after removing non-highest priority in round 0
+[0, 0, 0]
+[0, 0, 0]
+[1, 0, 0]
+row sum for ballot 4 in round 0: [0, 0, 1]
+Round done 
+
+Vote vector at end of round 0: [2, 1, 2]
+Eliminating candidate 1 with 1 votes
+Active candidates at start of round 1: [1, 0, 1]
+
+ --- Processing ballot 0 in round 1 ---
+Ballot 0 at start of round 1
+[0, 1, 0]
+[0, 0, 1]
+[1, 0, 0]
+Ballot 0 after removing eliminated candidates in round 1
+[0, 0, 0]
+[0, 0, 1]
+[1, 0, 0]
+Ballot 0 after removing non-highest priority in round 1
+[0, 0, 0]
+[0, 0, 0]
+[1, 0, 0]
+row sum for ballot 0 in round 1: [0, 0, 1]
+
+ --- Processing ballot 1 in round 1 ---
+Ballot 1 at start of round 1
+[1, 0, 0]
+[0, 0, 1]
+[0, 1, 0]
+Ballot 1 after removing eliminated candidates in round 1
+[1, 0, 0]
+[0, 0, 1]
+[0, 0, 0]
+Ballot 1 after removing non-highest priority in round 1
+[1, 0, 0]
+[0, 0, 0]
+[0, 0, 0]
+row sum for ballot 1 in round 1: [1, 0, 0]
+
+ --- Processing ballot 2 in round 1 ---
+Ballot 2 at start of round 1
+[1, 0, 0]
+[0, 1, 0]
+[0, 0, 1]
+Ballot 2 after removing eliminated candidates in round 1
+[1, 0, 0]
+[0, 0, 0]
+[0, 0, 1]
+Ballot 2 after removing non-highest priority in round 1
+[1, 0, 0]
+[0, 0, 0]
+[0, 0, 0]
+row sum for ballot 2 in round 1: [1, 0, 0]
+
+ --- Processing ballot 3 in round 1 ---
+Ballot 3 at start of round 1
+[0, 1, 0]
+[1, 0, 0]
+[0, 0, 1]
+Ballot 3 after removing eliminated candidates in round 1
+[0, 0, 0]
+[1, 0, 0]
+[0, 0, 1]
+Ballot 3 after removing non-highest priority in round 1
+[0, 0, 0]
+[1, 0, 0]
+[0, 0, 0]
+row sum for ballot 3 in round 1: [0, 1, 0]
+
+ --- Processing ballot 4 in round 1 ---
+Ballot 4 at start of round 1
+[0, 1, 0]
+[0, 0, 1]
+[1, 0, 0]
+Ballot 4 after removing eliminated candidates in round 1
+[0, 0, 0]
+[0, 0, 1]
+[1, 0, 0]
+Ballot 4 after removing non-highest priority in round 1
+[0, 0, 0]
+[0, 0, 0]
+[1, 0, 0]
+row sum for ballot 4 in round 1: [0, 0, 1]
+Round done 
+
+Vote vector at end of round 1: [2, 1, 2]
+Eliminating candidate 1 with 1 votes
+Active candidates at start of round 2: [1, 0, 1]
+
+ --- Processing ballot 0 in round 2 ---
+Ballot 0 at start of round 2
+[0, 1, 0]
+[0, 0, 1]
+[1, 0, 0]
+Ballot 0 after removing eliminated candidates in round 2
+[0, 0, 0]
+[0, 0, 1]
+[1, 0, 0]
+Ballot 0 after removing non-highest priority in round 2
+[0, 0, 0]
+[0, 0, 0]
+[1, 0, 0]
+row sum for ballot 0 in round 2: [0, 0, 1]
+
+ --- Processing ballot 1 in round 2 ---
+Ballot 1 at start of round 2
+[1, 0, 0]
+[0, 0, 1]
+[0, 1, 0]
+Ballot 1 after removing eliminated candidates in round 2
+[1, 0, 0]
+[0, 0, 1]
+[0, 0, 0]
+Ballot 1 after removing non-highest priority in round 2
+[1, 0, 0]
+[0, 0, 0]
+[0, 0, 0]
+row sum for ballot 1 in round 2: [1, 0, 0]
+
+ --- Processing ballot 2 in round 2 ---
+Ballot 2 at start of round 2
+[1, 0, 0]
+[0, 1, 0]
+[0, 0, 1]
+Ballot 2 after removing eliminated candidates in round 2
+[1, 0, 0]
+[0, 0, 0]
+[0, 0, 1]
+Ballot 2 after removing non-highest priority in round 2
+[1, 0, 0]
+[0, 0, 0]
+[0, 0, 0]
+row sum for ballot 2 in round 2: [1, 0, 0]
+
+ --- Processing ballot 3 in round 2 ---
+Ballot 3 at start of round 2
+[0, 1, 0]
+[1, 0, 0]
+[0, 0, 1]
+Ballot 3 after removing eliminated candidates in round 2
+[0, 0, 0]
+[1, 0, 0]
+[0, 0, 1]
+Ballot 3 after removing non-highest priority in round 2
+[0, 0, 0]
+[1, 0, 0]
+[0, 0, 0]
+row sum for ballot 3 in round 2: [0, 1, 0]
+
+ --- Processing ballot 4 in round 2 ---
+Ballot 4 at start of round 2
+[0, 1, 0]
+[0, 0, 1]
+[1, 0, 0]
+Ballot 4 after removing eliminated candidates in round 2
+[0, 0, 0]
+[0, 0, 1]
+[1, 0, 0]
+Ballot 4 after removing non-highest priority in round 2
+[0, 0, 0]
+[0, 0, 0]
+[1, 0, 0]
+row sum for ballot 4 in round 2: [0, 0, 1]
+Round done 
+
+Vote vector at end of round 2: [2, 1, 2]
+Eliminating candidate 1 with 1 votes
+The winning candidate is: 2
 The following benchmarks are including preprocessing (offline phase).
-Time = 0.4133 seconds 
-Data sent = 23.7497 MB in ~1201 rounds (party 0 only)
-Global data sent = 71.1135 MB (all parties)
-Actual preprocessing cost of program:
-  Type bit
-          7680        Triples
-          1440   Input tuples (480 480 480)
-Coordination took 0.0101575 seconds
-Command line: /home/mkatholm/Documents/Skole/Aarhus_Universitet_Datalogi/9_Semester/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 3 -IF Player-Data/matrix -v -pn 19461 -h localhost -N 3
+Time = 1.32109 seconds 
+Data sent = 73.4473 MB in ~3963 rounds (party 0 only; use '-v' for more details)
+Global data sent = 219.914 MB (all parties)

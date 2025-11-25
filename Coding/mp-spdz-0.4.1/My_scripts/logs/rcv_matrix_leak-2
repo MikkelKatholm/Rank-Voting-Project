@@ -1,26 +1,5 @@
 Using statistical security parameter 40
-No modulus found in Player-Data//3-p-128/Params-Data, generating 128-bit prime
-Setup took 0.0481245 seconds.
-Compiler: ./../compile.py rcv_matrix_leak.mpc
-	528 triples of Tinier left
-Spent 0.0384945 seconds (0.0052 MB, 404 rounds) on the online phase and 0.372894 seconds (23.6767 MB, 349 rounds) on the preprocessing/offline phase.
-Communication details:
-Broadcasting 0.00336 MB in 137 rounds, taking 0.0139031 seconds
-Exchanging one-to-one 19.8106 MB in 72 rounds, taking 0.0614641 seconds
-Receiving directly 0.067984 MB in 207 rounds, taking 0.0387901 seconds
-Receiving one-to-one 3.79651 MB in 65 rounds, taking 0.000921842 seconds
-Sending directly 0.067864 MB in 205 rounds, taking 0.0036933 seconds
-Sending one-to-one 3.79651 MB in 63 rounds, taking 0.000121944 seconds
-Sending to all 6e-05 MB in 1 rounds, taking 2.7169e-05 seconds
-Sending/receiving 9.6e-05 MB in 3 rounds, taking 0.000218396 seconds
-CPU time = 0.452744
 The following benchmarks are including preprocessing (offline phase).
-Time = 0.413038 seconds 
-Data sent = 23.6819 MB in ~753 rounds (party 2 only)
-Global data sent = 71.1135 MB (all parties)
-Actual preprocessing cost of program:
-  Type bit
-          7680        Triples
-          1440   Input tuples (480 480 480)
-Coordination took 0.00565991 seconds
-Command line: /home/mkatholm/Documents/Skole/Aarhus_Universitet_Datalogi/9_Semester/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -v -pn 19461 -h localhost -N 3
+Time = 1.32101 seconds 
+Data sent = 73.2332 MB in ~2379 rounds (party 2 only; use '-v' for more details)
+Global data sent = 219.914 MB (all parties)

@@ -178,7 +178,7 @@ def sum_rows(ballot: Matrix) -> sbitintvec:
     d = summed_list.elements()
     return summed_list
 
-def sum_vectors(vectors: list[sbitintvec]) -> sbitintvec:
+def sum_vectors(vectors: list[sbitintvec]) -> Array:
     """ Sum a list of secret-shared bit arrays element-wise.
     
     :param vectors: A list of secret-shared bits arrays.
@@ -197,7 +197,6 @@ def sum_vectors(vectors: list[sbitintvec]) -> sbitintvec:
     revealed_sums = result.reveal()
 
     return revealed_sums
-
 
 def majority(vector: Array) -> tuple[sint, Array]:
     """ Determine if any candidate has a majority and return the winner.
@@ -256,8 +255,6 @@ def update_eliminated_candidates(vector: sbitvec, active_candidates: Array) -> A
         def _():
             smallest_value.update(vc[i])
             smallest_index.update(i)
-    print_ln("Eliminating candidate %s with %s votes", smallest_index, smallest_value)
-
     return eliminate_candidate(active_candidates, smallest_index)
 
 def copy_matrix(matrix: Matrix) -> Matrix:
@@ -285,18 +282,23 @@ def find_winner_leak(vector: Array, last_round: bool) -> cint:
     # If last round, find and reveal the winner
     winner_id = cint(-1)
 
-    if last_round:
-        for i in range(NUM_CANDIDATES):
-            @if_(vector[i] != cint(0))
+    as_array = Array(NUM_CANDIDATES, cint)
+    as_array.assign(vector)
+
+    @if_(last_round)
+    def _():
+        @for_range(NUM_CANDIDATES)
+        def _(i):
+            @if_(as_array[i] > cint(0))
             def _():
                 winner_id.update(cint(i))
-        return winner_id
     
     # check for majority
     votes_needed = cint(NUM_VOTES // 2)
 
-    for i in range(NUM_CANDIDATES):
-        @if_(vector[i] > votes_needed)
+    @for_range(NUM_CANDIDATES)
+    def _(i):
+        @if_(as_array[i] > votes_needed)
         def _():
             winner_id.update(cint(i))
         return winner_id
@@ -307,53 +309,42 @@ def find_winner_leak(vector: Array, last_round: bool) -> cint:
 def run_protocol():
     """ Run the RCV protocol. """
 
+    print_ln("\n\n\n\n ----- Starting RCV Protocol with Matrix Leak -----   \n")
+    print_ln(" --- Votes needed for majority: %s", NUM_VOTES // 2)
+
     all_shared_ballots = read_all_shared_ballots()
     
-    ballots = reconstruct_ballots(all_shared_ballots)                                                               # Type: list[Matrix]
+    ballots = reconstruct_ballots(all_shared_ballots)
 
     winner = cint(-1)
 
-    active_candidates = initialize_active_candidates()                                                              # Type: Array[cint]
-
+    active_candidates = initialize_active_candidates()                                                             
 
     # Do a round
     for round in range(NUM_CANDIDATES):
-        print_ln("Active candidates at start of round %s: %s", round, active_candidates)
         @if_e(winner == cint(-1))
         def _():
-            # winner not found yet
-            round_ballots: list[Matrix] = [copy_matrix(b) for b in ballots]                                             # Type: list[Matrix]    
-            row_sums_array: list[sbitintvec] = []                                                                            # Type: list[Array]
+            print_ln("\n --- Round %s ---", round)
+            print_ln(" --- Active candidates: %s", active_candidates)
+
+            round_ballots: list[Matrix] = [copy_matrix(b) for b in ballots]                                             
+            row_sums_array: list[sbitintvec] = []                                                                       
             for ballot_id in range(NUM_VOTES):
-                print_ln("\n --- Processing ballot %s in round %s ---", ballot_id, round)
-                print_matrix(round_ballots[ballot_id], f"Ballot {ballot_id} at start of round {round}")
-
-                round_ballots[ballot_id] = remove_eliminated_candidates(round_ballots[ballot_id], active_candidates)    # Should work
-                print_matrix(round_ballots[ballot_id], f"Ballot {ballot_id} after removing eliminated candidates in round {round}")
-
-                round_ballots[ballot_id] = remove_non_highest_priority(round_ballots[ballot_id])                        # Should work
-                print_matrix(round_ballots[ballot_id], f"Ballot {ballot_id} after removing non-highest priority in round {round}")
-
+                round_ballots[ballot_id] = remove_eliminated_candidates(round_ballots[ballot_id], active_candidates)    
+                round_ballots[ballot_id] = remove_non_highest_priority(round_ballots[ballot_id])                        
                 row_sums = sum_rows(round_ballots[ballot_id])
-
-                print_ln("row sum for ballot %s in round %s: %s", ballot_id, round, row_sums.reveal())
-
-                row_sums_array.append(row_sums)                                                                         # Should work
-            print_ln("Round done \n")
-            vote_vector = sum_vectors(row_sums_array)                                                                   # Should work
-            print_siv(vote_vector, f"Vote vector at end of round {round}")
-
-            debug_print(vote_vector, f"Vote vector at end of round {round}")            
-            
+                row_sums_array.append(row_sums)
+            vote_vector = sum_vectors(row_sums_array)
+            print_siv(vote_vector, f" --- Vote vector:      ") 
             active_candidates.assign(update_eliminated_candidates(vote_vector, active_candidates))
 
             winner_id = find_winner_leak(vote_vector, round == NUM_CANDIDATES - 1)
             winner.update(winner_id)
-            debug_print(winner, "Winner at end of round")
         @else_
         def _():
+            print_ln(" ")
             break_loop
-#
+#       
     return winner
 
 def debug_print(secret_stuff, msg="Debug"):
@@ -373,13 +364,13 @@ def print_matrix(matrix: Matrix, msg="Matrix"):
 def print_siv(vector: sbitintvec, msg="Vector"):
     elements = vector
     revealed = [elements[i].reveal() for i in range(len(elements))]
-    print_ln_to(0, '%s: %s', msg, revealed)
+    print_ln_to(0, '%s %s', msg, revealed)
 
 # Main function must be the lowest in the file!!!
 def rcv_main():
     """Main function to create and process a secret-shared ballot matrix."""
     winner = run_protocol()
-    print_ln_to(0, 'The winning candidate is: %s', winner)
+    print_ln_to(0, ' --- The winning candidate is: %s \n\n\n\n', winner)
 
 def main():
     rcv_main()

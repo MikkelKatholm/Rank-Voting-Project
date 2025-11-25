@@ -97,7 +97,7 @@ def remove_eliminated_candidates(ballot: Matrix, active_candidates: Array) -> Ma
 
     for row in range(NUM_CANDIDATES):
         for col in range(NUM_CANDIDATES):
-            ballot[row][col] = ballot[row][col] & active_candidates[col]
+            ballot[row][col] = ballot[row][col] & active_candidates[row]
     return ballot
 
 def remove_non_highest_priority(ballot: Matrix) -> Matrix:

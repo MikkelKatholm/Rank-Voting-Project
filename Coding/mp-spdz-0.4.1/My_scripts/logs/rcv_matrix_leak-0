@@ -4,32 +4,32 @@ Active candidates at start of round 0: [1, 1, 1]
  --- Processing ballot 0 in round 0 ---
 Ballot 0 at start of round 0
 [0, 1, 0]
-[0, 0, 1]
 [1, 0, 0]
+[0, 0, 1]
 Ballot 0 after removing eliminated candidates in round 0
 [0, 1, 0]
-[0, 0, 1]
 [1, 0, 0]
+[0, 0, 1]
 Ballot 0 after removing non-highest priority in round 0
 [0, 0, 0]
-[0, 0, 0]
 [1, 0, 0]
-row sum for ballot 0 in round 0: [0, 0, 1]
+[0, 0, 0]
+row sum for ballot 0 in round 0: [0, 1, 0]
 
  --- Processing ballot 1 in round 0 ---
 Ballot 1 at start of round 0
+[0, 1, 0]
 [1, 0, 0]
 [0, 0, 1]
-[0, 1, 0]
 Ballot 1 after removing eliminated candidates in round 0
+[0, 1, 0]
 [1, 0, 0]
 [0, 0, 1]
-[0, 1, 0]
 Ballot 1 after removing non-highest priority in round 0
+[0, 0, 0]
 [1, 0, 0]
 [0, 0, 0]
-[0, 0, 0]
-row sum for ballot 1 in round 0: [1, 0, 0]
+row sum for ballot 1 in round 0: [0, 1, 0]
 
  --- Processing ballot 2 in round 0 ---
 Ballot 2 at start of round 0
@@ -48,18 +48,18 @@ row sum for ballot 2 in round 0: [1, 0, 0]
 
  --- Processing ballot 3 in round 0 ---
 Ballot 3 at start of round 0
-[0, 1, 0]
 [1, 0, 0]
 [0, 0, 1]
+[0, 1, 0]
 Ballot 3 after removing eliminated candidates in round 0
-[0, 1, 0]
 [1, 0, 0]
 [0, 0, 1]
+[0, 1, 0]
 Ballot 3 after removing non-highest priority in round 0
-[0, 0, 0]
 [1, 0, 0]
 [0, 0, 0]
-row sum for ballot 3 in round 0: [0, 1, 0]
+[0, 0, 0]
+row sum for ballot 3 in round 0: [1, 0, 0]
 
  --- Processing ballot 4 in round 0 ---
 Ballot 4 at start of round 0
@@ -77,39 +77,39 @@ Ballot 4 after removing non-highest priority in round 0
 row sum for ballot 4 in round 0: [0, 0, 1]
 Round done 
 
-Vote vector at end of round 0: [2, 1, 2]
-Eliminating candidate 1 with 1 votes
-Active candidates at start of round 1: [1, 0, 1]
+Vote vector at end of round 0: [2, 2, 1]
+Eliminating candidate 2 with 1 votes
+Active candidates at start of round 1: [1, 1, 0]
 
  --- Processing ballot 0 in round 1 ---
 Ballot 0 at start of round 1
 [0, 1, 0]
-[0, 0, 1]
 [1, 0, 0]
+[0, 0, 1]
 Ballot 0 after removing eliminated candidates in round 1
-[0, 0, 0]
-[0, 0, 1]
+[0, 1, 0]
 [1, 0, 0]
+[0, 0, 0]
 Ballot 0 after removing non-highest priority in round 1
 [0, 0, 0]
-[0, 0, 0]
 [1, 0, 0]
-row sum for ballot 0 in round 1: [0, 0, 1]
+[0, 0, 0]
+row sum for ballot 0 in round 1: [0, 1, 0]
 
  --- Processing ballot 1 in round 1 ---
 Ballot 1 at start of round 1
-[1, 0, 0]
-[0, 0, 1]
 [0, 1, 0]
-Ballot 1 after removing eliminated candidates in round 1
 [1, 0, 0]
 [0, 0, 1]
+Ballot 1 after removing eliminated candidates in round 1
+[0, 1, 0]
+[1, 0, 0]
 [0, 0, 0]
 Ballot 1 after removing non-highest priority in round 1
+[0, 0, 0]
 [1, 0, 0]
 [0, 0, 0]
-[0, 0, 0]
-row sum for ballot 1 in round 1: [1, 0, 0]
+row sum for ballot 1 in round 1: [0, 1, 0]
 
  --- Processing ballot 2 in round 1 ---
 Ballot 2 at start of round 1
@@ -118,8 +118,8 @@ Ballot 2 at start of round 1
 [0, 0, 1]
 Ballot 2 after removing eliminated candidates in round 1
 [1, 0, 0]
+[0, 1, 0]
 [0, 0, 0]
-[0, 0, 1]
 Ballot 2 after removing non-highest priority in round 1
 [1, 0, 0]
 [0, 0, 0]
@@ -128,18 +128,18 @@ row sum for ballot 2 in round 1: [1, 0, 0]
 
  --- Processing ballot 3 in round 1 ---
 Ballot 3 at start of round 1
+[1, 0, 0]
+[0, 0, 1]
 [0, 1, 0]
-[1, 0, 0]
-[0, 0, 1]
 Ballot 3 after removing eliminated candidates in round 1
-[0, 0, 0]
 [1, 0, 0]
 [0, 0, 1]
-Ballot 3 after removing non-highest priority in round 1
 [0, 0, 0]
+Ballot 3 after removing non-highest priority in round 1
 [1, 0, 0]
 [0, 0, 0]
-row sum for ballot 3 in round 1: [0, 1, 0]
+[0, 0, 0]
+row sum for ballot 3 in round 1: [1, 0, 0]
 
  --- Processing ballot 4 in round 1 ---
 Ballot 4 at start of round 1
@@ -147,100 +147,21 @@ Ballot 4 at start of round 1
 [0, 0, 1]
 [1, 0, 0]
 Ballot 4 after removing eliminated candidates in round 1
-[0, 0, 0]
+[0, 1, 0]
 [0, 0, 1]
-[1, 0, 0]
+[0, 0, 0]
 Ballot 4 after removing non-highest priority in round 1
+[0, 1, 0]
 [0, 0, 0]
 [0, 0, 0]
-[1, 0, 0]
-row sum for ballot 4 in round 1: [0, 0, 1]
+row sum for ballot 4 in round 1: [1, 0, 0]
 Round done 
 
-Vote vector at end of round 1: [2, 1, 2]
-Eliminating candidate 1 with 1 votes
-Active candidates at start of round 2: [1, 0, 1]
-
- --- Processing ballot 0 in round 2 ---
-Ballot 0 at start of round 2
-[0, 1, 0]
-[0, 0, 1]
-[1, 0, 0]
-Ballot 0 after removing eliminated candidates in round 2
-[0, 0, 0]
-[0, 0, 1]
-[1, 0, 0]
-Ballot 0 after removing non-highest priority in round 2
-[0, 0, 0]
-[0, 0, 0]
-[1, 0, 0]
-row sum for ballot 0 in round 2: [0, 0, 1]
-
- --- Processing ballot 1 in round 2 ---
-Ballot 1 at start of round 2
-[1, 0, 0]
-[0, 0, 1]
-[0, 1, 0]
-Ballot 1 after removing eliminated candidates in round 2
-[1, 0, 0]
-[0, 0, 1]
-[0, 0, 0]
-Ballot 1 after removing non-highest priority in round 2
-[1, 0, 0]
-[0, 0, 0]
-[0, 0, 0]
-row sum for ballot 1 in round 2: [1, 0, 0]
-
- --- Processing ballot 2 in round 2 ---
-Ballot 2 at start of round 2
-[1, 0, 0]
-[0, 1, 0]
-[0, 0, 1]
-Ballot 2 after removing eliminated candidates in round 2
-[1, 0, 0]
-[0, 0, 0]
-[0, 0, 1]
-Ballot 2 after removing non-highest priority in round 2
-[1, 0, 0]
-[0, 0, 0]
-[0, 0, 0]
-row sum for ballot 2 in round 2: [1, 0, 0]
-
- --- Processing ballot 3 in round 2 ---
-Ballot 3 at start of round 2
-[0, 1, 0]
-[1, 0, 0]
-[0, 0, 1]
-Ballot 3 after removing eliminated candidates in round 2
-[0, 0, 0]
-[1, 0, 0]
-[0, 0, 1]
-Ballot 3 after removing non-highest priority in round 2
-[0, 0, 0]
-[1, 0, 0]
-[0, 0, 0]
-row sum for ballot 3 in round 2: [0, 1, 0]
-
- --- Processing ballot 4 in round 2 ---
-Ballot 4 at start of round 2
-[0, 1, 0]
-[0, 0, 1]
-[1, 0, 0]
-Ballot 4 after removing eliminated candidates in round 2
-[0, 0, 0]
-[0, 0, 1]
-[1, 0, 0]
-Ballot 4 after removing non-highest priority in round 2
-[0, 0, 0]
-[0, 0, 0]
-[1, 0, 0]
-row sum for ballot 4 in round 2: [0, 0, 1]
-Round done 
-
-Vote vector at end of round 2: [2, 1, 2]
-Eliminating candidate 1 with 1 votes
-The winning candidate is: 2
+Vote vector at end of round 1: [3, 2, 0]
+Eliminating candidate 2 with 0 votes
+Active candidates at start of round 2: [1, 1, 0]
+The winning candidate is: 0
 The following benchmarks are including preprocessing (offline phase).
-Time = 1.32109 seconds 
-Data sent = 73.4473 MB in ~3963 rounds (party 0 only; use '-v' for more details)
-Global data sent = 219.914 MB (all parties)
+Time = 0.892303 seconds 
+Data sent = 50.0604 MB in ~2683 rounds (party 0 only; use '-v' for more details)
+Global data sent = 149.89 MB (all parties)

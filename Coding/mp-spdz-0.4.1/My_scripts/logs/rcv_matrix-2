@@ -1,8 +1,8 @@
 Using statistical security parameter 40
+Significant amount of unused edaBits of size 40. This protocol has a large minimum batch size, which makes this unavoidable for small programs.
+Significant amount of unused edaBits of size 41. This protocol has a large minimum batch size, which makes this unavoidable for small programs.
+Significant amount of unused edaBits of size 64. This protocol has a large minimum batch size, which makes this unavoidable for small programs.
 The following benchmarks are including preprocessing (offline phase).
-Time = 135.057 seconds 
-Data sent = 11184.5 MB in ~79087 rounds (party 2 only; use '-v' for more details)
-Global data sent = 33567.2 MB (all parties)
-This program might benefit from some protocol options.
-Consider adding the following at the beginning of your code:
-	program.use_edabit(True)
+Time = 40.6885 seconds 
+Data sent = 5331.99 MB in ~24898 rounds (party 2 only; use '-v' for more details)
+Global data sent = 16005.9 MB (all parties)

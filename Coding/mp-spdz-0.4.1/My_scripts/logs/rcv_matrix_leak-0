@@ -8,27 +8,16 @@ Using statistical security parameter 40
  --- Votes needed for majority:  3
 
  --- Round:  0
- --- Active candidates:  [1, 1, 1, 1, 1]
- --- Vote vector:        [1, 2, 0, 0, 2]
-
- --- Round:  1
- --- Active candidates:  [1, 1, 0, 1, 1]
- --- Vote vector:        [1, 2, 0, 0, 2]
-
- --- Round:  2
- --- Active candidates:  [1, 1, 0, 0, 1]
- --- Vote vector:        [1, 2, 0, 0, 2]
-
- --- Round:  3
- --- Active candidates:  [0, 1, 0, 0, 1]
- --- Vote vector:        [0, 3, 0, 0, 2]
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [3, 2, 0]
  
- --- The winning candidate is: 1 
+ 
+ --- The winning candidate is: 0 
 
 
 
 
 The following benchmarks are including preprocessing (offline phase).
-Time = 3.25512 seconds 
-Data sent = 248.809 MB in ~9733 rounds (party 0 only; use '-v' for more details)
-Global data sent = 744.988 MB (all parties)
+Time = 0.241458 seconds 
+Data sent = 26.67 MB in ~1321 rounds (party 0 only; use '-v' for more details)
+Global data sent = 79.8578 MB (all parties)

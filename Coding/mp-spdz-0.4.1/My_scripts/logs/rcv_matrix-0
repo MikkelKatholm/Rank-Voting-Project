@@ -1,9 +1,21 @@
 Using statistical security parameter 40
-The winning candidate is: 1
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+ --- Starting round 1 of 3 --- 
+ --- Starting round 2 of 3 --- 
+ --- Starting round 3 of 3 --- 
+ --- The winning candidate is: 0 
+
+
+
+
+Significant amount of unused edaBits of size 40. This protocol has a large minimum batch size, which makes this unavoidable for small programs.
+Significant amount of unused edaBits of size 41. This protocol has a large minimum batch size, which makes this unavoidable for small programs.
+Significant amount of unused edaBits of size 64. This protocol has a large minimum batch size, which makes this unavoidable for small programs.
 The following benchmarks are including preprocessing (offline phase).
-Time = 2.3859 seconds 
-Data sent = 68.884 MB in ~399 rounds (party 0 only; use '-v' for more details)
-Global data sent = 137.768 MB (all parties)
-This program might benefit from some protocol options.
-Consider adding the following at the beginning of your code:
-	program.use_edabit(True)
+Time = 40.6808 seconds 
+Data sent = 5341.92 MB in ~34556 rounds (party 0 only; use '-v' for more details)
+Global data sent = 16005.9 MB (all parties)

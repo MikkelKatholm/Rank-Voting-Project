@@ -16,10 +16,12 @@ from My_scripts.consts import *
 program.use_edabit(True)
 
 is_debug = False
+is_leaking = True
+
 SEC_PARAM = 40
 # NBITS must be >= GC statistical security parameter to avoid internal XORS range errors
 NBITS = max(SEC_PARAM, (NUM_VOTES + 1).bit_length())
-sb=sbits.get_type(NBITS)
+sb = sbits.get_type(NBITS)
 siv = sbitintvec.get_type(NBITS)
 
 
@@ -174,9 +176,9 @@ def sum_rows(ballot: Matrix) -> sbitintvec:
     for row in range(NUM_CANDIDATES):
         row_vector = siv(rows_as_lists[row])
         summed_list = (summed_list + row_vector)
-        
-    d = summed_list.elements()
     return summed_list
+
+
 
 def sum_vectors(vectors: list[sbitintvec]) -> Array:
     """ Sum a list of secret-shared bit arrays element-wise.
@@ -189,14 +191,16 @@ def sum_vectors(vectors: list[sbitintvec]) -> Array:
         returns Array([2,2,2])
     """
     result = siv([sb(0) for _ in range(NUM_CANDIDATES)])
-
     for v in vectors:
         result = (result + v)
 
     # Reveal all sums for leakage
     revealed_sums = result.reveal()
 
-    return revealed_sums
+    as_array = Array(NUM_CANDIDATES, cint)
+    as_array.assign(revealed_sums)
+
+    return as_array
 
 def majority(vector: Array) -> tuple[sint, Array]:
     """ Determine if any candidate has a majority and return the winner.
@@ -243,18 +247,19 @@ def update_eliminated_candidates(vector: sbitvec, active_candidates: Array) -> A
     :param active_candidates: A list of 0/1 clear bits indicating active candidates.
     :return: The updated active_candidates list with the lowest vote candidate eliminated. 
     """
-    vc = vector
     
     smallest_index = cint(-1)
     smallest_value = cint(NUM_VOTES + 1)
-    for i in range(NUM_CANDIDATES):
-        @if_(active_candidates[i] == 0)
+
+    @for_range(NUM_CANDIDATES)
+    def _(i):
+        @if_(active_candidates[i] != 0)
         def _():
-            break_loop
-        @if_(vc[i] < smallest_value)
-        def _():
-            smallest_value.update(vc[i])
-            smallest_index.update(i)
+            @if_(vector[i] < smallest_value)
+            def _():
+                smallest_value.update(vector[i])
+                smallest_index.update(i)
+    
     return eliminate_candidate(active_candidates, smallest_index)
 
 def copy_matrix(matrix: Matrix) -> Matrix:
@@ -282,14 +287,11 @@ def find_winner_leak(vector: Array, last_round: bool) -> cint:
     # If last round, find and reveal the winner
     winner_id = cint(-1)
 
-    as_array = Array(NUM_CANDIDATES, cint)
-    as_array.assign(vector)
-
     @if_(last_round)
     def _():
         @for_range(NUM_CANDIDATES)
         def _(i):
-            @if_(as_array[i] > cint(0))
+            @if_(vector[i] > cint(0))
             def _():
                 winner_id.update(cint(i))
     
@@ -298,7 +300,7 @@ def find_winner_leak(vector: Array, last_round: bool) -> cint:
 
     @for_range(NUM_CANDIDATES)
     def _(i):
-        @if_(as_array[i] > votes_needed)
+        @if_(vector[i] > votes_needed)
         def _():
             winner_id.update(cint(i))
         return winner_id
@@ -310,22 +312,19 @@ def run_protocol():
     """ Run the RCV protocol. """
 
     print_ln("\n\n\n\n ----- Starting RCV Protocol with Matrix Leak -----   \n")
-    print_ln(" --- Votes needed for majority: %s", NUM_VOTES // 2)
+    l_print(((NUM_VOTES // 2) + 1), " --- Votes needed for majority: ")
 
-    all_shared_ballots = read_all_shared_ballots()
-    
+    all_shared_ballots = read_all_shared_ballots()    
     ballots = reconstruct_ballots(all_shared_ballots)
-
-    winner = cint(-1)
-
     active_candidates = initialize_active_candidates()                                                             
+    winner = cint(-1)
 
     # Do a round
     for round in range(NUM_CANDIDATES):
         @if_e(winner == cint(-1))
         def _():
-            print_ln("\n --- Round %s ---", round)
-            print_ln(" --- Active candidates: %s", active_candidates)
+            l_print(round, "\n --- Round: ")
+            l_print(active_candidates, " --- Active candidates: ")
 
             round_ballots: list[Matrix] = [copy_matrix(b) for b in ballots]                                             
             row_sums_array: list[sbitintvec] = []                                                                       
@@ -335,7 +334,7 @@ def run_protocol():
                 row_sums = sum_rows(round_ballots[ballot_id])
                 row_sums_array.append(row_sums)
             vote_vector = sum_vectors(row_sums_array)
-            print_siv(vote_vector, f" --- Vote vector:      ") 
+            l_print(vote_vector, f" --- Vote vector:       ")
             active_candidates.assign(update_eliminated_candidates(vote_vector, active_candidates))
 
             winner_id = find_winner_leak(vote_vector, round == NUM_CANDIDATES - 1)
@@ -344,27 +343,14 @@ def run_protocol():
         def _():
             print_ln(" ")
             break_loop
-#       
+
     return winner
 
-def debug_print(secret_stuff, msg="Debug"):
-    if not is_debug:
-        return
-    if type(secret_stuff) == cint or type(secret_stuff) == cbits or type(secret_stuff) == cbit or type(secret_stuff) == int:
-        print_ln_to(0, '%s: %s', msg, secret_stuff)
-    else:
-        print_ln_to(0, '%s: %s', msg, secret_stuff[:].reveal())
 
-def print_matrix(matrix: Matrix, msg="Matrix"):
-    revealed = matrix.reveal_list()
-    print_ln_to(0, '%s', msg)
-    for i in range(NUM_CANDIDATES):
-        print_ln_to(0, '%s', revealed[i*NUM_CANDIDATES:(i+1)*NUM_CANDIDATES])
+def l_print(stuff, msg=""):
+    if is_leaking:
+        print_ln_to(0, '%s %s', msg, stuff)
 
-def print_siv(vector: sbitintvec, msg="Vector"):
-    elements = vector
-    revealed = [elements[i].reveal() for i in range(len(elements))]
-    print_ln_to(0, '%s %s', msg, revealed)
 
 # Main function must be the lowest in the file!!!
 def rcv_main():

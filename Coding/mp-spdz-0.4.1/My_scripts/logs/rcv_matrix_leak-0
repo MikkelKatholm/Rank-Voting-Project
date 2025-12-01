@@ -9,15 +9,15 @@ Using statistical security parameter 40
 
  --- Round:  0
  --- Active candidates:  [1, 1, 1]
- --- Vote vector:        [3, 2, 0]
+ --- Vote vector:        [0, 3, 2]
  
  
- --- The winning candidate is: 0 
+ --- The winning candidate is: 1 
 
 
 
 
 The following benchmarks are including preprocessing (offline phase).
-Time = 0.241458 seconds 
+Time = 0.501689 seconds 
 Data sent = 26.67 MB in ~1321 rounds (party 0 only; use '-v' for more details)
 Global data sent = 79.8578 MB (all parties)

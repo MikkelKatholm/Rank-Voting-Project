@@ -13,7 +13,7 @@ from Compiler.types import *
 from Compiler.library import *
 from My_scripts.consts import *
 
-program.use_edabit(True)
+#program.use_edabit(True)
 
 is_debug = False
 
@@ -250,7 +250,6 @@ def update_eliminated_candidates(vector: Array, active_candidates: Array) -> Arr
 
     @for_range(NUM_CANDIDATES)
     def _(i):
-
         active = sint(active_candidates[i])[0]
         adjusted_value = vector[i] + (sint(1) - active) * sint(NUM_VOTES + 1)
         is_smallest = (adjusted_value < smallest_value)
@@ -297,7 +296,7 @@ def run_protocol():
 
         debug_print(active_candidates, " --- Active candidates at start of round: ")
 
-        round_ballots: list[Matrix] = [copy_matrix(b) for b in ballots]                                             
+        round_ballots: list[Matrix] = [copy_matrix(b) for b in ballots]
         row_sums_array: list[sbitintvec] = []                                                                       
         for ballot_id in range(NUM_VOTES):
             round_ballots[ballot_id] = remove_eliminated_candidates(round_ballots[ballot_id], active_candidates)

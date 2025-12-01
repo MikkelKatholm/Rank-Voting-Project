@@ -23,7 +23,6 @@ NBITS = max(SEC_PARAM, (NUM_VOTES + 1).bit_length())
 sb = sbits.get_type(NBITS)
 siv = sbitintvec.get_type(NBITS)
 
-
 def read_ballot_for_party(party_id: int) -> list[Matrix]:
     """ Create secret-shared ballots for all voters in a given party.
     
@@ -245,7 +244,7 @@ def update_eliminated_candidates(vector: sbitvec, active_candidates: Array) -> A
     :param active_candidates: A list of 0/1 clear bits indicating active candidates.
     :return: The updated active_candidates list with the lowest vote candidate eliminated. 
     """
-    
+
     smallest_index = cint(-1)
     smallest_value = cint(NUM_VOTES + 1)
 

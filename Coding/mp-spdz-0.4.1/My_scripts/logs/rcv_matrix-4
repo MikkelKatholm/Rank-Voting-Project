@@ -1,0 +1,8 @@
+Using statistical security parameter 40
+The following benchmarks are including preprocessing (offline phase).
+Time = 55.2227 seconds 
+Data sent = 4060.62 MB in ~45747 rounds (party 4 only; use '-v' for more details)
+Global data sent = 24379.1 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)

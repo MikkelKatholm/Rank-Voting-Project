@@ -1,0 +1,91 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 2.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix.mpc
+Compiled 100000 lines at Fri Dec 12 12:52:22 2025
+Compiled 200000 lines at Fri Dec 12 12:52:24 2025
+Compiled 300000 lines at Fri Dec 12 12:52:25 2025
+Compiled 400000 lines at Fri Dec 12 12:52:26 2025
+Compiled 500000 lines at Fri Dec 12 12:52:27 2025
+Compiled 600000 lines at Fri Dec 12 12:52:29 2025
+Compiled 700000 lines at Fri Dec 12 12:52:30 2025
+Compiled 800000 lines at Fri Dec 12 12:52:31 2025
+Compiled 900000 lines at Fri Dec 12 12:52:32 2025
+Compiled 1000000 lines at Fri Dec 12 12:52:33 2025
+Compiled 1100000 lines at Fri Dec 12 12:52:35 2025
+Compiled 1200000 lines at Fri Dec 12 12:52:36 2025
+Compiled 1300000 lines at Fri Dec 12 12:52:37 2025
+Compiled 1400000 lines at Fri Dec 12 12:52:38 2025
+Compiled 1500000 lines at Fri Dec 12 12:52:40 2025
+Compiled 1600000 lines at Fri Dec 12 12:52:41 2025
+Compiled 1700000 lines at Fri Dec 12 12:52:43 2025
+Compiled 1800000 lines at Fri Dec 12 12:52:44 2025
+Compiled 1900000 lines at Fri Dec 12 12:52:44 2025
+Compiled 2000000 lines at Fri Dec 12 12:52:47 2025
+Compiled 2100000 lines at Fri Dec 12 12:52:48 2025
+Compiled 2200000 lines at Fri Dec 12 12:52:49 2025
+Compiled 2300000 lines at Fri Dec 12 12:52:49 2025
+Compiled 2400000 lines at Fri Dec 12 12:52:50 2025
+Compiled 2500000 lines at Fri Dec 12 12:52:53 2025
+Compiled 2600000 lines at Fri Dec 12 12:52:54 2025
+Compiled 2700000 lines at Fri Dec 12 12:52:55 2025
+Compiled 2800000 lines at Fri Dec 12 12:52:56 2025
+Compiled 2900000 lines at Fri Dec 12 12:52:57 2025
+Compiled 3000000 lines at Fri Dec 12 12:52:58 2025
+Compiled 3100000 lines at Fri Dec 12 12:52:59 2025
+Compiled 3200000 lines at Fri Dec 12 12:53:02 2025
+Compiled 3300000 lines at Fri Dec 12 12:53:03 2025
+Compiled 3400000 lines at Fri Dec 12 12:53:04 2025
+Compiled 3500000 lines at Fri Dec 12 12:53:05 2025
+Compiled 3600000 lines at Fri Dec 12 12:53:06 2025
+Compiled 3700000 lines at Fri Dec 12 12:53:07 2025
+Compiled 3800000 lines at Fri Dec 12 12:53:08 2025
+Compiled 3900000 lines at Fri Dec 12 12:53:11 2025
+Compiled 4000000 lines at Fri Dec 12 12:53:12 2025
+Compiled 4100000 lines at Fri Dec 12 12:53:13 2025
+Merging 13824 inputb in round 1/1
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Bytecode/rcv_matrix-LTZ(1)_65-1.bc
+Writing to Programs/Bytecode/rcv_matrix-EQZ(1)_64-3.bc
+Writing to Programs/Schedules/rcv_matrix.sch
+Writing to Programs/Bytecode/rcv_matrix-0.bc
+Hash: 1df23e498b61c43226169311ea64ac6456493b74d1c94e93ba61c6b0630e1b86
+Program requires at most:
+      184320 bit inputs from player 0
+      184320 bit inputs from player 1
+      184320 bit inputs from player 2
+     3170664 bit triples
+         729 integer dabits
+          37 integer opens
+        2259 integer triples
+        2259 integer simple multiplications
+        2817 integer bits
+       58700 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix -N 3 -IF Player-Data/matrix -pn 18436 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix -N 3 -IF Player-Data/matrix -pn 18436 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix -N 3 -IF Player-Data/matrix -pn 18436 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 3 --- 
+ --- Starting round 2 of 3 --- 
+ --- Starting round 3 of 3 --- 
+ --- The winning candidate is: 2 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 63.0281 seconds 
+Data sent = 9449.02 MB in ~386131 rounds (party 0 only; use '-v' for more details)
+Global data sent = 28293.7 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)

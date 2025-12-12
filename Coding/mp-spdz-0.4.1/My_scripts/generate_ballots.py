@@ -5,6 +5,8 @@ import random
 
 Matrix = list[list[int]]
 
+print_ballots = False
+
 def build_matrix(priorities: list[int]) -> Matrix:
     size = len(priorities)
     matrix = [[0]*size for _ in range(size)]
@@ -143,11 +145,12 @@ if __name__ == "__main__":
     blank_ballots = generate_blank_ballots(NUM_BLANK_VOTES, NUM_CANDIDATES)
     ballots.extend(blank_ballots)
     matrices = build_all_matrices(ballots)
-    for matrix in matrices:
-        print("Generated Matrix:")
-        for row in matrix:
-            print(row)
-        print()
+    if print_ballots:
+        for matrix in matrices:
+            print("Generated Matrix:")
+            for row in matrix:
+                print(row)
+            print()
     secret_shared_matrices = secret_share_matrices(matrices)
         
 

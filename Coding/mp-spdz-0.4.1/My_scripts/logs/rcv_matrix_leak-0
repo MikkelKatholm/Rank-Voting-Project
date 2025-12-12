@@ -5,19 +5,22 @@ Using statistical security parameter 40
 
  ----- Starting RCV Protocol with Matrix Leak -----   
 
- --- Votes needed for majority:  3
+ --- Votes needed for majority:  33
 
  --- Round:  0
  --- Active candidates:  [1, 1, 1]
- --- Vote vector:        [0, 3, 2]
+ --- Vote vector:        [22, 20, 22]
+
+ --- Round:  1
+ --- Active candidates:  [1, 0, 1]
+ --- Vote vector:        [30, 0, 34]
  
- 
- --- The winning candidate is: 1 
+ --- The winning candidate is: 2 
 
 
 
 
 The following benchmarks are including preprocessing (offline phase).
-Time = 0.501689 seconds 
-Data sent = 26.67 MB in ~1321 rounds (party 0 only; use '-v' for more details)
-Global data sent = 79.8578 MB (all parties)
+Time = 22.156 seconds 
+Data sent = 1558.98 MB in ~72393 rounds (party 0 only; use '-v' for more details)
+Global data sent = 9317.77 MB (all parties)

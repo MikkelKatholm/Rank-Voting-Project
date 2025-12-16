@@ -1,0 +1,136 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 10.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix.mpc
+Compiled 100000 lines at Mon Dec 15 12:36:15 2025
+Compiled 200000 lines at Mon Dec 15 12:36:17 2025
+Compiled 300000 lines at Mon Dec 15 12:36:18 2025
+Compiled 400000 lines at Mon Dec 15 12:36:20 2025
+Compiled 500000 lines at Mon Dec 15 12:36:21 2025
+Compiled 600000 lines at Mon Dec 15 12:36:22 2025
+Compiled 700000 lines at Mon Dec 15 12:36:24 2025
+Compiled 800000 lines at Mon Dec 15 12:36:25 2025
+Compiled 900000 lines at Mon Dec 15 12:36:26 2025
+Compiled 1000000 lines at Mon Dec 15 12:36:27 2025
+Compiled 1100000 lines at Mon Dec 15 12:36:29 2025
+Compiled 1200000 lines at Mon Dec 15 12:36:30 2025
+Compiled 1300000 lines at Mon Dec 15 12:36:31 2025
+Compiled 1400000 lines at Mon Dec 15 12:36:32 2025
+Compiled 1500000 lines at Mon Dec 15 12:36:33 2025
+Compiled 1600000 lines at Mon Dec 15 12:36:35 2025
+Compiled 1700000 lines at Mon Dec 15 12:36:36 2025
+Compiled 1800000 lines at Mon Dec 15 12:36:37 2025
+Compiled 1900000 lines at Mon Dec 15 12:36:38 2025
+Compiled 2000000 lines at Mon Dec 15 12:36:40 2025
+Compiled 2100000 lines at Mon Dec 15 12:36:41 2025
+Compiled 2200000 lines at Mon Dec 15 12:36:42 2025
+Compiled 2300000 lines at Mon Dec 15 12:36:43 2025
+Compiled 2400000 lines at Mon Dec 15 12:36:44 2025
+Compiled 2500000 lines at Mon Dec 15 12:36:46 2025
+Compiled 2600000 lines at Mon Dec 15 12:36:47 2025
+Compiled 2700000 lines at Mon Dec 15 12:36:48 2025
+Compiled 2800000 lines at Mon Dec 15 12:36:49 2025
+Compiled 2900000 lines at Mon Dec 15 12:36:50 2025
+Compiled 3000000 lines at Mon Dec 15 12:36:51 2025
+Compiled 3100000 lines at Mon Dec 15 12:36:54 2025
+Compiled 3200000 lines at Mon Dec 15 12:36:55 2025
+Compiled 3300000 lines at Mon Dec 15 12:36:56 2025
+Compiled 3400000 lines at Mon Dec 15 12:36:57 2025
+Compiled 3500000 lines at Mon Dec 15 12:36:58 2025
+Compiled 3600000 lines at Mon Dec 15 12:36:59 2025
+Compiled 3700000 lines at Mon Dec 15 12:37:00 2025
+Compiled 3800000 lines at Mon Dec 15 12:37:03 2025
+Compiled 3900000 lines at Mon Dec 15 12:37:04 2025
+Compiled 4000000 lines at Mon Dec 15 12:37:05 2025
+Compiled 4100000 lines at Mon Dec 15 12:37:06 2025
+Compiled 4200000 lines at Mon Dec 15 12:37:07 2025
+Compiled 4300000 lines at Mon Dec 15 12:37:08 2025
+Compiled 4400000 lines at Mon Dec 15 12:37:09 2025
+Compiled 4500000 lines at Mon Dec 15 12:37:10 2025
+Compiled 4600000 lines at Mon Dec 15 12:37:11 2025
+Compiled 4700000 lines at Mon Dec 15 12:37:12 2025
+Compiled 4800000 lines at Mon Dec 15 12:37:16 2025
+Compiled 4900000 lines at Mon Dec 15 12:37:17 2025
+Compiled 5000000 lines at Mon Dec 15 12:37:17 2025
+Compiled 5100000 lines at Mon Dec 15 12:37:18 2025
+Compiled 5200000 lines at Mon Dec 15 12:37:19 2025
+Compiled 5300000 lines at Mon Dec 15 12:37:20 2025
+Compiled 5400000 lines at Mon Dec 15 12:37:21 2025
+Compiled 5500000 lines at Mon Dec 15 12:37:22 2025
+Compiled 5600000 lines at Mon Dec 15 12:37:23 2025
+Compiled 5700000 lines at Mon Dec 15 12:37:24 2025
+Compiled 5800000 lines at Mon Dec 15 12:37:25 2025
+Compiled 5900000 lines at Mon Dec 15 12:37:30 2025
+Compiled 6000000 lines at Mon Dec 15 12:37:31 2025
+Compiled 6100000 lines at Mon Dec 15 12:37:32 2025
+Compiled 6200000 lines at Mon Dec 15 12:37:33 2025
+Compiled 6300000 lines at Mon Dec 15 12:37:34 2025
+Compiled 6400000 lines at Mon Dec 15 12:37:34 2025
+Compiled 6500000 lines at Mon Dec 15 12:37:35 2025
+Compiled 6600000 lines at Mon Dec 15 12:37:36 2025
+Compiled 6700000 lines at Mon Dec 15 12:37:37 2025
+Compiled 6800000 lines at Mon Dec 15 12:37:38 2025
+Merging 27648 inputb in round 1/1
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Bytecode/rcv_matrix-LTZ(1)_65-1.bc
+Writing to Programs/Bytecode/rcv_matrix-EQZ(1)_64-3.bc
+Writing to Programs/Schedules/rcv_matrix.sch
+Writing to Programs/Bytecode/rcv_matrix-0.bc
+Hash: fd7e12e470bbf80c537453f75bdb39ab131f63abba2e1d7815b905144b0094dd
+Program requires at most:
+      368640 bit inputs from player 0
+      368640 bit inputs from player 1
+      368640 bit inputs from player 2
+    22271616 bit triples
+       11664 integer dabits
+         577 integer opens
+       36144 integer triples
+       36144 integer simple multiplications
+       45072 integer bits
+      157946 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix -N 3 -IF Player-Data/matrix -pn 15703 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix -N 3 -IF Player-Data/matrix -pn 15703 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix -N 3 -IF Player-Data/matrix -pn 15703 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 12 --- 
+ --- Starting round 2 of 12 --- 
+ --- Starting round 3 of 12 --- 
+ --- Starting round 4 of 12 --- 
+ --- Starting round 5 of 12 --- 
+ --- Starting round 6 of 12 --- 
+ --- Starting round 7 of 12 --- 
+ --- Starting round 8 of 12 --- 
+ --- Starting round 9 of 12 --- 
+ --- Starting round 10 of 12 --- 
+ --- Starting round 11 of 12 --- 
+ --- Starting round 12 of 12 --- 
+ --- The winning candidate is: 10 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 450.07 seconds 
+Data sent = 68184.9 MB in ~1710229 rounds (party 0 only; use '-v' for more details)
+Global data sent = 204175 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)

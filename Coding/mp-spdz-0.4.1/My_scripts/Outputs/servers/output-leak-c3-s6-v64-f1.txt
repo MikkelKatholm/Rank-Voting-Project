@@ -6,11 +6,11 @@ The winner is candidate 2.
 Default bit length for compilation: 64
 Default security parameter for compilation: 40
 Compiling file rcv_matrix_leak.mpc
-Compiled 100000 lines at Fri Dec 12 13:26:57 2025
-Compiled 200000 lines at Fri Dec 12 13:26:58 2025
-Compiled 300000 lines at Fri Dec 12 13:26:59 2025
-Compiled 400000 lines at Fri Dec 12 13:27:01 2025
-Compiled 500000 lines at Fri Dec 12 13:27:02 2025
+Compiled 100000 lines at Mon Dec 15 10:42:03 2025
+Compiled 200000 lines at Mon Dec 15 10:42:05 2025
+Compiled 300000 lines at Mon Dec 15 10:42:06 2025
+Compiled 400000 lines at Mon Dec 15 10:42:08 2025
+Compiled 500000 lines at Mon Dec 15 10:42:09 2025
 WARNING: Order of memory instructions not preserved, errors possible
 Writing to Programs/Schedules/rcv_matrix_leak.sch
 Writing to Programs/Bytecode/rcv_matrix_leak-0.bc
@@ -24,13 +24,13 @@ Program requires at most:
        23040 bit inputs from player 5
       327168 bit triples
         7345 virtual machine rounds
-Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 6 -IF Player-Data/matrix -pn 19662 -h localhost -N 6
-Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 6 -IF Player-Data/matrix -pn 19662 -h localhost -N 6
-Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 6 -IF Player-Data/matrix -pn 19662 -h localhost -N 6
-Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 3 rcv_matrix_leak -N 6 -IF Player-Data/matrix -pn 19662 -h localhost -N 6
-Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 4 rcv_matrix_leak -N 6 -IF Player-Data/matrix -pn 19662 -h localhost -N 6
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 6 -IF Player-Data/matrix -pn 15100 -h localhost -N 6
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 6 -IF Player-Data/matrix -pn 15100 -h localhost -N 6
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 6 -IF Player-Data/matrix -pn 15100 -h localhost -N 6
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 3 rcv_matrix_leak -N 6 -IF Player-Data/matrix -pn 15100 -h localhost -N 6
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 4 rcv_matrix_leak -N 6 -IF Player-Data/matrix -pn 15100 -h localhost -N 6
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 5 rcv_matrix_leak -N 6 -IF Player-Data/matrix -pn 15100 -h localhost -N 6
 Using statistical security parameter 40
-Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 5 rcv_matrix_leak -N 6 -IF Player-Data/matrix -pn 19662 -h localhost -N 6
 
 
 
@@ -41,11 +41,11 @@ Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/..
 
  --- Round:  0
  --- Active candidates:  [1, 1, 1]
- --- Vote vector:        [22, 20, 22]
+ --- Vote vector:        [21, 21, 22]
 
  --- Round:  1
- --- Active candidates:  [1, 0, 1]
- --- Vote vector:        [30, 0, 34]
+ --- Active candidates:  [0, 1, 1]
+ --- Vote vector:        [0, 28, 36]
  
  --- The winning candidate is: 2 
 
@@ -53,6 +53,6 @@ Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/..
 
 
 The following benchmarks are including preprocessing (offline phase).
-Time = 22.156 seconds 
-Data sent = 1558.98 MB in ~72393 rounds (party 0 only; use '-v' for more details)
+Time = 21.8297 seconds 
+Data sent = 1558.98 MB in ~72401 rounds (party 0 only; use '-v' for more details)
 Global data sent = 9317.77 MB (all parties)

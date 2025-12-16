@@ -1,0 +1,53 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 2.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix_leak.mpc
+Compiled 100000 lines at Mon Dec 15 13:28:48 2025
+Compiled 200000 lines at Mon Dec 15 13:28:49 2025
+Compiled 300000 lines at Mon Dec 15 13:28:51 2025
+Compiled 400000 lines at Mon Dec 15 13:28:52 2025
+Compiled 500000 lines at Mon Dec 15 13:28:53 2025
+Compiled 600000 lines at Mon Dec 15 13:28:54 2025
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Schedules/rcv_matrix_leak.sch
+Writing to Programs/Bytecode/rcv_matrix_leak-0.bc
+Hash: aa8587ca964540a6a059fd4ec0d5726a6e66b866887228907f0b3303fe70dc9a
+Program requires at most:
+       28800 bit inputs from player 0
+       28800 bit inputs from player 1
+       28800 bit inputs from player 2
+      408960 bit triples
+        9169 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 19738 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 19738 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 19738 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  41
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [26, 25, 29]
+
+ --- Round:  1
+ --- Active candidates:  [1, 0, 1]
+ --- Vote vector:        [39, 0, 41]
+ 
+ --- The winning candidate is: 2 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 5.47289 seconds 
+Data sent = 778.503 MB in ~37365 rounds (party 0 only; use '-v' for more details)
+Global data sent = 2331 MB (all parties)

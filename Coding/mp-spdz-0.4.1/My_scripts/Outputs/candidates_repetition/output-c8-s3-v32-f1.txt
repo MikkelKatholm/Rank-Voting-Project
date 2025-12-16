@@ -1,0 +1,260 @@
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 8 --- 
+ --- Starting round 2 of 8 --- 
+ --- Starting round 3 of 8 --- 
+ --- Starting round 4 of 8 --- 
+ --- Starting round 5 of 8 --- 
+ --- Starting round 6 of 8 --- 
+ --- Starting round 7 of 8 --- 
+ --- Starting round 8 of 8 --- 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 75.023 seconds 
+Data sent = 11778.4 MB in ~300727 rounds (party 0 only; use '-v' for more details)
+Global data sent = 35274.1 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 8 --- 
+ --- Starting round 2 of 8 --- 
+ --- Starting round 3 of 8 --- 
+ --- Starting round 4 of 8 --- 
+ --- Starting round 5 of 8 --- 
+ --- Starting round 6 of 8 --- 
+ --- Starting round 7 of 8 --- 
+ --- Starting round 8 of 8 --- 
+ --- The winning candidate is: 1 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 75.8214 seconds 
+Data sent = 11778.4 MB in ~300727 rounds (party 0 only; use '-v' for more details)
+Global data sent = 35274.1 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 8 --- 
+ --- Starting round 2 of 8 --- 
+ --- Starting round 3 of 8 --- 
+ --- Starting round 4 of 8 --- 
+ --- Starting round 5 of 8 --- 
+ --- Starting round 6 of 8 --- 
+ --- Starting round 7 of 8 --- 
+ --- Starting round 8 of 8 --- 
+ --- The winning candidate is: 1 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 76.6233 seconds 
+Data sent = 11778.4 MB in ~300727 rounds (party 0 only; use '-v' for more details)
+Global data sent = 35274.1 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 8 --- 
+ --- Starting round 2 of 8 --- 
+ --- Starting round 3 of 8 --- 
+ --- Starting round 4 of 8 --- 
+ --- Starting round 5 of 8 --- 
+ --- Starting round 6 of 8 --- 
+ --- Starting round 7 of 8 --- 
+ --- Starting round 8 of 8 --- 
+ --- The winning candidate is: 1 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 77.2237 seconds 
+Data sent = 11778.4 MB in ~300727 rounds (party 0 only; use '-v' for more details)
+Global data sent = 35274.1 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 8 --- 
+ --- Starting round 2 of 8 --- 
+ --- Starting round 3 of 8 --- 
+ --- Starting round 4 of 8 --- 
+ --- Starting round 5 of 8 --- 
+ --- Starting round 6 of 8 --- 
+ --- Starting round 7 of 8 --- 
+ --- Starting round 8 of 8 --- 
+ --- The winning candidate is: 3 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 77.235 seconds 
+Data sent = 11778.4 MB in ~300727 rounds (party 0 only; use '-v' for more details)
+Global data sent = 35274.1 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 8 --- 
+ --- Starting round 2 of 8 --- 
+ --- Starting round 3 of 8 --- 
+ --- Starting round 4 of 8 --- 
+ --- Starting round 5 of 8 --- 
+ --- Starting round 6 of 8 --- 
+ --- Starting round 7 of 8 --- 
+ --- Starting round 8 of 8 --- 
+ --- The winning candidate is: 1 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 77.7087 seconds 
+Data sent = 11778.4 MB in ~300727 rounds (party 0 only; use '-v' for more details)
+Global data sent = 35274.1 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 8 --- 
+ --- Starting round 2 of 8 --- 
+ --- Starting round 3 of 8 --- 
+ --- Starting round 4 of 8 --- 
+ --- Starting round 5 of 8 --- 
+ --- Starting round 6 of 8 --- 
+ --- Starting round 7 of 8 --- 
+ --- Starting round 8 of 8 --- 
+ --- The winning candidate is: 2 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 77.59 seconds 
+Data sent = 11778.4 MB in ~300727 rounds (party 0 only; use '-v' for more details)
+Global data sent = 35274.1 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 8 --- 
+ --- Starting round 2 of 8 --- 
+ --- Starting round 3 of 8 --- 
+ --- Starting round 4 of 8 --- 
+ --- Starting round 5 of 8 --- 
+ --- Starting round 6 of 8 --- 
+ --- Starting round 7 of 8 --- 
+ --- Starting round 8 of 8 --- 
+ --- The winning candidate is: 1 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 77.3443 seconds 
+Data sent = 11778.4 MB in ~300729 rounds (party 0 only; use '-v' for more details)
+Global data sent = 35274.1 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 8 --- 
+ --- Starting round 2 of 8 --- 
+ --- Starting round 3 of 8 --- 
+ --- Starting round 4 of 8 --- 
+ --- Starting round 5 of 8 --- 
+ --- Starting round 6 of 8 --- 
+ --- Starting round 7 of 8 --- 
+ --- Starting round 8 of 8 --- 
+ --- The winning candidate is: 3 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 76.7137 seconds 
+Data sent = 11778.4 MB in ~300727 rounds (party 0 only; use '-v' for more details)
+Global data sent = 35274.1 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 8 --- 
+ --- Starting round 2 of 8 --- 
+ --- Starting round 3 of 8 --- 
+ --- Starting round 4 of 8 --- 
+ --- Starting round 5 of 8 --- 
+ --- Starting round 6 of 8 --- 
+ --- Starting round 7 of 8 --- 
+ --- Starting round 8 of 8 --- 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 77.3771 seconds 
+Data sent = 11778.4 MB in ~300727 rounds (party 0 only; use '-v' for more details)
+Global data sent = 35274.1 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)

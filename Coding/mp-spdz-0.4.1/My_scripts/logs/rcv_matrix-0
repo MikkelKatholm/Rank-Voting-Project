@@ -4,18 +4,4 @@ Using statistical security parameter 40
 
 
  ----- Starting RCV Protocol -----   
- --- Starting round 1 of 3 --- 
- --- Starting round 2 of 3 --- 
- --- Starting round 3 of 3 --- 
- --- The winning candidate is: 2 
-
-
-
-
-The following benchmarks are including preprocessing (offline phase).
-Time = 55.2321 seconds 
-Data sent = 4076.03 MB in ~123739 rounds (party 0 only; use '-v' for more details)
-Global data sent = 24379.1 MB (all parties)
-This program might benefit from some protocol options.
-Consider adding the following at the beginning of your code:
-	program.use_edabit(True)
+Fatal error at rcv_matrix-0:12 (INPUTB): cannot read integer from Player-Data/matrix-P0-0, problem with '' after 2592

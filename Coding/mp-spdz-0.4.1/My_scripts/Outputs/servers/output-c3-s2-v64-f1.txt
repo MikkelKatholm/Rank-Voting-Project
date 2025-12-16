@@ -2,44 +2,51 @@ Ballots written to files.
 Simulating election...
 New round of counting votes...
 New round of counting votes...
-The winner is candidate 0.
+The winner is candidate 1.
 Default bit length for compilation: 64
 Default security parameter for compilation: 40
 Compiling file rcv_matrix.mpc
-Compiled 100000 lines at Fri Dec 12 13:22:58 2025
-Compiled 200000 lines at Fri Dec 12 13:22:59 2025
-Compiled 300000 lines at Fri Dec 12 13:23:00 2025
-Compiled 400000 lines at Fri Dec 12 13:23:01 2025
-Compiled 500000 lines at Fri Dec 12 13:23:02 2025
+Compiled 100000 lines at Mon Dec 15 10:50:41 2025
+Compiled 200000 lines at Mon Dec 15 10:50:42 2025
+Compiled 300000 lines at Mon Dec 15 10:50:44 2025
+Compiled 400000 lines at Mon Dec 15 10:50:45 2025
+Compiled 500000 lines at Mon Dec 15 10:50:46 2025
 WARNING: Order of memory instructions not preserved, errors possible
 Writing to Programs/Bytecode/rcv_matrix-LTZ(1)_65-1.bc
 Writing to Programs/Bytecode/rcv_matrix-EQZ(1)_64-3.bc
-Traceback (most recent call last):
-  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/My_scripts/./../compile.py", line 41, in <module>
-    main(compiler)
-  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/My_scripts/./../compile.py", line 36, in main
-    compilation(compiler)
-  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/My_scripts/./../compile.py", line 19, in compilation
-    prog = compiler.compile_file()
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/compilerLib.py", line 545, in compile_file
-    return self.finalize_compile()
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/compilerLib.py", line 578, in finalize_compile
-    self.prog.finalize()
-  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/program.py", line 582, in finalize
-    tape.optimize(self.options)
-  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/program.py", line 1093, in wrapper
-    return function(self, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/program.py", line 1262, in optimize
-    allocator.process(block.instructions, block.alloc_pool)
-  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/allocator.py", line 250, in process
-    self.dealloc_reg(j, i, alloc_pool)
-  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/allocator.py", line 195, in dealloc_reg
-    while to_check:
-          ^^^^^^^^
-  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/util.py", line 257, in __bool__
-    return bool(self.content)
-           ^^^^^^^^^^^^^^^^^^
-KeyboardInterrupt
+Writing to Programs/Schedules/rcv_matrix.sch
+Writing to Programs/Bytecode/rcv_matrix-0.bc
+Hash: fbce06e363dd82dcf1be7838c48a9baff8aac8e6acced754941878d2c7bd69ef
+Program requires at most:
+       23040 bit inputs from player 0
+       23040 bit inputs from player 1
+      396648 bit triples
+         729 integer dabits
+          37 integer opens
+        2259 integer triples
+        2259 integer simple multiplications
+        2817 integer bits
+        7628 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix -N 2 -IF Player-Data/matrix -pn 10137 -h localhost -N 2
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix -N 2 -IF Player-Data/matrix -pn 10137 -h localhost -N 2
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 3 --- 
+ --- Starting round 2 of 3 --- 
+ --- Starting round 3 of 3 --- 
+ --- The winning candidate is: 1 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 5.71824 seconds 
+Data sent = 755.169 MB in ~27609 rounds (party 0 only; use '-v' for more details)
+Global data sent = 1510.34 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)

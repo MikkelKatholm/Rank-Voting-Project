@@ -1,0 +1,239 @@
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  17
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [17, 14, 1]
+ 
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 7.65287 seconds 
+Data sent = 475.583 MB in ~22100 rounds (party 0 only; use '-v' for more details)
+Global data sent = 3315.35 MB (all parties)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  17
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [15, 13, 4]
+
+ --- Round:  1
+ --- Active candidates:  [1, 1, 0]
+ --- Vote vector:        [16, 16, 0]
+
+ --- Round:  2
+ --- Active candidates:  [0, 1, 0]
+ --- Vote vector:        [0, 29, 0]
+ --- The winning candidate is: 1 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 22.738 seconds 
+Data sent = 1405.06 MB in ~65242 rounds (party 0 only; use '-v' for more details)
+Global data sent = 9794.72 MB (all parties)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  17
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [16, 10, 6]
+
+ --- Round:  1
+ --- Active candidates:  [1, 1, 0]
+ --- Vote vector:        [21, 11, 0]
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 15.1561 seconds 
+Data sent = 940.32 MB in ~43674 rounds (party 0 only; use '-v' for more details)
+Global data sent = 6555.04 MB (all parties)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  17
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [20, 7, 5]
+ 
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 7.66171 seconds 
+Data sent = 475.583 MB in ~22102 rounds (party 0 only; use '-v' for more details)
+Global data sent = 3315.35 MB (all parties)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  17
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [19, 8, 5]
+ 
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 7.66222 seconds 
+Data sent = 475.583 MB in ~22094 rounds (party 0 only; use '-v' for more details)
+Global data sent = 3315.35 MB (all parties)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  17
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [17, 6, 9]
+ 
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 7.63357 seconds 
+Data sent = 475.583 MB in ~22102 rounds (party 0 only; use '-v' for more details)
+Global data sent = 3315.35 MB (all parties)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  17
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [18, 11, 3]
+ 
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 7.66587 seconds 
+Data sent = 475.583 MB in ~22098 rounds (party 0 only; use '-v' for more details)
+Global data sent = 3315.35 MB (all parties)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  17
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [22, 3, 6]
+ 
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 7.67252 seconds 
+Data sent = 475.583 MB in ~22098 rounds (party 0 only; use '-v' for more details)
+Global data sent = 3315.35 MB (all parties)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  17
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [19, 9, 4]
+ 
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 7.67642 seconds 
+Data sent = 475.583 MB in ~22102 rounds (party 0 only; use '-v' for more details)
+Global data sent = 3315.35 MB (all parties)
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  17
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [18, 8, 6]
+ 
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 7.67734 seconds 
+Data sent = 475.583 MB in ~22094 rounds (party 0 only; use '-v' for more details)
+Global data sent = 3315.35 MB (all parties)

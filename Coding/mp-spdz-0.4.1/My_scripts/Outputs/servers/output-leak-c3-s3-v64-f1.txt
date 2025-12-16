@@ -6,11 +6,11 @@ The winner is candidate 1.
 Default bit length for compilation: 64
 Default security parameter for compilation: 40
 Compiling file rcv_matrix_leak.mpc
-Compiled 100000 lines at Fri Dec 12 13:24:56 2025
-Compiled 200000 lines at Fri Dec 12 13:24:57 2025
-Compiled 300000 lines at Fri Dec 12 13:24:59 2025
-Compiled 400000 lines at Fri Dec 12 13:25:00 2025
-Compiled 500000 lines at Fri Dec 12 13:25:01 2025
+Compiled 100000 lines at Mon Dec 15 11:10:07 2025
+Compiled 200000 lines at Mon Dec 15 11:10:08 2025
+Compiled 300000 lines at Mon Dec 15 11:10:09 2025
+Compiled 400000 lines at Mon Dec 15 11:10:10 2025
+Compiled 500000 lines at Mon Dec 15 11:10:12 2025
 WARNING: Order of memory instructions not preserved, errors possible
 Writing to Programs/Schedules/rcv_matrix_leak.sch
 Writing to Programs/Bytecode/rcv_matrix_leak-0.bc
@@ -21,9 +21,9 @@ Program requires at most:
        23040 bit inputs from player 2
       327168 bit triples
         7345 virtual machine rounds
-Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 13749 -h localhost -N 3
-Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 13749 -h localhost -N 3
-Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 13749 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 18997 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 18997 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 18997 -h localhost -N 3
 Using statistical security parameter 40
 
 
@@ -35,11 +35,11 @@ Using statistical security parameter 40
 
  --- Round:  0
  --- Active candidates:  [1, 1, 1]
- --- Vote vector:        [18, 26, 20]
+ --- Vote vector:        [20, 23, 21]
 
  --- Round:  1
  --- Active candidates:  [0, 1, 1]
- --- Vote vector:        [0, 34, 30]
+ --- Vote vector:        [0, 35, 29]
  
  --- The winning candidate is: 1 
 
@@ -47,6 +47,6 @@ Using statistical security parameter 40
 
 
 The following benchmarks are including preprocessing (offline phase).
-Time = 4.12422 seconds 
+Time = 4.0475 seconds 
 Data sent = 623.59 MB in ~29957 rounds (party 0 only; use '-v' for more details)
 Global data sent = 1867.16 MB (all parties)

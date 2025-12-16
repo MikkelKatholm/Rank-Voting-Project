@@ -1,0 +1,50 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 0.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix_leak.mpc
+Compiled 100000 lines at Mon Dec 15 13:23:54 2025
+Compiled 200000 lines at Mon Dec 15 13:23:56 2025
+Compiled 300000 lines at Mon Dec 15 13:23:57 2025
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Schedules/rcv_matrix_leak.sch
+Writing to Programs/Bytecode/rcv_matrix_leak-0.bc
+Hash: 0345e927beca433ec552c58815abd1c1187e1c3c3f8ba4f6b5f5253688f581ae
+Program requires at most:
+       14400 bit inputs from player 0
+       14400 bit inputs from player 1
+       14400 bit inputs from player 2
+      204480 bit triples
+        4609 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 10509 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 10509 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 10509 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  21
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [13, 12, 15]
+
+ --- Round:  1
+ --- Active candidates:  [1, 0, 1]
+ --- Vote vector:        [21, 0, 19]
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 2.63698 seconds 
+Data sent = 389.434 MB in ~18790 rounds (party 0 only; use '-v' for more details)
+Global data sent = 1166.05 MB (all parties)

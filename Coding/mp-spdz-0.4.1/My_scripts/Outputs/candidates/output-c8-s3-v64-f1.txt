@@ -1,0 +1,91 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 2.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix.mpc
+Compiled 100000 lines at Mon Dec 15 11:32:22 2025
+Compiled 200000 lines at Mon Dec 15 11:32:23 2025
+Compiled 300000 lines at Mon Dec 15 11:32:24 2025
+Compiled 400000 lines at Mon Dec 15 11:32:26 2025
+Compiled 500000 lines at Mon Dec 15 11:32:27 2025
+Compiled 600000 lines at Mon Dec 15 11:32:28 2025
+Compiled 700000 lines at Mon Dec 15 11:32:30 2025
+Compiled 800000 lines at Mon Dec 15 11:32:31 2025
+Compiled 900000 lines at Mon Dec 15 11:32:32 2025
+Compiled 1000000 lines at Mon Dec 15 11:32:33 2025
+Compiled 1100000 lines at Mon Dec 15 11:32:35 2025
+Compiled 1200000 lines at Mon Dec 15 11:32:36 2025
+Compiled 1300000 lines at Mon Dec 15 11:32:37 2025
+Compiled 1400000 lines at Mon Dec 15 11:32:39 2025
+Compiled 1500000 lines at Mon Dec 15 11:32:40 2025
+Compiled 1600000 lines at Mon Dec 15 11:32:41 2025
+Compiled 1700000 lines at Mon Dec 15 11:32:43 2025
+Compiled 1800000 lines at Mon Dec 15 11:32:44 2025
+Compiled 1900000 lines at Mon Dec 15 11:32:45 2025
+Compiled 2000000 lines at Mon Dec 15 11:32:46 2025
+Compiled 2100000 lines at Mon Dec 15 11:32:48 2025
+Compiled 2200000 lines at Mon Dec 15 11:32:49 2025
+Compiled 2300000 lines at Mon Dec 15 11:32:50 2025
+Compiled 2400000 lines at Mon Dec 15 11:32:51 2025
+Compiled 2500000 lines at Mon Dec 15 11:32:52 2025
+Compiled 2600000 lines at Mon Dec 15 11:32:55 2025
+Compiled 2700000 lines at Mon Dec 15 11:32:56 2025
+Compiled 2800000 lines at Mon Dec 15 11:32:57 2025
+Compiled 2900000 lines at Mon Dec 15 11:32:58 2025
+Compiled 3000000 lines at Mon Dec 15 11:32:59 2025
+Merging 12288 inputb in round 1/1
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Bytecode/rcv_matrix-LTZ(1)_65-1.bc
+Compiled 3100000 lines at Mon Dec 15 11:34:11 2025
+Writing to Programs/Bytecode/rcv_matrix-EQZ(1)_64-3.bc
+Writing to Programs/Schedules/rcv_matrix.sch
+Writing to Programs/Bytecode/rcv_matrix-0.bc
+Hash: 34661289e6124a6127b0984c4ab6cecd4437ebc9642d4d07ddae4b7e078d0916
+Program requires at most:
+      163840 bit inputs from player 0
+      163840 bit inputs from player 1
+      163840 bit inputs from player 2
+     6752768 bit triples
+        5184 integer dabits
+         257 integer opens
+       16064 integer triples
+       16064 integer simple multiplications
+       20032 integer bits
+       61330 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix -N 3 -IF Player-Data/matrix -pn 13080 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix -N 3 -IF Player-Data/matrix -pn 13080 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix -N 3 -IF Player-Data/matrix -pn 13080 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 8 --- 
+ --- Starting round 2 of 8 --- 
+ --- Starting round 3 of 8 --- 
+ --- Starting round 4 of 8 --- 
+ --- Starting round 5 of 8 --- 
+ --- Starting round 6 of 8 --- 
+ --- Starting round 7 of 8 --- 
+ --- Starting round 8 of 8 --- 
+ --- The winning candidate is: 2 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 140.957 seconds 
+Data sent = 21394.3 MB in ~577631 rounds (party 0 only; use '-v' for more details)
+Global data sent = 64066.1 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)

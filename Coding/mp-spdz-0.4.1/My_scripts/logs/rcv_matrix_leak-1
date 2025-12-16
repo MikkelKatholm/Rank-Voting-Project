@@ -1,5 +1,5 @@
 Using statistical security parameter 40
 The following benchmarks are including preprocessing (offline phase).
-Time = 22.1558 seconds 
-Data sent = 1551.76 MB in ~25834 rounds (party 1 only; use '-v' for more details)
-Global data sent = 9317.77 MB (all parties)
+Time = 62.8049 seconds 
+Data sent = 9691.06 MB in ~195144 rounds (party 1 only; use '-v' for more details)
+Global data sent = 29101.3 MB (all parties)

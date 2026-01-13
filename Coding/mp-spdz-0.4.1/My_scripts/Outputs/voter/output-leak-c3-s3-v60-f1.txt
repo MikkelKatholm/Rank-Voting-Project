@@ -1,0 +1,51 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 1.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix_leak.mpc
+Compiled 100000 lines at Mon Dec 15 13:25:58 2025
+Compiled 200000 lines at Mon Dec 15 13:26:00 2025
+Compiled 300000 lines at Mon Dec 15 13:26:01 2025
+Compiled 400000 lines at Mon Dec 15 13:26:02 2025
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Schedules/rcv_matrix_leak.sch
+Writing to Programs/Bytecode/rcv_matrix_leak-0.bc
+Hash: ea7dbfdc65eb6c6e4ca5ad7def658696296425d52d57947363ba17f183d0faa3
+Program requires at most:
+       21600 bit inputs from player 0
+       21600 bit inputs from player 1
+       21600 bit inputs from player 2
+      306720 bit triples
+        6889 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 12053 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 12053 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 12053 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  31
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [21, 22, 17]
+
+ --- Round:  1
+ --- Active candidates:  [1, 1, 0]
+ --- Vote vector:        [27, 33, 0]
+ 
+ --- The winning candidate is: 1 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 3.83804 seconds 
+Data sent = 585.592 MB in ~28117 rounds (party 0 only; use '-v' for more details)
+Global data sent = 1753.39 MB (all parties)

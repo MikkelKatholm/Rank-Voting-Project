@@ -5,6 +5,8 @@ import random
 
 Matrix = list[list[int]]
 
+print_ballots = False
+
 def build_matrix(priorities: list[int]) -> Matrix:
     size = len(priorities)
     matrix = [[0]*size for _ in range(size)]
@@ -35,7 +37,7 @@ def gen_rand_int(lower: int, upper: int) -> int:
     return random.randint(lower, upper)
 
 def gen_shares(secret: int) -> list[int]:
-    shares = [gen_rand_int(1, FIELD_SIZE-1) for _ in range(THRESHOLD-1)]
+    shares = [gen_rand_int(0, FIELD_SIZE-1) for _ in range(THRESHOLD-1)]
     last_share = (secret - sum(shares)) % FIELD_SIZE
     shares.append(last_share)
     return shares
@@ -133,9 +135,8 @@ def write_all_ballots(ss_matrices: list[list[Matrix]]):
     for shared_matrices in ss_matrices:
         for party_id in range(NUM_PARTIES):
             write_ballots_to_file([shared_matrices[party_id]], party_id)
-    
 
-if __name__ == "__main__":
+def main():
     NUM_REAL_VOTES = min(NUM_VOTES, NUM_VOTES)
     NUM_BLANK_VOTES = NUM_VOTES - NUM_REAL_VOTES
     
@@ -143,11 +144,12 @@ if __name__ == "__main__":
     blank_ballots = generate_blank_ballots(NUM_BLANK_VOTES, NUM_CANDIDATES)
     ballots.extend(blank_ballots)
     matrices = build_all_matrices(ballots)
-    for matrix in matrices:
-        print("Generated Matrix:")
-        for row in matrix:
-            print(row)
-        print()
+    if print_ballots:
+        for matrix in matrices:
+            print("Generated Matrix:")
+            for row in matrix:
+                print(row)
+            print()
     secret_shared_matrices = secret_share_matrices(matrices)
         
 
@@ -156,3 +158,6 @@ if __name__ == "__main__":
     print("Simulating election...")
     winner = simulate_election(ballots)
     print(f"The winner is candidate {winner}.")
+
+if __name__ == "__main__":
+    main()

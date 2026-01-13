@@ -1,8 +1,2 @@
 Using statistical security parameter 40
-The following benchmarks are including preprocessing (offline phase).
-Time = 5.11506 seconds 
-Data sent = 362.233 MB in ~3612 rounds (party 1 only; use '-v' for more details)
-Global data sent = 1087.13 MB (all parties)
-This program might benefit from some protocol options.
-Consider adding the following at the beginning of your code:
-	program.use_edabit(True)
+Fatal error in OT thread: Connection closed down. This is most likely due to a problem on the other side. If there's no error message on the other side, it might be due to a lack of memory. See https://mp-spdz.readthedocs.io/en/latest/troubleshooting.html#crash-without-error-message-killed-or-bad-alloc for possible remedies.

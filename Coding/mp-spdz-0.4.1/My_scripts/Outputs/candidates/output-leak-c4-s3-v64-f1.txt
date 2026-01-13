@@ -1,0 +1,60 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 3.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix_leak.mpc
+Compiled 100000 lines at Mon Dec 15 11:14:55 2025
+Compiled 200000 lines at Mon Dec 15 11:14:57 2025
+Compiled 300000 lines at Mon Dec 15 11:14:58 2025
+Compiled 400000 lines at Mon Dec 15 11:14:59 2025
+Compiled 500000 lines at Mon Dec 15 11:15:00 2025
+Compiled 600000 lines at Mon Dec 15 11:15:02 2025
+Compiled 700000 lines at Mon Dec 15 11:15:03 2025
+Compiled 800000 lines at Mon Dec 15 11:15:04 2025
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Schedules/rcv_matrix_leak.sch
+Writing to Programs/Bytecode/rcv_matrix_leak-0.bc
+Hash: b8d7e3e5cf9404d89e7d23c02091a7aedaa5da333da64f8e15fd47e985e3f79a
+Program requires at most:
+       40960 bit inputs from player 0
+       40960 bit inputs from player 1
+       40960 bit inputs from player 2
+      737280 bit triples
+       13601 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 18929 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 18929 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 18929 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  33
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1, 1]
+ --- Vote vector:        [17, 13, 14, 20]
+
+ --- Round:  1
+ --- Active candidates:  [1, 0, 1, 1]
+ --- Vote vector:        [20, 0, 20, 24]
+
+ --- Round:  2
+ --- Active candidates:  [0, 0, 1, 1]
+ --- Vote vector:        [0, 0, 30, 34]
+ 
+ --- The winning candidate is: 3 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 10.3035 seconds 
+Data sent = 1577.09 MB in ~66887 rounds (party 0 only; use '-v' for more details)
+Global data sent = 4722.15 MB (all parties)

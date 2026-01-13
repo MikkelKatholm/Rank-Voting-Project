@@ -1,0 +1,62 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 0.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix_leak.mpc
+Compiled 100000 lines at Mon Dec 15 13:58:47 2025
+Compiled 200000 lines at Mon Dec 15 13:58:48 2025
+Compiled 300000 lines at Mon Dec 15 13:58:49 2025
+Compiled 400000 lines at Mon Dec 15 13:58:51 2025
+Compiled 500000 lines at Mon Dec 15 13:58:52 2025
+Compiled 600000 lines at Mon Dec 15 13:58:53 2025
+Compiled 700000 lines at Mon Dec 15 13:58:55 2025
+Compiled 800000 lines at Mon Dec 15 13:58:56 2025
+Compiled 900000 lines at Mon Dec 15 13:58:57 2025
+Compiled 1000000 lines at Mon Dec 15 13:58:58 2025
+Compiled 1100000 lines at Mon Dec 15 13:59:00 2025
+Compiled 1200000 lines at Mon Dec 15 13:59:01 2025
+Compiled 1300000 lines at Mon Dec 15 13:59:02 2025
+Compiled 1400000 lines at Mon Dec 15 13:59:04 2025
+Compiled 1500000 lines at Mon Dec 15 13:59:05 2025
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Schedules/rcv_matrix_leak.sch
+Writing to Programs/Bytecode/rcv_matrix_leak-0.bc
+Hash: 45c3e9c92c7cabd33b9bac83a05c6703936c7916bc6a4355c8523a56998aef15
+Program requires at most:
+       68400 bit inputs from player 0
+       68400 bit inputs from player 1
+       68400 bit inputs from player 2
+      971280 bit triples
+       21709 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 19536 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 19536 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 19536 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  96
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [69, 62, 59]
+
+ --- Round:  1
+ --- Active candidates:  [1, 1, 0]
+ --- Vote vector:        [103, 87, 0]
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 12.299 seconds 
+Data sent = 1849.58 MB in ~88497 rounds (party 0 only; use '-v' for more details)
+Global data sent = 5538.03 MB (all parties)

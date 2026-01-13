@@ -1,0 +1,91 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 1.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix_leak.mpc
+Compiled 100000 lines at Mon Dec 15 11:28:54 2025
+Compiled 200000 lines at Mon Dec 15 11:28:55 2025
+Compiled 300000 lines at Mon Dec 15 11:28:56 2025
+Compiled 400000 lines at Mon Dec 15 11:28:58 2025
+Compiled 500000 lines at Mon Dec 15 11:28:59 2025
+Compiled 600000 lines at Mon Dec 15 11:29:00 2025
+Compiled 700000 lines at Mon Dec 15 11:29:02 2025
+Compiled 800000 lines at Mon Dec 15 11:29:03 2025
+Compiled 900000 lines at Mon Dec 15 11:29:04 2025
+Compiled 1000000 lines at Mon Dec 15 11:29:05 2025
+Compiled 1100000 lines at Mon Dec 15 11:29:07 2025
+Compiled 1200000 lines at Mon Dec 15 11:29:08 2025
+Compiled 1300000 lines at Mon Dec 15 11:29:09 2025
+Compiled 1400000 lines at Mon Dec 15 11:29:10 2025
+Compiled 1500000 lines at Mon Dec 15 11:29:11 2025
+Compiled 1600000 lines at Mon Dec 15 11:29:12 2025
+Compiled 1700000 lines at Mon Dec 15 11:29:14 2025
+Compiled 1800000 lines at Mon Dec 15 11:29:15 2025
+Compiled 1900000 lines at Mon Dec 15 11:29:16 2025
+Compiled 2000000 lines at Mon Dec 15 11:29:17 2025
+Compiled 2100000 lines at Mon Dec 15 11:29:20 2025
+Compiled 2200000 lines at Mon Dec 15 11:29:21 2025
+Compiled 2300000 lines at Mon Dec 15 11:29:22 2025
+Compiled 2400000 lines at Mon Dec 15 11:29:23 2025
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Schedules/rcv_matrix_leak.sch
+Writing to Programs/Bytecode/rcv_matrix_leak-0.bc
+Hash: 9447adf95eff180a71ce9a0f39248fe16e5e0eda9e59baacbef3ecbb06634266
+Program requires at most:
+      125440 bit inputs from player 0
+      125440 bit inputs from player 1
+      125440 bit inputs from player 2
+     3687936 bit triples
+       44759 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 16080 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 16080 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 16080 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  33
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1, 1, 1, 1, 1]
+ --- Vote vector:        [5, 16, 10, 3, 11, 7, 12]
+
+ --- Round:  1
+ --- Active candidates:  [1, 1, 1, 0, 1, 1, 1]
+ --- Vote vector:        [6, 16, 11, 0, 12, 7, 12]
+
+ --- Round:  2
+ --- Active candidates:  [0, 1, 1, 0, 1, 1, 1]
+ --- Vote vector:        [0, 16, 14, 0, 12, 9, 13]
+
+ --- Round:  3
+ --- Active candidates:  [0, 1, 1, 0, 1, 0, 1]
+ --- Vote vector:        [0, 19, 15, 0, 14, 0, 16]
+
+ --- Round:  4
+ --- Active candidates:  [0, 1, 1, 0, 0, 0, 1]
+ --- Vote vector:        [0, 24, 19, 0, 0, 0, 21]
+
+ --- Round:  5
+ --- Active candidates:  [0, 1, 0, 0, 0, 0, 1]
+ --- Vote vector:        [0, 34, 0, 0, 0, 0, 30]
+ 
+ --- The winning candidate is: 1 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 56.5444 seconds 
+Data sent = 9009.63 MB in ~301819 rounds (party 0 only; use '-v' for more details)
+Global data sent = 26976.7 MB (all parties)

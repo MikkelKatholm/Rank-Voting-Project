@@ -1,0 +1,65 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 2.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix.mpc
+Compiled 100000 lines at Mon Dec 15 11:15:55 2025
+Compiled 200000 lines at Mon Dec 15 11:15:56 2025
+Compiled 300000 lines at Mon Dec 15 11:15:58 2025
+Compiled 400000 lines at Mon Dec 15 11:15:59 2025
+Compiled 500000 lines at Mon Dec 15 11:16:00 2025
+Compiled 600000 lines at Mon Dec 15 11:16:02 2025
+Compiled 700000 lines at Mon Dec 15 11:16:03 2025
+Compiled 800000 lines at Mon Dec 15 11:16:04 2025
+Compiled 900000 lines at Mon Dec 15 11:16:06 2025
+Compiled 1000000 lines at Mon Dec 15 11:16:07 2025
+Compiled 1100000 lines at Mon Dec 15 11:16:09 2025
+Compiled 1200000 lines at Mon Dec 15 11:16:10 2025
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Bytecode/rcv_matrix-LTZ(1)_65-1.bc
+Writing to Programs/Bytecode/rcv_matrix-EQZ(1)_64-3.bc
+Writing to Programs/Schedules/rcv_matrix.sch
+Writing to Programs/Bytecode/rcv_matrix-0.bc
+Hash: b33d5e42f3430533e9f4923614fd08963dd880d1796e009c2e4dbf6710b2e013
+Program requires at most:
+       64000 bit inputs from player 0
+       64000 bit inputs from player 1
+       64000 bit inputs from player 2
+     1716200 bit triples
+        2025 integer dabits
+         101 integer opens
+        6275 integer triples
+        6275 integer simple multiplications
+        7825 integer bits
+       22867 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix -N 3 -IF Player-Data/matrix -pn 18043 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix -N 3 -IF Player-Data/matrix -pn 18043 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix -N 3 -IF Player-Data/matrix -pn 18043 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol -----   
+ --- Starting round 1 of 5 --- 
+ --- Starting round 2 of 5 --- 
+ --- Starting round 3 of 5 --- 
+ --- Starting round 4 of 5 --- 
+ --- Starting round 5 of 5 --- 
+ --- The winning candidate is: 2 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 37.1386 seconds 
+Data sent = 5806.68 MB in ~178241 rounds (party 0 only; use '-v' for more details)
+Global data sent = 17389.5 MB (all parties)
+This program might benefit from some protocol options.
+Consider adding the following at the beginning of your code:
+	program.use_edabit(True)

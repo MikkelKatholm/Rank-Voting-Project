@@ -1,0 +1,55 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 0.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix_leak.mpc
+Compiled 100000 lines at Mon Dec 15 13:32:31 2025
+Compiled 200000 lines at Mon Dec 15 13:32:32 2025
+Compiled 300000 lines at Mon Dec 15 13:32:34 2025
+Compiled 400000 lines at Mon Dec 15 13:32:35 2025
+Compiled 500000 lines at Mon Dec 15 13:32:36 2025
+Compiled 600000 lines at Mon Dec 15 13:32:38 2025
+Compiled 700000 lines at Mon Dec 15 13:32:39 2025
+Compiled 800000 lines at Mon Dec 15 13:32:40 2025
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Schedules/rcv_matrix_leak.sch
+Writing to Programs/Bytecode/rcv_matrix_leak-0.bc
+Hash: c6d747e33c067d67d21cb1da550542ee22577e40e046d5ac63405732bbfe99ee
+Program requires at most:
+       36000 bit inputs from player 0
+       36000 bit inputs from player 1
+       36000 bit inputs from player 2
+      511200 bit triples
+       11449 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 13375 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 13375 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 13375 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  51
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [35, 34, 31]
+
+ --- Round:  1
+ --- Active candidates:  [1, 1, 0]
+ --- Vote vector:        [52, 48, 0]
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 6.70052 seconds 
+Data sent = 974.661 MB in ~46692 rounds (party 0 only; use '-v' for more details)
+Global data sent = 2918.34 MB (all parties)

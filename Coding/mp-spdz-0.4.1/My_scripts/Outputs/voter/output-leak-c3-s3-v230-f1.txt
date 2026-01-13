@@ -1,0 +1,59 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 1.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix_leak.mpc
+Compiled 100000 lines at Mon Dec 15 14:16:02 2025
+Compiled 200000 lines at Mon Dec 15 14:16:04 2025
+Compiled 300000 lines at Mon Dec 15 14:16:05 2025
+Compiled 400000 lines at Mon Dec 15 14:16:06 2025
+Compiled 500000 lines at Mon Dec 15 14:16:08 2025
+Compiled 600000 lines at Mon Dec 15 14:16:09 2025
+Compiled 700000 lines at Mon Dec 15 14:16:11 2025
+Compiled 800000 lines at Mon Dec 15 14:16:12 2025
+Compiled 900000 lines at Mon Dec 15 14:16:13 2025
+Compiled 1000000 lines at Mon Dec 15 14:16:14 2025
+Compiled 1100000 lines at Mon Dec 15 14:16:16 2025
+Compiled 1200000 lines at Mon Dec 15 14:16:17 2025
+Compiled 1300000 lines at Mon Dec 15 14:16:18 2025
+Compiled 1400000 lines at Mon Dec 15 14:16:20 2025
+Compiled 1500000 lines at Mon Dec 15 14:16:21 2025
+Compiled 1600000 lines at Mon Dec 15 14:16:22 2025
+Compiled 1700000 lines at Mon Dec 15 14:16:24 2025
+Compiled 1800000 lines at Mon Dec 15 14:16:25 2025
+WARNING: Order of memory instructions not preserved, errors possible
+Traceback (most recent call last):
+  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/My_scripts/./../compile.py", line 41, in <module>
+    main(compiler)
+  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/My_scripts/./../compile.py", line 36, in main
+    compilation(compiler)
+  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/My_scripts/./../compile.py", line 19, in compilation
+    prog = compiler.compile_file()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/compilerLib.py", line 545, in compile_file
+    return self.finalize_compile()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/compilerLib.py", line 578, in finalize_compile
+    self.prog.finalize()
+  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/program.py", line 582, in finalize
+    tape.optimize(self.options)
+  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/program.py", line 1093, in wrapper
+    return function(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/program.py", line 1140, in optimize
+    merger = al.Merger(block, options, tuple(self.program.to_merge))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/allocator.py", line 351, in __init__
+    self.dependency_graph(merge_classes)
+  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/allocator.py", line 585, in dependency_graph
+    for reg in inputs:
+  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/instructions_base.py", line 1049, in <genexpr>
+    format_str_is_reg(w) and not format_str_is_writeable(w))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Compiler/instructions_base.py", line 976, in format_str_is_writeable
+    def format_str_is_writeable(format_str):
+    
+KeyboardInterrupt

@@ -1,0 +1,104 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 5.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix_leak.mpc
+Compiled 100000 lines at Mon Dec 15 11:38:01 2025
+Compiled 200000 lines at Mon Dec 15 11:38:02 2025
+Compiled 300000 lines at Mon Dec 15 11:38:04 2025
+Compiled 400000 lines at Mon Dec 15 11:38:05 2025
+Compiled 500000 lines at Mon Dec 15 11:38:06 2025
+Compiled 600000 lines at Mon Dec 15 11:38:08 2025
+Compiled 700000 lines at Mon Dec 15 11:38:09 2025
+Compiled 800000 lines at Mon Dec 15 11:38:10 2025
+Compiled 900000 lines at Mon Dec 15 11:38:12 2025
+Compiled 1000000 lines at Mon Dec 15 11:38:13 2025
+Compiled 1100000 lines at Mon Dec 15 11:38:15 2025
+Compiled 1200000 lines at Mon Dec 15 11:38:15 2025
+Compiled 1300000 lines at Mon Dec 15 11:38:17 2025
+Compiled 1400000 lines at Mon Dec 15 11:38:18 2025
+Compiled 1500000 lines at Mon Dec 15 11:38:19 2025
+Compiled 1600000 lines at Mon Dec 15 11:38:20 2025
+Compiled 1700000 lines at Mon Dec 15 11:38:23 2025
+Compiled 1800000 lines at Mon Dec 15 11:38:24 2025
+Compiled 1900000 lines at Mon Dec 15 11:38:25 2025
+Compiled 2000000 lines at Mon Dec 15 11:38:26 2025
+Compiled 2100000 lines at Mon Dec 15 11:38:28 2025
+Compiled 2200000 lines at Mon Dec 15 11:38:29 2025
+Compiled 2300000 lines at Mon Dec 15 11:38:30 2025
+Compiled 2400000 lines at Mon Dec 15 11:38:32 2025
+Compiled 2500000 lines at Mon Dec 15 11:38:33 2025
+Compiled 2600000 lines at Mon Dec 15 11:38:36 2025
+Compiled 2700000 lines at Mon Dec 15 11:38:37 2025
+Compiled 2800000 lines at Mon Dec 15 11:38:38 2025
+Compiled 2900000 lines at Mon Dec 15 11:38:39 2025
+Compiled 3000000 lines at Mon Dec 15 11:38:40 2025
+Compiled 3100000 lines at Mon Dec 15 11:38:41 2025
+Merging 12288 inputb in round 1/1
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Schedules/rcv_matrix_leak.sch
+Writing to Programs/Bytecode/rcv_matrix_leak-0.bc
+Hash: 31c75d808070a25542be50efb914a459e0a5a6db1e76e353919b7841e68ce053
+Program requires at most:
+      163840 bit inputs from player 0
+      163840 bit inputs from player 1
+      163840 bit inputs from player 2
+     5439488 bit triples
+       59337 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 16148 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 16148 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 16148 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  33
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1, 1, 1, 1, 1, 1]
+ --- Vote vector:        [6, 7, 9, 6, 9, 13, 8, 6]
+
+ --- Round:  1
+ --- Active candidates:  [0, 1, 1, 1, 1, 1, 1, 1]
+ --- Vote vector:        [0, 8, 10, 6, 9, 15, 9, 7]
+
+ --- Round:  2
+ --- Active candidates:  [0, 1, 1, 0, 1, 1, 1, 1]
+ --- Vote vector:        [0, 9, 12, 0, 10, 17, 9, 7]
+
+ --- Round:  3
+ --- Active candidates:  [0, 1, 1, 0, 1, 1, 1, 0]
+ --- Vote vector:        [0, 11, 12, 0, 11, 17, 13, 0]
+
+ --- Round:  4
+ --- Active candidates:  [0, 0, 1, 0, 1, 1, 1, 0]
+ --- Vote vector:        [0, 0, 15, 0, 11, 23, 15, 0]
+
+ --- Round:  5
+ --- Active candidates:  [0, 0, 1, 0, 0, 1, 1, 0]
+ --- Vote vector:        [0, 0, 17, 0, 0, 28, 19, 0]
+
+ --- Round:  6
+ --- Active candidates:  [0, 0, 0, 0, 0, 1, 1, 0]
+ --- Vote vector:        [0, 0, 0, 0, 0, 36, 28, 0]
+ 
+ --- The winning candidate is: 5 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 87.0276 seconds 
+Data sent = 13564.7 MB in ~430951 rounds (party 0 only; use '-v' for more details)
+Global data sent = 40615.6 MB (all parties)

@@ -1,0 +1,89 @@
+Ballots written to files.
+Simulating election...
+New round of counting votes...
+New round of counting votes...
+The winner is candidate 0.
+Default bit length for compilation: 64
+Default security parameter for compilation: 40
+Compiling file rcv_matrix_leak.mpc
+Compiled 100000 lines at Fri Dec 12 12:20:07 2025
+Compiled 200000 lines at Fri Dec 12 12:20:08 2025
+Compiled 300000 lines at Fri Dec 12 12:20:09 2025
+Compiled 400000 lines at Fri Dec 12 12:20:10 2025
+Compiled 500000 lines at Fri Dec 12 12:20:12 2025
+Compiled 600000 lines at Fri Dec 12 12:20:13 2025
+Compiled 700000 lines at Fri Dec 12 12:20:14 2025
+Compiled 800000 lines at Fri Dec 12 12:20:15 2025
+Compiled 900000 lines at Fri Dec 12 12:20:17 2025
+Compiled 1000000 lines at Fri Dec 12 12:20:17 2025
+Compiled 1100000 lines at Fri Dec 12 12:20:19 2025
+Compiled 1200000 lines at Fri Dec 12 12:20:20 2025
+Compiled 1300000 lines at Fri Dec 12 12:20:22 2025
+Compiled 1400000 lines at Fri Dec 12 12:20:22 2025
+Compiled 1500000 lines at Fri Dec 12 12:20:24 2025
+Compiled 1600000 lines at Fri Dec 12 12:20:25 2025
+Compiled 1700000 lines at Fri Dec 12 12:20:27 2025
+Compiled 1800000 lines at Fri Dec 12 12:20:28 2025
+Compiled 1900000 lines at Fri Dec 12 12:20:29 2025
+Compiled 2000000 lines at Fri Dec 12 12:20:31 2025
+Compiled 2100000 lines at Fri Dec 12 12:20:32 2025
+Compiled 2200000 lines at Fri Dec 12 12:20:33 2025
+Compiled 2300000 lines at Fri Dec 12 12:20:34 2025
+Compiled 2400000 lines at Fri Dec 12 12:20:35 2025
+Compiled 2500000 lines at Fri Dec 12 12:20:37 2025
+Compiled 2600000 lines at Fri Dec 12 12:20:38 2025
+Compiled 2700000 lines at Fri Dec 12 12:20:39 2025
+Compiled 2800000 lines at Fri Dec 12 12:20:40 2025
+Compiled 2900000 lines at Fri Dec 12 12:20:42 2025
+Compiled 3000000 lines at Fri Dec 12 12:20:42 2025
+Compiled 3100000 lines at Fri Dec 12 12:20:45 2025
+Compiled 3200000 lines at Fri Dec 12 12:20:46 2025
+Compiled 3300000 lines at Fri Dec 12 12:20:47 2025
+Compiled 3400000 lines at Fri Dec 12 12:20:48 2025
+Compiled 3500000 lines at Fri Dec 12 12:20:49 2025
+Compiled 3600000 lines at Fri Dec 12 12:20:50 2025
+Compiled 3700000 lines at Fri Dec 12 12:20:51 2025
+Compiled 3800000 lines at Fri Dec 12 12:20:52 2025
+Compiled 3900000 lines at Fri Dec 12 12:20:55 2025
+Compiled 4000000 lines at Fri Dec 12 12:20:56 2025
+Compiled 4100000 lines at Fri Dec 12 12:20:57 2025
+Merging 13824 inputb in round 1/1
+WARNING: Order of memory instructions not preserved, errors possible
+Writing to Programs/Schedules/rcv_matrix_leak.sch
+Writing to Programs/Bytecode/rcv_matrix_leak-0.bc
+Hash: 40cf75081e1477fdba486a8741094c483bf4f2f1477384449b5dbb7fef6c76ac
+Program requires at most:
+      184320 bit inputs from player 0
+      184320 bit inputs from player 1
+      184320 bit inputs from player 2
+     2617344 bit triples
+       58417 virtual machine rounds
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 0 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 13309 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 1 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 13309 -h localhost -N 3
+Running /home/emil/Documents/Rank-Voting-Project/Coding/mp-spdz-0.4.1/Scripts/../mascot-party.x 2 rcv_matrix_leak -N 3 -IF Player-Data/matrix -pn 13309 -h localhost -N 3
+Using statistical security parameter 40
+
+
+
+
+ ----- Starting RCV Protocol with Matrix Leak -----   
+
+ --- Votes needed for majority:  257
+
+ --- Round:  0
+ --- Active candidates:  [1, 1, 1]
+ --- Vote vector:        [189, 169, 154]
+
+ --- Round:  1
+ --- Active candidates:  [1, 1, 0]
+ --- Vote vector:        [265, 247, 0]
+ 
+ --- The winning candidate is: 0 
+
+
+
+
+The following benchmarks are including preprocessing (offline phase).
+Time = 32.1449 seconds 
+Data sent = 4978.05 MB in ~238069 rounds (party 0 only; use '-v' for more details)
+Global data sent = 14905.3 MB (all parties)

@@ -279,7 +279,7 @@ def copy_matrix(matrix: Matrix) -> Matrix:
 def run_protocol():
     """ Run the RCV protocol. """
 
-    print_ln("\n\n\n\n ----- Starting RCV Protocol with Matrix Leak -----   ")
+    print_ln("\n\n\n\n ----- Starting RCV Protocol -----   ")
 
     all_shared_ballots = read_all_shared_ballots()    
     ballots = reconstruct_ballots(all_shared_ballots)

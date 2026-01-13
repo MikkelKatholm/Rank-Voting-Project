@@ -3,19 +3,5 @@ Using statistical security parameter 40
 
 
 
- ----- Starting RCV Protocol with Matrix Leak -----   
- --- Starting round 1 of 3 --- 
- --- Starting round 2 of 3 --- 
- --- Starting round 3 of 3 --- 
- --- The winning candidate is: 0 
-
-
-
-
-The following benchmarks are including preprocessing (offline phase).
-Time = 5.125 seconds 
-Data sent = 362.665 MB in ~5243 rounds (party 0 only; use '-v' for more details)
-Global data sent = 1087.13 MB (all parties)
-This program might benefit from some protocol options.
-Consider adding the following at the beginning of your code:
-	program.use_edabit(True)
+ ----- Starting RCV Protocol -----   
+Fatal error at rcv_matrix-0:12 (INPUTB): cannot read integer from Player-Data/matrix-P0-0, problem with '' after 2592

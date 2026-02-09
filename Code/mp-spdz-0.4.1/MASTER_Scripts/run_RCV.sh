@@ -24,7 +24,7 @@ fi
 # Note: '1' here is a program argument for bankers_bonus (often used for rounds/setup), 
 # it does NOT limit the client count to 1.
 echo "🔨 Compiling..."
-./compile.py MASTER_Scripts/RCV_server.mpc 1 > /dev/null
+./compile.py MASTER_Scripts/RCV_server.mpc > /dev/null
 
 echo "🔐 Generating Certs..."
 Scripts/setup-ssl.sh $N_PARTIES > /dev/null

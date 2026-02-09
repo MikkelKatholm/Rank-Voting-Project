@@ -5,7 +5,7 @@ from Compiler.util import if_else
 PORTNUM = 14000
 MAX_NUM_CLIENTS = 20
 
-NUM_CANDS = 3
+NUM_CANDS = 2
 
 n_threads = 4
 
@@ -29,30 +29,41 @@ def client_input(t, client_socket_id):
 
 def print_out(secret_ballot):
     for elem in secret_ballot:
-        print_ln(elem.reveal())
+        clear_val = elem.reveal()
+        print_ln('%s', clear_val)
 
 def main():
     listen_for_clients(PORTNUM)
     print_ln("Listening for client connections on base port %s", PORTNUM)
 
-    client_ids = Array(MAX_NUM_CLIENTS, sint)
+    client_sockets = Array(MAX_NUM_CLIENTS, regint)
+    number_clients = MemValue(regint(0))
+    seen = Array(MAX_NUM_CLIENTS, regint)
+    seen.assign_all(0)
 
     @do_while
     def client_connections():
         client_id, last = accept_client()
-        client_ids[client_id] = client_id
-        return 1
+        client_sockets[client_id] = client_id
+        seen[client_id] = 1
+        @if_(last == 1)
+        def _():
+            number_clients.write(client_id + 1)
+        return (sum(seen) < number_clients) + (number_clients == 0)
     
     def type_run(t):
-        array = client_input()
-        
-        @for_range_multithread(n_threads, 1, 1)
+        @for_range(number_clients)
         def _(client_id):
             client_ballot = client_input(t, client_id)
+            print_ln("Client %s ballot:", client_id)
             print_out(client_ballot)
+        
+        # TODO: Implement RCV algorithm and determine winner
+        winner = t(0)
+        t.reveal_to_clients(client_sockets.get_sub(number_clients), [winner])
     
     type_run(sint)
 
-    close_connections(1)
+    close_connections(number_clients)
 
-    
+main()

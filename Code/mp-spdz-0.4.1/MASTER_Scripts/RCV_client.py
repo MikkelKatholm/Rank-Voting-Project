@@ -10,6 +10,7 @@ from domains import *
 
 client_id = int(sys.argv[1])
 n_parties = int(sys.argv[2])
+# Ballot is a 2x2 matrix flattened: 4 values for NUM_CANDS * NUM_CANDS
 client_ballot = [1, 0, 0, 1]
 finish = int(sys.argv[3])
 
@@ -20,12 +21,11 @@ for socket in client.sockets:
     os.store(finish)
     os.Send(socket)
 
-def run(x):
-    client.send_private_inputs([x])
+def run(ballot_values):
+    client.send_private_inputs(ballot_values)
     print("Ballot sent")
 
-    print('Winning client id is :', client.receive_outputs(1)[0])
+    print('Winning candidate is:', client.receive_outputs(1)[0])
 
-# running two rounds
-# first for sint, then for sfix
+# running one round for sint
 run(client_ballot)

@@ -18,7 +18,7 @@ from Compiler.library import print_ln, do_while, for_range
 from Compiler.util import if_else
 
 PORTNUM = 14000
-MAX_NUM_CLIENTS = 8
+MAX_NUM_CLIENTS = 200
 n_rounds = 0
 n_threads = 2
 

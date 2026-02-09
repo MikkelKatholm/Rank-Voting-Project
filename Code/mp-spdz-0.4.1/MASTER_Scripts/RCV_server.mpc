@@ -1,0 +1,58 @@
+from Compiler.types import sint, regint, Array, MemValue
+from Compiler.library import print_ln, do_while, for_range
+from Compiler.util import if_else
+
+PORTNUM = 14000
+MAX_NUM_CLIENTS = 20
+
+NUM_CANDS = 3
+
+n_threads = 4
+
+program.active = True
+
+def accept_client():
+    client_socket_id = accept_client_connection(PORTNUM)
+    last = regint.read_from_socket(client_socket_id)
+    return client_socket_id, last
+
+def close_connections(number_clients):
+    @for_range(number_clients)
+    def _(i):
+        closeclientconnection(i)
+
+def client_input(t, client_socket_id):
+    """
+    Send share of random value, receive input and deduce share.
+    """
+    return t.receive_from_client(NUM_CANDS * NUM_CANDS, client_socket_id)
+
+def print_out(secret_ballot):
+    for elem in secret_ballot:
+        print_ln(elem.reveal())
+
+def main():
+    listen_for_clients(PORTNUM)
+    print_ln("Listening for client connections on base port %s", PORTNUM)
+
+    client_ids = Array(MAX_NUM_CLIENTS, sint)
+
+    @do_while
+    def client_connections():
+        client_id, last = accept_client()
+        client_ids[client_id] = client_id
+        return 1
+    
+    def type_run(t):
+        array = client_input()
+        
+        @for_range_multithread(n_threads, 1, 1)
+        def _(client_id):
+            client_ballot = client_input(t, client_id)
+            print_out(client_ballot)
+    
+    type_run(sint)
+
+    close_connections(1)
+
+    

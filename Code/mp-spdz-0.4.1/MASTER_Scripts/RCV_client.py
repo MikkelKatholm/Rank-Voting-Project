@@ -21,7 +21,6 @@ def read_ballot_from_file(client_id):
     with open(filename, 'r') as f:
         for line in f:
             ballot.extend(map(int, line.split()))
-    print(f"Client {client_id} read ballot: {ballot}")
     return ballot
 
 ballot_values = read_ballot_from_file(client_id)
@@ -34,9 +33,7 @@ for socket in client.sockets:
 
 def run(ballot_values):
     client.send_private_inputs(ballot_values)
-    print("Ballot sent")
-
-    print('Winning candidate is:', client.receive_outputs(1)[0])
+    print(f"📨 Ballot sent by client {client_id}")
 
 # running one round for sint
 

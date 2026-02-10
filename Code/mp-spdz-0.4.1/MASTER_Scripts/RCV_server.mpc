@@ -1,9 +1,11 @@
-from Compiler.types import sint, regint, Array, MemValue
+from Compiler.types import *
 from Compiler.GC.types import *
 from Compiler.library import print_ln, do_while, for_range
 from Compiler.util import if_else
 from dotenv import load_dotenv
 import os
+
+from My_scripts.consts import NUM_VOTES
 
 load_dotenv("consts.env")
 
@@ -11,6 +13,13 @@ PORTNUM = int(os.getenv("PORTNUM"))
 MAX_NUM_CLIENTS = int(os.getenv("NUM_VOTERS")) + 1 
 NUM_CANDS = int(os.getenv("NUM_CANDS"))
 n_threads = 4
+DEBUG = bool(int(os.getenv("DEBUG")))
+
+SEC_PARAM = int(os.getenv("SEC_PARAM"))
+# NBITS must be >= GC statistical security parameter to avoid internal XORS range errors
+NBITS = max(SEC_PARAM, (NUM_VOTES + 1).bit_length())
+sb = sbits.get_type(NBITS)
+siv = sbitintvec.get_type(NBITS)
 
 program.active = True
 
@@ -24,28 +33,39 @@ def close_connections(number_clients):
     def _(i):
         closeclientconnection(i)
 
-def client_input(t, client_socket_id):
+def client_input(t, client_socket_id) -> list[sint]:
     """
     Send share of random value, receive input and deduce share.
     """
     return t.receive_from_client(NUM_CANDS * NUM_CANDS, client_socket_id)
 
-def print_out(secret_ballot):
+def debug_print(secret_ballot):
+    if not DEBUG:
+        return
     for elem in secret_ballot:
         clear_val = elem.reveal()
         print_ln('%s', clear_val)
+
+def convert_ballot(sintBallot: list[sint]) -> Matrix:
+    ballot_matrix = Matrix(NUM_CANDS, NUM_CANDS, value_type=sb)
+    for col in range(NUM_CANDS):
+        for row in range(NUM_CANDS):
+            ballot_matrix[col][row] = sb(sintBallot[col * NUM_CANDS + row])
+
 
 def main():
     listen_for_clients(PORTNUM)
     print_ln("Listening for client connections on base port %s", PORTNUM)
 
     client_sockets = Array(MAX_NUM_CLIENTS, regint)
-    number_clients = MemValue(regint(0))
+    number_clients =  MemValue(regint(0))
     seen = Array(MAX_NUM_CLIENTS, regint)
     seen.assign_all(0)
 
+    ballots: list[Matrix] = []
+
     @do_while
-    def client_connections():
+    def _():
         client_id, last = accept_client()
         client_sockets[client_id] = client_id
         seen[client_id] = 1
@@ -57,16 +77,19 @@ def main():
     def type_run(t):
         @for_range(number_clients)
         def _(client_id):
-            client_ballot = client_input(t, client_id)
-            print_ln("Client %s ballot:", client_id)
-            print_out(client_ballot)
+            ballot_sint = client_input(t, client_id)
+            print_ln("📬 Received ballot from client %s", client_id)
+            ballots.append(convert_ballot(ballot_sint))
+            print_ln("🔐 Ballot from client %s", client_id)
+
+            debug_print(ballot_sint)
         
         # TODO: Implement RCV algorithm and determine winner
-        winner = t(0)
-        t.reveal_to_clients(client_sockets.get_sub(number_clients), [winner])
     
     type_run(sint)
 
     close_connections(number_clients)
+
+    
 
 main()

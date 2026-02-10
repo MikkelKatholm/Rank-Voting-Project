@@ -24,15 +24,22 @@ if ! python3 -c "import gmpy2" &> /dev/null; then
     pip3 install gmpy2
 fi
 
+# Kill any lingering processes on the port
+lsof -ti:$PORTNUM 2>/dev/null | xargs kill -9 2>/dev/null || true
+sleep 1
+
 # 2. Compile & Certs
-# Note: '1' here is a program argument for bankers_bonus (often used for rounds/setup), 
-# it does NOT limit the client count to 1.
 echo "🔨 Compiling..."
 ./compile.py MASTER_Scripts/RCV_server.mpc > /dev/null
 
 echo "🔐 Generating Certs..."
-Scripts/setup-ssl.sh $N_PARTIES > /dev/null
-Scripts/setup-clients.sh $TOTAL_CLIENTS > /dev/null
+if [ "$DEBUG" -eq 0 ]; then
+    Scripts/setup-ssl.sh $N_PARTIES &> /dev/null
+    Scripts/setup-clients.sh $TOTAL_CLIENTS &> /dev/null
+else
+    Scripts/setup-ssl.sh $N_PARTIES
+    Scripts/setup-clients.sh $TOTAL_CLIENTS
+fi
 
 # 3. Start MPC Servers
 echo "🚀 Starting $N_PARTIES MPC parties..."

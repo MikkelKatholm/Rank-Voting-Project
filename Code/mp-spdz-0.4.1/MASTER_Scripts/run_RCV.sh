@@ -3,10 +3,14 @@
 # Exit on error
 set -e
 
+set -a          # automatically export all variables
+source MASTER_Scripts/consts.env
+set +a
+
 # --- Configuration ---
-N_PARTIES=2           # Number of MPC servers
-TOTAL_CLIENTS=1      # Set this to however many clients you want
-PROTOCOL="mascot"     # Arithmetic protocol
+N_PARTIES=$NUM_SERVERS              # Number of MPC servers
+TOTAL_CLIENTS=$NUM_VOTERS           # Set this to however many clients you want
+PROTOCOL="mascot"                   # Arithmetic protocol
 # ---------------------
 
 # 1. Validation & Setup
@@ -41,7 +45,11 @@ echo "👥 Launching $TOTAL_CLIENTS clients"
 
 for (( i=0; i<$TOTAL_CLIENTS; i++ ))
 do
-    python3 MASTER_Scripts/RCV_client.py $i $N_PARTIES 1 &
+    if [ "$i" -lt $((TOTAL_CLIENTS-1)) ]; then
+        python3 MASTER_Scripts/RCV_client.py $i 0 &
+    else
+        python3 MASTER_Scripts/RCV_client.py $i 1 &
+    fi
 done
 
 # 5. Cleanup

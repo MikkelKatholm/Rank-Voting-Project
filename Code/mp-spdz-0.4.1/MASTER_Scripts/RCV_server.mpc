@@ -1,12 +1,15 @@
 from Compiler.types import sint, regint, Array, MemValue
+from Compiler.GC.types import *
 from Compiler.library import print_ln, do_while, for_range
 from Compiler.util import if_else
+from dotenv import load_dotenv
+import os
 
-PORTNUM = 14000
-MAX_NUM_CLIENTS = 20
+load_dotenv("consts.env")
 
-NUM_CANDS = 2
-
+PORTNUM = int(os.getenv("PORTNUM"))
+MAX_NUM_CLIENTS = int(os.getenv("NUM_VOTERS")) + 1 
+NUM_CANDS = int(os.getenv("NUM_CANDS"))
 n_threads = 4
 
 program.active = True

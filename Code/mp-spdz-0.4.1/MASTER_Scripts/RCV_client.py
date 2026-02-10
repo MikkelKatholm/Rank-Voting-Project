@@ -1,21 +1,32 @@
-#!/usr/bin/python3
-
 import sys, os
+from dotenv import load_dotenv
 
 sys.path.insert(0, os.path.dirname(sys.argv[0]) + "/..")
 sys.path.append("ExternalIO/.")
-
 from client import *
 from domains import *
 
+script_dir = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(script_dir, "consts.env"))
+
 client_id = int(sys.argv[1])
-n_parties = int(sys.argv[2])
-# Ballot is a 2x2 matrix flattened: 4 values for NUM_CANDS * NUM_CANDS
-client_ballot = [1, 0, 0, 1]
-finish = int(sys.argv[3])
+n_parties = int(os.getenv("NUM_SERVERS"))
+PORTNUM = int(os.getenv("PORTNUM"))
+ballot_folder = os.getenv("BALLOT_FOLDER")
+finish = int(sys.argv[2])
 
-client = Client(['localhost'] * n_parties, 14000, client_id)
+def read_ballot_from_file(client_id):
+    filename = os.path.join(ballot_folder, f"{client_id}_ballot.txt")
+    ballot = []
+    with open(filename, 'r') as f:
+        for line in f:
+            ballot.extend(map(int, line.split()))
+    print(f"Client {client_id} read ballot: {ballot}")
+    return ballot
 
+ballot_values = read_ballot_from_file(client_id)
+
+client = Client(['localhost'] * n_parties, PORTNUM, client_id)
 for socket in client.sockets:
     os = octetStream()
     os.store(finish)
@@ -28,4 +39,5 @@ def run(ballot_values):
     print('Winning candidate is:', client.receive_outputs(1)[0])
 
 # running one round for sint
-run(client_ballot)
+
+run(ballot_values)

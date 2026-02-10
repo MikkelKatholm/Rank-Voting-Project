@@ -1,0 +1,227 @@
+{
+  "main": {
+    "id": "3a263aa4e22605cb",
+    "type": "split",
+    "children": [
+      {
+        "id": "ba8db50c14f7d863",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "688d448b1039ca3c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_Templates/Daily_log.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Daily_log"
+            }
+          },
+          {
+            "id": "5351036ce579ae28",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Daily_logs/2026-02-10.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-02-10"
+            }
+          }
+        ],
+        "currentTab": 1
+      },
+      {
+        "id": "ae6fd9c7e9ed743f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "27bd7ce2d416a0c5",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "deb76e3bd1b1dcfd",
+    "type": "split",
+    "children": [
+      {
+        "id": "cba0f3a68de87618",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "47c730fd340cdb74",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "7a5cb4a047920cc9",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "f09395c4cafcb45e",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "6c6c387e251dd537",
+    "type": "split",
+    "children": [
+      {
+        "id": "b584535255ae36cd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4d4290c379ed5638",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "_Templates/_Log_entry.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for _Log_entry"
+            }
+          },
+          {
+            "id": "84d3bf35bf0bcb13",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "_Templates/_Log_entry.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from _Log_entry"
+            }
+          },
+          {
+            "id": "5249b3766ad05e94",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "4b7bdaaa720d32d0",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "2517b5bb8180cfd2",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "_Templates/_Log_entry.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of _Log_entry"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "5351036ce579ae28",
+  "lastOpenFiles": [
+    "_Templates/Daily_log.md",
+    "Daily_logs/2026-02-10.md",
+    "_Templates/_Log_entry.md",
+    "Papers",
+    "Daily_logs",
+    "Welcome.md",
+    "_Templates"
+  ]
+}

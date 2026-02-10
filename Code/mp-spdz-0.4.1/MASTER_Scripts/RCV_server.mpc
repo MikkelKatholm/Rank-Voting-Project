@@ -15,11 +15,6 @@ NUM_CANDS = int(os.getenv("NUM_CANDS"))
 n_threads = 4
 DEBUG = bool(int(os.getenv("DEBUG")))
 
-SEC_PARAM = int(os.getenv("SEC_PARAM"))
-# NBITS must be >= GC statistical security parameter to avoid internal XORS range errors
-NBITS = max(SEC_PARAM, (NUM_VOTES + 1).bit_length())
-sb = sbits.get_type(NBITS)
-siv = sbitintvec.get_type(NBITS)
 
 program.active = True
 
@@ -45,13 +40,6 @@ def debug_print(secret_ballot):
     for elem in secret_ballot:
         clear_val = elem.reveal()
         print_ln('%s', clear_val)
-
-def convert_ballot(sintBallot: list[sint]) -> Matrix:
-    ballot_matrix = Matrix(NUM_CANDS, NUM_CANDS, value_type=sb)
-    for col in range(NUM_CANDS):
-        for row in range(NUM_CANDS):
-            ballot_matrix[col][row] = sb(sintBallot[col * NUM_CANDS + row])
-
 
 def main():
     listen_for_clients(PORTNUM)
@@ -79,17 +67,14 @@ def main():
         def _(client_id):
             ballot_sint = client_input(t, client_id)
             print_ln("📬 Received ballot from client %s", client_id)
-            ballots.append(convert_ballot(ballot_sint))
             print_ln("🔐 Ballot from client %s", client_id)
 
             debug_print(ballot_sint)
+
+            closeclientconnection(client_id)
         
         # TODO: Implement RCV algorithm and determine winner
     
     type_run(sint)
-
-    close_connections(number_clients)
-
-    
 
 main()

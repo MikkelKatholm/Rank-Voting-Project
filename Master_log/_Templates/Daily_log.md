@@ -16,10 +16,10 @@ status: 🟢
 - **<% tp.date.now("HH:mm") %>**: Started work on...
 - 
 
-## 🧠 Strategic Decisions
+# 🧠 Strategic Decisions
 > Record "Why" you are doing what you are doing.
 
-### Why, what, how???
+## Why, what, how???
 
 
 ## ⏭️ Next Steps

@@ -8,7 +8,7 @@ import os
 load_dotenv("consts.env")
 
 PORTNUM = int(os.getenv("PORTNUM"))
-MAX_NUM_CLIENTS = int(os.getenv("NUM_VOTERS")) + 1 
+NUM_CLIENTS = int(os.getenv("NUM_VOTERS"))
 NUM_CANDS = int(os.getenv("NUM_CANDS"))
 n_threads = 4
 DEBUG = bool(int(os.getenv("DEBUG")))
@@ -33,22 +33,25 @@ def client_input(client_socket_id) -> list[sint]:
     return sint.receive_from_client(NUM_CANDS * NUM_CANDS, client_socket_id)
 
 def debug_print(secret_ballot):
-    if DEBUG:
+    if not DEBUG:
         return
     for elem in secret_ballot:
         clear_val = elem.reveal()
         print_ln('%s', clear_val)
 
-def run_client_server() -> list[list[sint]]: 
+def run_client_server() -> tuple[Matrix, MemValue]: 
     listen_for_clients(PORTNUM)
     print_ln("Listening for client connections on base port %s", PORTNUM)
 
-    client_sockets = Array(MAX_NUM_CLIENTS, regint)
+    client_sockets = Array(NUM_CLIENTS, regint)
     number_clients =  MemValue(regint(0))
-    seen = Array(MAX_NUM_CLIENTS, regint)
+    seen = Array(NUM_CLIENTS, regint)
     seen.assign_all(0)
 
-    flat_ballots: list[list[sint]] = []
+    # Use a Matrix to store all ballots.
+    # Rows = clients, Cols = flattened ballot entries
+    flat_ballots = Matrix(NUM_CANDS * NUM_CANDS, NUM_CLIENTS, sint)
+    flat_ballots.assign_all(0)
 
     @do_while
     def _():
@@ -60,47 +63,44 @@ def run_client_server() -> list[list[sint]]:
             number_clients.write(client_id + 1)
         return (sum(seen) < number_clients) + (number_clients == 0)
     
-    def run():
-        @for_range(number_clients)
-        def _(client_id):
-            ballot_sint = client_input(client_id)
-            print_ln("📬 Received ballot from client %s", client_id)
-            flat_ballots.append(ballot_sint)
-            debug_print(ballot_sint)
-
-            closeclientconnection(client_id)
-    run()
-    return flat_ballots
-
-def format_ballots(flat_ballots: list[list[sint]]) -> list[Matrix]:
-    """
-    Convert the flat list of ballots into a list of matrices.
-    Each ballot is expected to be a flat list of length NUM_CANDS * NUM_CANDS.
-    """
-    formatted_ballots: list[Matrix] = []
-    for ballot in flat_ballots:
-        matrix_ballot = Matrix(NUM_CANDS, NUM_CANDS, value_type=sint)
-        for col in range(NUM_CANDS):
-            for row in range(NUM_CANDS):
-                matrix_ballot[col][row] = ballot[col * NUM_CANDS + row]
-        formatted_ballots.append(matrix_ballot)
-    return formatted_ballots
-
-def print_matrix(matrix: Matrix):
-    clear_list = matrix.reveal_list()
-    size = int(len(clear_list) ** 0.5)
-    for row in range(size):
-        row_vals = clear_list[row * size:(row + 1) * size]
-        print_ln("%s", row_vals)
+    @for_range(number_clients)
+    def _(client_id):
+        ballot_sint = client_input(client_id)
+        print_ln("📬 Received ballot from client %s", client_id)
         
+        # Store to matrix
+        for i in range(NUM_CANDS * NUM_CANDS):
+            flat_ballots[i][client_id] = ballot_sint[i]
+
+        debug_print(ballot_sint)
+        closeclientconnection(client_id)
+    
+    return flat_ballots, number_clients
+
+def format_ballots_as_list(flat_ballots: Matrix, number_clients: MemValue) -> list[Matrix]:
+    ballots: list[Matrix] = []
+    for idx in range(NUM_CLIENTS):
+        ballot_matrix = Matrix(NUM_CANDS, NUM_CANDS, sint)
+        flat_ballot = flat_ballots.get_column(idx)
+        for i in range(NUM_CANDS * NUM_CANDS):
+            ballot_matrix[i // NUM_CANDS][i % NUM_CANDS] = flat_ballot[i]
+        ballots.append(ballot_matrix)
+    return ballots
+
+def print_ballot_as_matrix(ballot_matrix: Matrix):
+    clear = ballot_matrix.reveal_nested()
+    for row in clear:
+        print_ln("%s", row)
 
 def main():
-    flat_ballots = run_client_server()
-    print_ln("✅ All ballots received. Total clients: %s", len(flat_ballots))
-    ballots = format_ballots(flat_ballots)
-    print_ln("📊 Formatted ballots, got %s ballots", len(ballots))
-    for i, ballot in enumerate(ballots):
-        print_ln("Ballot %s:", i)
-        print_matrix(ballot)
+    flat_ballots, number_clients = run_client_server()
+    print_ln("✅ All ballots received. Total clients: %s", number_clients)
+        
+    ballots = format_ballots_as_list(flat_ballots, number_clients)
+    for idx, ballot_matrix in enumerate(ballots):
+        print_ln("Ballot %s as matrix:", idx)
+        print_ballot_as_matrix(ballot_matrix)
+
+
 
 main()

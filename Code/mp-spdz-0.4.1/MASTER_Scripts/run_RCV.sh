@@ -1,5 +1,28 @@
 #!/bin/bash
 
+# Arguments:
+gen_ballots=""
+
+usage () {
+  echo "Usage: $0 -g <generate_ballots>"
+  1>&2
+  exit 1
+}
+while getopts "g:" opt; do
+  case $opt in
+    g) gen_ballots="$OPTARG"
+        ;;
+    *) usage
+        ;;
+  esac
+done
+
+# Check if -g argument was provided
+if [ -z "$gen_ballots" ]; then
+    echo "❌ Error: -g argument is required"
+    usage
+fi
+
 # Exit on error
 set -e
 
@@ -33,9 +56,11 @@ pkill -9 mascot-pa 2>/dev/null || true
 sleep 1
 
 # Generate the ballots for clients
-echo "⚙️ Generating ballots for $TOTAL_CLIENTS clients..."
-#python MASTER_Scripts/generate_ballots.py
-sleep 1
+if [ "$gen_ballots" = true ]; then
+    echo "⚙️ Generating ballots for $TOTAL_CLIENTS clients..."
+    python MASTER_Scripts/generate_ballots.py
+    sleep 1
+fi
 
 # Compile & Certs
 echo "🔨 Compiling..."

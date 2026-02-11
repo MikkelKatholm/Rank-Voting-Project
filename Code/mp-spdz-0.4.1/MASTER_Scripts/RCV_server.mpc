@@ -5,8 +5,6 @@ from Compiler.util import if_else
 from dotenv import load_dotenv
 import os
 
-from My_scripts.consts import NUM_VOTES
-
 load_dotenv("consts.env")
 
 PORTNUM = int(os.getenv("PORTNUM"))
@@ -23,25 +21,25 @@ def accept_client():
     last = regint.read_from_socket(client_socket_id)
     return client_socket_id, last
 
-def close_connections(number_clients):
+def close_all_connections(number_clients):
     @for_range(number_clients)
     def _(i):
         closeclientconnection(i)
 
-def client_input(t, client_socket_id) -> list[sint]:
+def client_input(client_socket_id) -> list[sint]:
     """
     Send share of random value, receive input and deduce share.
     """
-    return t.receive_from_client(NUM_CANDS * NUM_CANDS, client_socket_id)
+    return sint.receive_from_client(NUM_CANDS * NUM_CANDS, client_socket_id)
 
 def debug_print(secret_ballot):
-    if not DEBUG:
+    if DEBUG:
         return
     for elem in secret_ballot:
         clear_val = elem.reveal()
         print_ln('%s', clear_val)
 
-def main():
+def run_client_server() -> list[list[sint]]: 
     listen_for_clients(PORTNUM)
     print_ln("Listening for client connections on base port %s", PORTNUM)
 
@@ -50,7 +48,7 @@ def main():
     seen = Array(MAX_NUM_CLIENTS, regint)
     seen.assign_all(0)
 
-    ballots: list[Matrix] = []
+    flat_ballots: list[list[sint]] = []
 
     @do_while
     def _():
@@ -62,19 +60,47 @@ def main():
             number_clients.write(client_id + 1)
         return (sum(seen) < number_clients) + (number_clients == 0)
     
-    def type_run(t):
+    def run():
         @for_range(number_clients)
         def _(client_id):
-            ballot_sint = client_input(t, client_id)
+            ballot_sint = client_input(client_id)
             print_ln("📬 Received ballot from client %s", client_id)
-            print_ln("🔐 Ballot from client %s", client_id)
-
+            flat_ballots.append(ballot_sint)
             debug_print(ballot_sint)
 
             closeclientconnection(client_id)
+    run()
+    return flat_ballots
+
+def format_ballots(flat_ballots: list[list[sint]]) -> list[Matrix]:
+    """
+    Convert the flat list of ballots into a list of matrices.
+    Each ballot is expected to be a flat list of length NUM_CANDS * NUM_CANDS.
+    """
+    formatted_ballots: list[Matrix] = []
+    for ballot in flat_ballots:
+        matrix_ballot = Matrix(NUM_CANDS, NUM_CANDS, value_type=sint)
+        for col in range(NUM_CANDS):
+            for row in range(NUM_CANDS):
+                matrix_ballot[col][row] = ballot[col * NUM_CANDS + row]
+        formatted_ballots.append(matrix_ballot)
+    return formatted_ballots
+
+def print_matrix(matrix: Matrix):
+    clear_list = matrix.reveal_list()
+    size = int(len(clear_list) ** 0.5)
+    for row in range(size):
+        row_vals = clear_list[row * size:(row + 1) * size]
+        print_ln("%s", row_vals)
         
-        # TODO: Implement RCV algorithm and determine winner
-    
-    type_run(sint)
+
+def main():
+    flat_ballots = run_client_server()
+    print_ln("✅ All ballots received. Total clients: %s", len(flat_ballots))
+    ballots = format_ballots(flat_ballots)
+    print_ln("📊 Formatted ballots, got %s ballots", len(ballots))
+    for i, ballot in enumerate(ballots):
+        print_ln("Ballot %s:", i)
+        print_matrix(ballot)
 
 main()

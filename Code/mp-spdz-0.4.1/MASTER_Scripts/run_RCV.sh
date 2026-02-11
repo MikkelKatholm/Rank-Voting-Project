@@ -13,7 +13,7 @@ TOTAL_CLIENTS=$NUM_VOTERS           # Set this to however many clients you want
 PROTOCOL="mascot"                   # Arithmetic protocol
 # ---------------------
 
-# 1. Validation & Setup
+# Validation & Setup
 if [ ! -f "compile.py" ]; then
     echo "❌ Error: Run from MP-SPDZ root."
     exit 1
@@ -24,11 +24,20 @@ if ! python3 -c "import gmpy2" &> /dev/null; then
     pip3 install gmpy2
 fi
 
+
 # Kill any lingering processes on the port
+# Nuke every mascot-pa processes
+echo "🧹 Cleaning up any existing processes on port $PORTNUM and mascot-pa processes..."
 lsof -ti:$PORTNUM 2>/dev/null | xargs kill -9 2>/dev/null || true
+pkill -9 mascot-pa 2>/dev/null || true
 sleep 1
 
-# 2. Compile & Certs
+# Generate the ballots for clients
+echo "⚙️ Generating ballots for $TOTAL_CLIENTS clients..."
+#python MASTER_Scripts/generate_ballots.py
+sleep 1
+
+# Compile & Certs
 echo "🔨 Compiling..."
 ./compile.py MASTER_Scripts/RCV_server.mpc > /dev/null
 
@@ -41,13 +50,13 @@ else
     Scripts/setup-clients.sh $TOTAL_CLIENTS
 fi
 
-# 3. Start MPC Servers
+# Start MPC Servers
 echo "🚀 Starting $N_PARTIES MPC parties..."
 PLAYERS=$N_PARTIES Scripts/$PROTOCOL.sh RCV_server &
 MPC_PID=$!
 sleep 2
 
-# 4. Launch Clients with Random Inputs
+# Launch Clients with Random Inputs
 echo "👥 Launching $TOTAL_CLIENTS clients"
 
 for (( i=0; i<$TOTAL_CLIENTS; i++ ))
@@ -59,7 +68,7 @@ do
     fi
 done
 
-# 5. Cleanup
+# Cleanup
 wait
 echo "✅ Done."
 kill $MPC_PID 2>/dev/null || true

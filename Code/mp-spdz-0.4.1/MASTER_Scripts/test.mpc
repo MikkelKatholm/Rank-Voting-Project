@@ -3,16 +3,28 @@ from Compiler.GC.types import *
 from Compiler.library import print_ln, do_while, for_range
 from Compiler.util import if_else
 
-#program.use_edabit(True)
+program.use_edabit(True)
 
 sb = sbit.get_type(1)
 
-runs = 2**16
+runs = 2**14
+#
+#sum = 0
+#
+#for i in range(runs):
+#    num = sint(i % 2)
+#    bit1 = sbitvec(num, 1, 1)[0]
+#    sum += bit1.reveal()
+#print_ln("Sum of bits: %s", sum)
+#
+
+
+one = sint(1)
+zero = sint(0)
 
 sum = 0
 
 for i in range(runs):
-    num = sint(i % 2)
-    bit1 = sbitvec(num, 1, 1)[0]
-    sum += bit1.reveal()
+    one_bit = one - sb(0)
+    sum = sum + one_bit.reveal()
 print_ln("Sum of bits: %s", sum)

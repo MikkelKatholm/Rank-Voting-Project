@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Daily_logs/2026-02-12.md",
+                "file": "Daily_logs/2026-02-18.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-02-12"
+              "title": "2026-02-18"
             }
           },
           {
@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Daily_logs/2026-02-12.md",
+                "file": "Todo and questions/Questions.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-02-12"
+              "title": "Questions"
             }
           }
         ]
@@ -200,14 +200,15 @@
   },
   "active": "a4198910a695f155",
   "lastOpenFiles": [
-    "Todo and questions/TO DO.md",
     "Daily_logs/2026-02-12.md",
     "Todo and questions/Questions.md",
+    "Daily_logs/2026-02-18.md",
+    "_Templates/Daily_log.md",
+    "Daily_logs/2026-02-10.md",
+    "Todo and questions/TO DO.md",
     "Untitled",
     "Todo and questions",
-    "_Templates/Daily_log.md",
     "Daily_logs/2026-02-11.md",
-    "Daily_logs/2026-02-10.md",
     "_Templates/_Log_entry.md",
     "Papers",
     "Daily_logs",

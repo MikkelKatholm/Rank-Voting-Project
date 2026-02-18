@@ -7,6 +7,9 @@ program.use_edabit(True)
 
 sb = sbit.get_type(1)
 
+a = sb(1)
+b = sbit(1)
+
 runs = 2**14
 #
 #sum = 0

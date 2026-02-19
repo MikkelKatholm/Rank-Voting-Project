@@ -1,16 +1,25 @@
 from Compiler.types import *
 from Compiler.GC.types import *
 from Compiler.library import *
-from Compiler.util import if_else
 
 import MASTER_Scripts.RCV_receive_ballots as RCV_receive_ballots
 import MASTER_Scripts.RCV_clean_ballots as RCV_clean_ballots
 import MASTER_Scripts.RCV_convert_ballots as RCV_convert_ballots
 import MASTER_Scripts.RCV_tally_no_leak as RCV_tally_no_leak
+import MASTER_Scripts.RCV_tally_round_leak as RCV_tally_round_leak
 
 from MASTER_Scripts.consts import *
 
 program.active = True
+
+
+def run_tally(ballots: list[Matrix]) -> sint:
+    if RUN_LEAK_VERSION:
+        print_ln("⚠️ Running tally with round leak version (leaks round-by-round votes to all parties)")
+        return RCV_tally_round_leak.tally(ballots)
+    else:
+        print_ln("🔒 Running tally with no leak version (does not leak round-by-round votes)")
+        return RCV_tally_no_leak.tally(ballots)
 
 def main():
     ballots = RCV_receive_ballots.receive_ballots()
@@ -22,7 +31,7 @@ def main():
     sbit_ballots = RCV_convert_ballots.convert_ballots(clean_ballots)
     print_ln("🔢 Converted ballots to sbit format")
 
-    winner = RCV_tally_no_leak.tally(sbit_ballots)
-    print_ln("🏆 Winner is candidate ID: %s", winner.reveal())
 
+    winner = run_tally(sbit_ballots)
+    print_ln("🏆 Winner is candidate ID: %s", winner.reveal())
 main()

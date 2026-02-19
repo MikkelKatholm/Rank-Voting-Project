@@ -9,6 +9,7 @@ load_dotenv("consts.env")
 PORTNUM = int(os.getenv("PORTNUM"))
 NUM_CLIENTS = int(os.getenv("NUM_VOTERS"))
 NUM_CANDS = int(os.getenv("NUM_CANDS"))
+RUN_LEAK_VERSION = bool(int(os.getenv("RUN_LEAK_VERSION")))
 n_threads = 4
 DEBUG = bool(int(os.getenv("DEBUG")))
 

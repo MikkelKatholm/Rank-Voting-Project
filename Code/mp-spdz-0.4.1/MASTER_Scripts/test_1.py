@@ -3,9 +3,5 @@ from Compiler.GC.types import *
 from Compiler.library import print_ln, do_while, for_range
 from Compiler.util import if_else
 
-import MASTER_Scripts.test_1 as test_1
 
-program.use_edabit(True)
-
-print_ln("imported value from test_1: %s", (test_1.this_is_my_val).reveal())
-
+this_is_my_val = sint(42)

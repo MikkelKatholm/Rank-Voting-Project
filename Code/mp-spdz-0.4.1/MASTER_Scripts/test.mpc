@@ -7,5 +7,8 @@ import MASTER_Scripts.test_1 as test_1
 
 program.use_edabit(True)
 
-print_ln("imported value from test_1: %s", (test_1.this_is_my_val).reveal())
 
+def main():
+    test_1.run_test()
+
+main()

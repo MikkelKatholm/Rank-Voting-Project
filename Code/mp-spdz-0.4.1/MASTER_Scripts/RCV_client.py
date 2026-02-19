@@ -33,7 +33,6 @@ for socket in client.sockets:
 
 def run(ballot_values):
     client.send_private_inputs(ballot_values)
-    print(f"📨 Ballot sent by client {client_id}")
 
 # running one round for sint
 

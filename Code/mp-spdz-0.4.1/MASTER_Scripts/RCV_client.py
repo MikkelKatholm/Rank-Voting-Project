@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, os.path.dirname(sys.argv[0]) + "/..")
 sys.path.append("ExternalIO/.")
-from client import *
-from domains import *
+from client import *                                            # type: ignore
+from domains import *                                           # type: ignore
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(script_dir, "consts.env"))
@@ -25,9 +25,9 @@ def read_ballot_from_file(client_id):
 
 ballot_values = read_ballot_from_file(client_id)
 
-client = Client(['localhost'] * n_parties, PORTNUM, client_id)
+client = Client(['localhost'] * n_parties, PORTNUM, client_id)      # type: ignore
 for socket in client.sockets:
-    os = octetStream()
+    os = octetStream()                                              # type: ignore
     os.store(finish)
     os.Send(socket)
 

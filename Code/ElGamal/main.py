@@ -92,10 +92,10 @@ def main():
     decrypt_and_print_ballots(encrypted_ballots, key_shares, t, servers[0])
 
     # 5. Eliminate cand id = 1
-    candidate_to_eliminate = 1
-    for server in servers:
-        server.update_active_candidates(candidate_to_eliminate)
-        server.remove_eliminated_candidates()
+    #candidate_to_eliminate = 1
+    #for server in servers:
+    #    server.update_active_candidates(candidate_to_eliminate)
+    #    server.remove_eliminated_candidates()
 
     encrypted_ballots_after_elimination = servers[0].encrypted_ballots
     print(f"len(encrypted_ballots_after_elimination) = {len(encrypted_ballots_after_elimination)}")
@@ -103,12 +103,13 @@ def main():
     decrypt_and_print_ballots(encrypted_ballots_after_elimination, key_shares, t, servers[0])
 
 
-    flipped_sums = servers[0].remove_non_highest_priority()
+    for server in servers:
+        server.remove_non_highest_priority()
+    encrypted_ballots_after_priority_removal = servers[0].encrypted_ballots
+    print("\nEncrypted Ballots After Removing Non-Highest Priority Candidates:")
+    decrypt_and_print_ballots(encrypted_ballots_after_priority_removal, key_shares, t, servers[0])
 
-    print("\nFlipped Col Sums:")
 
-    for i, flipped_sum in enumerate(flipped_sums): #type: ignore
-        print(f"id = {i+1}: {decrypt_value(flipped_sum, key_shares, t, servers[0])}") #type: ignore
 
 
 

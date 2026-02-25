@@ -7,6 +7,7 @@ bitLength = 64
 NUM_CANDS = 3
 BALLOT_FOLDER = "ballots"
 
+
 PublicKey = int
 SecretKey = int
 KeyPair = NamedTuple('KeyPair', [('pk', PublicKey), ('sk', SecretKey)])
@@ -39,10 +40,10 @@ class Ciphertext:
         return Ciphertext(new_c1, new_c2, self.params)
     
     def __mul__(self, other):
-        if not isinstance(other, Ciphertext):
+        if not isinstance(other, int):
             return NotImplemented
-        new_c1 = pow(self.c1, other.c1, self.params.p)
-        new_c2 = pow(self.c2, other.c2, self.params.p)
+        new_c1 = pow(self.c1, other, self.params.p)
+        new_c2 = pow(self.c2, other, self.params.p)
         return Ciphertext(new_c1, new_c2, self.params)
 
     def __iter__(self):

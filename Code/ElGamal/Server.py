@@ -51,15 +51,16 @@ class Server:
             col = [eb.get_col(col) for col in range(NUM_CANDS)]
             col_sums = [sum(col[1:], col[0]) for col in col]
 
-            flipped_col_sums = [self.elgamal.enc(self.pk, 1) - col_sum for col_sum in col_sums]
-
-            return flipped_col_sums            
-
-            for i in range(len(col_sums)):
-                prod = self.elgamal.enc(self.pk, 1) 
-                for j in range(len(col_sums)):
+            for i, row in enumerate(eb.values):
+                for j, _ in enumerate(row):
+                    working_ciphertext = eb.get_entry(i, j)
+                    intermediate_col_sums = self.elgamal.enc(self.pk, 0)
                     for k in range(j):
-                        prod *= flipped_col_sums[k]
-                    update_value = eb.get_entry(i, j) * prod
-                    eb.update_entry(i, j, update_value)
+                        intermediate_col_sums += col_sums[k]
+
+
+                    not_working_ciphertext = self.elgamal.enc(self.pk, 1) - working_ciphertext
+                    new_ciphertext = self.elgamal.enc(self.pk, 1) - (not_working_ciphertext + intermediate_col_sums)
+                    eb.update_entry(i, j, new_ciphertext)
+            
 

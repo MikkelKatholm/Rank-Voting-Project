@@ -54,6 +54,7 @@ class ElGamalCrypto:
         p = self.params.p
         g = self.params.g
 
+
         r = random.SystemRandom().randint(1, q - 1)
 
         c1 = pow(g, r, p)
@@ -104,9 +105,6 @@ class ElGamalCrypto:
         gm = (c2 * pow(d, -1, self.params.p)) % self.params.p
 
         for m in range(self.params.q):
-            if m % 50_000 == 0:
-                print(f"Trying m={m} of {self.params.q}...")
-
             if pow(self.params.g, m, self.params.p) == gm:
                 return m
         raise ValueError("Decryption failed")

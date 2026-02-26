@@ -1,8 +1,3 @@
-	
-
-- What now, ElGamal gives us problems
-- Should we use some Ring based scheme or other FHE scheme?
-- Should we extend our system to elect more then one winner?
 
 ### Stuff to add
 1. Threshold ElGamal via Verifiable Mix-Nets
@@ -29,4 +24,9 @@ Find real world RCV elections for multiple winners
 
 
 
+## 2026-03-04
+- Look at Table of content
+- How do we site out 10 ECTS report
+	- Put in appendix?
+	- Mark with a $\star$ ?
 

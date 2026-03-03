@@ -29,4 +29,9 @@ Find real world RCV elections for multiple winners
 - How do we site out 10 ECTS report
 	- Put in appendix?
 	- Mark with a $\star$ ?
-
+* It is worth the trouble to implement Networked mix nets using TLS?
+* We wrote something
+* **Make a clear plan for next time**
+* Verifiability for SPD
+	* It looks like we need to change the offline phase. But we don't know if that can be done without change the MP-SPDZ source code
+* 

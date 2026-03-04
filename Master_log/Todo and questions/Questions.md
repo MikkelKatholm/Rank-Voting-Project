@@ -44,12 +44,12 @@ Find real world RCV elections for multiple winners
 * Cast as intended (individual ver)
 * Counted as case (universal ver)
 * For old report use a normal citation with a github like
-* Give diego papers (SPDZ verifiability)
+
 
 - Make verifaible shuffel code and text work
 - Make the code
-- Understnd the paper
-- Send diego papaers (SPDZ verifiability)
+- Understnd the paper (Mix nets verfiability)
+- _Send diego papaers (SPDZ verifiability)_
 - Add a SPDZ verafibility protcol to the thesis no matter if we implement it
 - Add stuff from the old report to the thesis. and cite it.
 - 

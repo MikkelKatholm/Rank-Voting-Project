@@ -29,4 +29,27 @@ Find real world RCV elections for multiple winners
 - How do we site out 10 ECTS report
 	- Put in appendix?
 	- Mark with a $\star$ ?
+* It is worth the trouble to implement Networked mix nets using TLS?
+* We wrote something
+* **Make a clear plan for next time**
+* Verifiability for SPDZ
+	* It looks like we need to change the offline phase. But we don't know if that can be done without change the MP-SPDZ source code
 
+
+
+
+
+
+* use electotial scheme
+* Cast as intended (individual ver)
+* Counted as case (universal ver)
+* For old report use a normal citation with a github like
+
+
+- Make verifaible shuffel code and text work
+- Make the code
+- Understnd the paper (Mix nets verfiability)
+- _Send diego papaers (SPDZ verifiability)_
+- Add a SPDZ verafibility protcol to the thesis no matter if we implement it
+- Add stuff from the old report to the thesis. and cite it.
+- 

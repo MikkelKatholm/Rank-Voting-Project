@@ -4,7 +4,7 @@ from Compiler.library import *
 
 from MASTER_Scripts.consts import *
 
-def sint_to_sbit(s: sint) -> sb:
+def sint_to_sbit(s: sint) -> sb:        # type: ignore
     return s - sb(0)
 
 def convert_ballot(ballot: Matrix) -> Matrix:

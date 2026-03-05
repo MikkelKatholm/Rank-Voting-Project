@@ -1,4 +1,4 @@
-from consts import *
+from Consts import *
 import ElGamal
 import Shamir
 

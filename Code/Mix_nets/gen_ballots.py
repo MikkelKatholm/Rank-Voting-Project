@@ -1,5 +1,5 @@
 import os
-from consts import BALLOT_FOLDER, NUM_CANDS
+from Consts import BALLOT_FOLDER, NUM_CANDS
 import numpy as np
 
 
@@ -17,7 +17,6 @@ def generate_fresh_ballots(num_ballots: int):
 
     for i in range(num_ballots):
         perm = np.random.permutation(NUM_CANDS)
-        perm = [x + 1 for x in perm]  # Convert to 1-based indexing
 
 
         with open(f"{BALLOT_FOLDER}/{i}_ballot", "w") as f:

@@ -1,4 +1,4 @@
-from consts import *
+from Consts import *
 from ElGamal import ElGamalCrypto, ElGamalParams
 
 class Client:

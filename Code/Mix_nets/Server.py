@@ -1,4 +1,4 @@
-from consts import *
+from Consts import *
 from ElGamal import ElGamalCrypto, ElGamalParams
 import Shamir
 import random
@@ -42,7 +42,7 @@ class Server:
         decrypted_messages = []
         for ct in ciphertexts:
             decrypted = self.crypto.decrypt_for_shamir(shares, ct, self.t)
-            ballot_as_list = int_to_perm(decrypted, NUM_CANDS)
+            ballot_as_list = int_to_perm(decrypted)
             decrypted_messages.append(ballot_as_list)
         return decrypted_messages
     

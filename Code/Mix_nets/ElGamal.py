@@ -1,5 +1,5 @@
 
-from consts import *
+from Consts import *
 import random
 import Shamir
 import sympy as sp

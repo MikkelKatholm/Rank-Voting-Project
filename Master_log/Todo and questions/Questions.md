@@ -1,4 +1,5 @@
 
+
 ### Stuff to add
 1. Threshold ElGamal via Verifiable Mix-Nets
 	1. Encrypt a ballot using ElGamal and send it to all the servers using a mix network such that the servers does not know where it comes from

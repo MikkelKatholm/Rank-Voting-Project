@@ -1,19 +1,20 @@
-from consts import perm_to_int, int_to_perm
 from gen_ballots import generate_fresh_ballots
-from consts import *
+from Consts import *
+import random
 import ElGamal
 import Server
 import Client
 import TTP
 import pytest
-
+import Tally
 
 
 def test_perm_roundtrip():
-    perm = [3, 1, 4, 2]
-    n = len(perm)
+    perm = [i for i in range(NUM_CANDS)]
+    random.shuffle(perm)
+    
     v = perm_to_int(perm)
-    perm2 = int_to_perm(v, n)
+    perm2 = int_to_perm(v)
     assert perm == perm2
 
 
@@ -31,8 +32,19 @@ def test_elgamal_encrypt_decrypt_perm():
     m_decoded = crypto.dec(sk, c)
     
     # decode decrypted integer back to permutation
-    perm_out = int_to_perm(m_decoded, n)
+    perm_out = int_to_perm(m_decoded)
     assert perm_out == perm
+
+def test_tally():
+    ballot1 = [i for i in range(NUM_CANDS)]
+    n = NUM_CANDS//2
+    ballot2 = ballot1[n:] + ballot1[:n]
+    ballots = [ballot1 if i % 2 == 0 else ballot2 for i in range(NUM_CLIENTS)]
+
+    expected_winner = ballot1[n:][0] if NUM_CLIENTS % 2 == 0 else ballot1[0]
+
+    winner = Tally.tally(ballots)
+    assert winner == expected_winner
 
 
 class TestMixNet:
@@ -93,6 +105,14 @@ class TestMixNet:
         for res in sorted_results:
             assert res == sorted(original_ballots)
                 
+        # Run the tally function on the decrypted ballots to find the winner
+        winners = []
+        for server in servers:
+            winner = Tally.tally(server.decrypt_ballots(all_shares, current_ballots))
+            winners.append(winner)
+        # Check that all servers got the same winner and that it is a valid candidate
+        assert all(w == winners[0] for w in winners)
+        assert winners[0] in range(NUM_CANDS)
 
 
 

@@ -1,7 +1,7 @@
 import sympy as sp
 import random
 from functools import reduce
-from consts import *
+from Consts import *
 from egcd import egcd
 
 

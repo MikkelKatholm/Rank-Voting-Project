@@ -53,4 +53,12 @@ Find real world RCV elections for multiple winners
 - _Send diego papaers (SPDZ verifiability)_
 - Add a SPDZ verafibility protcol to the thesis no matter if we implement it
 - Add stuff from the old report to the thesis. and cite it.
-- 
+
+
+
+
+
+
+# 2026-03-18
+- Adding an appendix section with terms like RCV STV, Instant-run-off, Proportinal-RCV, ...
+- Proving non interactive ZKP, Fiat-Shamir. Some default way to do it???

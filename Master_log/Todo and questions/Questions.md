@@ -62,3 +62,5 @@ Find real world RCV elections for multiple winners
 # 2026-03-18
 - Adding an appendix section with terms like RCV STV, Instant-run-off, Proportinal-RCV, ...
 - Proving non interactive ZKP, Fiat-Shamir. Some default way to do it???
+- Add how the physical client should work???
+- 

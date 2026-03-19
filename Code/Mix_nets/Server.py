@@ -1,6 +1,7 @@
 from Consts import *
 from ElGamal import ElGamalCrypto, ElGamalParams
 from Crypto.Random import random as crypto_random
+import Commitment
 
 class Server:
     def __init__(self, params: ElGamalParams, pk: PublicKey, t: int, n: int, sk_share: Share):
@@ -8,8 +9,10 @@ class Server:
         self.pk = pk
         self.t = t
         self.n = n
+        self.beta = []
         self.sk_share = sk_share
         self.ballots: list[Ciphertext] = []
+        self.new_ballots: list[Ciphertext] = []
         self.perm = list(range(len(self.ballots)))
         crypto_random.shuffle(self.perm)
 
@@ -19,24 +22,32 @@ class Server:
     
     def shuffle(self):
         """Shuffle the received ballots using a random permutation."""
-        self.ballots = [self.ballots[i] for i in self.perm]
+        self.new_ballots = [self.ballots[i] for i in self.perm]
 
     def re_encrypt(self):
         """Re-encrypt the shuffled ballots to further obfuscate them."""
         re_encrypted_ballots = []
-        for ballot in self.ballots:
+        for ballot in self.new_ballots:
             # Re-encrypt by encrypting the ciphertext again with a random r
-            random_enc = self.crypto.enc(self.pk, 1)
+            randomness = crypto_random.randint(0, self.crypto.params.q - 1)
+            self.beta.append(randomness)
+            random_enc = self.crypto.enc(self.pk, 1, randomness)
             # Combine the original ciphertext with the random encryption
             re_encrypted_ballots.append(ballot * random_enc)
         # Destroy all knowledge of the original ballot (in a real implementation, we would also need to securely erase the original ciphertext)
-        self.ballots = []
+        self.new_ballots = re_encrypted_ballots
+
         return re_encrypted_ballots
 
-    def run_mixing_protocol(self):
+    def run_mixing_protocol(self) -> tuple[list[Ciphertext], dict]:
+        self.perm = list(range(len(self.ballots)))
+        crypto_random.shuffle(self.perm)
         """Run the full mixing protocol: shuffle and re-encrypt."""
         self.shuffle()
-        return self.re_encrypt()
+        new_enc = self.re_encrypt()
+        #gen proof
+        proof = self.gen_proof()
+        return new_enc, proof
     
     def decrypt_ballots(self, shares: Shares, ciphertexts: list[Ciphertext]):
         """Decrypt the ballots using the shares of the secret key."""
@@ -47,3 +58,7 @@ class Server:
             decrypted_messages.append(ballot_as_list)
         return decrypted_messages
     
+    def gen_proof(self):
+        prover = Commitment.Prover(self.beta, self.perm, self.ballots, self.new_ballots, self.crypto.params, self.pk)
+        proof = prover.shuffle_elgamal_pairs()
+        return proof 

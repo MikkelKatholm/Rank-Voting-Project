@@ -29,6 +29,9 @@ class Prover:
         gamma = self._get_from_Zqstar()
         a = self._unique_from_Zqstar(self.k)
 
+        print(f"len(a): {len(a)}")
+        print(f"len(perm): {len(self.perm)}")
+
         # Step 2: compute stuff
         Gamma = pow(self.generator, gamma, self.params.p)
         A = [pow(self.generator, a[i], self.params.p) for i in range(self.k)]
@@ -45,16 +48,14 @@ class Prover:
         # Step 3: compute challenge
         rho = []
         for i in range(self.k):
-            hash_msg = str(Gamma) + str(A[i]) + str(C[i]) + str(U[i]) + str(W[i]) + str(Lambda1) + str(Lambda2) + str(self.input_ciphertexts[i]) + str(self.output_ciphertexts[i])
-            rho.append(hash(hash_msg, self.params.q))
+            rho.append(hash([Gamma, A[i], C[i], U[i], W[i], Lambda1, Lambda2, self.input_ciphertexts[i], self.output_ciphertexts[i]], self.params.q))
 
         b = [rho[i] - u[i] for i in range(self.k)]
         d = [gamma * b[self.perm[i]] for i in range(self.k)]
         D = [pow(self.generator, d[i], self.params.p) for i in range(self.k)]
 
         # Step 4: Compute hash
-        challenge_msg = str(Gamma) + str(A) + str(C) + str(U) + str(W) + str(Lambda1) + str(Lambda2) + str(self.input_ciphertexts) + str(self.output_ciphertexts) + str(D)
-        lambda_challenge = hash(challenge_msg, self.params.q)
+        lambda_challenge = hash([Gamma, A, C, U, W, Lambda1, Lambda2, self.input_ciphertexts, self.output_ciphertexts, D], self.params.q)
 
         # Step 5: Compute some skrammel
         r = [a[i] + lambda_challenge * b[i] for i in range(self.k)]
@@ -89,7 +90,7 @@ class Prover:
 
     def simple_k_shuffle(self, Gamma: int, X: list[int], Y: list[int], gamma: int, x: list[int], y: list[int]) -> dict:
         # Step 1: compute challenge
-        t = hash(str(self.generator) + str(Gamma) + str(X) + str(Y), self.params.q)
+        t = hash([self.generator, Gamma, X, Y], self.params.q)
         
         # Step 2: Make hats
         x_hat = [(x[i] - t) % self.params.q for i in range(self.k)]
@@ -103,8 +104,7 @@ class Prover:
         Theta += [pow(self.generator, gamma * theta[2 * self.k - 2])]                                           # Theta_(2k-1)
 
         # Step 4: Compute hash
-        challenge_msg = str(self.generator) + str(Gamma) + str(X) + str(Y) + str(Theta)
-        c = hash(challenge_msg, self.params.q)
+        c = hash([self.generator, Gamma, X, Y, Theta], self.params.q)
 
         # Step 5: Compute some skrammel
         prods = [div_mod(x_hat[0], y_hat[0], self.params.q)]

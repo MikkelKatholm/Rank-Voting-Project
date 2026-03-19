@@ -71,11 +71,11 @@ class TestMixNet:
             servers[0].receive_ballot(ballot)
         
         # Run mixing protocol through all servers
-        current_ballots = servers[0].run_mixing_protocol()
+        current_ballots, proof = servers[0].run_mixing_protocol()
         for i in range(1, NUM_SERVERS):
             for ballot in current_ballots:
                 servers[i].receive_ballot(ballot)
-            current_ballots = servers[i].run_mixing_protocol()
+            current_ballots, proof = servers[i].run_mixing_protocol()
         
         # Pool shares from all servers
         all_shares = []

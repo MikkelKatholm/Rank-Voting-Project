@@ -44,7 +44,7 @@ class ElGamalCrypto:
         pk = pow(self.params.g, sk, self.params.p)
         return KeyPair(pk, sk)
 
-    def enc(self, pk: PublicKey, m) -> Ciphertext:
+    def enc(self, pk: PublicKey, m, r: int|None = None) -> Ciphertext:
         """Encrypt a message m using pk.
 
         If `m` is a list (permutation of 1..n), it will be encoded using
@@ -52,6 +52,7 @@ class ElGamalCrypto:
 
         :param pk: The public key to encrypt with
         :param m: The message to encrypt (int or list permutation)
+        :param r: The random nonce to use (optional)
         :return: A `Ciphertext` object where c1 = g^r mod p and c2 = (pk^r * m) mod p
         """
         q = self.params.q
@@ -66,7 +67,8 @@ class ElGamalCrypto:
         else:
             m_int = int(m)
 
-        r = random.SystemRandom().randint(1, q - 1)
+        if r is None:
+            r = random.SystemRandom().randint(1, q - 1)
 
         c1 = pow(g, r, p)
         # new scheme: c2 = pk^r * m (mod p)

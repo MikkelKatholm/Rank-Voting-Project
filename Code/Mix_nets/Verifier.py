@@ -1,5 +1,5 @@
 from Consts import *
-from ElGamal import ElGamalCrypto, ElGamalParams
+from ElGamal import ElGamalParams
 from Shamir import div_mod
 from math import prod
 
@@ -22,15 +22,11 @@ class Verifier:
         # Step 1: compute challenge
         rho = []
         for i in range(self.k):
-            hash_msg = str(self.Gamma) + str(transcript["A"][i]) + str(transcript["C"][i]) + str(transcript["U"][i]) + str(transcript["W"][i]) + str(transcript["Lambda1"]) + str(transcript["Lambda2"]) + str(self.input_ciphertexts[i]) + str(self.output_ciphertexts[i])
-
-
-            rho.append(hash(hash_msg, self.params.q))
+            rho.append(hash([self.Gamma, transcript["A"][i], transcript["C"][i], transcript["U"][i], transcript["W"][i], transcript["Lambda1"], transcript["Lambda2"], self.input_ciphertexts[i], self.output_ciphertexts[i]], self.params.q))
         
         B = [div_mod(pow(self.generator, rho[i], self.params.p), transcript["U"][i], self.params.p) for i in range(self.k)]
 
-        challenge_msg = str(self.Gamma) + str(transcript["A"]) + str(transcript["C"]) + str(transcript["U"]) + str(transcript["W"]) + str(transcript["Lambda1"]) + str(transcript["Lambda2"]) + str(self.input_ciphertexts) + str(self.output_ciphertexts) + str(transcript["D"])
-        lambda_challenge = hash(challenge_msg, self.params.q)
+        lambda_challenge = hash([self.Gamma, transcript["A"], transcript["C"], transcript["U"], transcript["W"], transcript["Lambda1"], transcript["Lambda2"], self.input_ciphertexts, self.output_ciphertexts, transcript["D"]], self.params.q)
         
         X = [transcript["A"][i] * pow(transcript["B"][i], lambda_challenge, self.params.p) % self.params.p for i in range(self.k)]
         Y = [transcript["C"][i] * pow(transcript["D"][i], lambda_challenge, self.params.p) % self.params.p for i in range(self.k)]
@@ -63,8 +59,8 @@ class Verifier:
         Theta = transcript["Theta"] 
         
         # Step 1: compute challenge
-        t = hash(str(self.generator) + str(self.Gamma) + str(X) + str(Y), self.params.q)
-        c = hash(str(self.generator) + str(self.Gamma) + str(X) + str(Y) + str(Theta), self.params.q)
+        t = hash([self.generator, self.Gamma, X, Y], self.params.q)
+        c = hash([self.generator, self.Gamma, X, Y, Theta], self.params.q)
 
         # Step 2: check proof
         if t != transcript["t"]:

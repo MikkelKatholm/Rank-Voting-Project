@@ -1,4 +1,4 @@
-from typing import Tuple, Optional, NamedTuple, TYPE_CHECKING, List
+from typing import Tuple, Optional, NamedTuple, TYPE_CHECKING, List, Any
 import hashlib
 import math
 
@@ -12,7 +12,7 @@ NUM_CLIENTS = 4
 NUM_CANDS = 5
 
 
-BIT_LENGTH = 64 # Diego says to use 3072
+BIT_LENGTH = 12 # Diego says to use 3072
 PublicKey = int
 SecretKey = int
 KeyPair = NamedTuple('KeyPair', [('pk', PublicKey), ('sk', SecretKey)])
@@ -123,8 +123,44 @@ class Ciphertext:
         yield self.c1
         yield self.c2
 
-def hash(msg: str, prime: int) -> int:
-    return int(hashlib.sha256(msg.encode()).hexdigest(), 16) % prime
+def hash(msg: Any, prime: int) -> int:
+    def _update_hasher(obj: Any, h: "hashlib._Hash"):
+        if isinstance(obj, bytes):
+            h.update(b'B')
+            h.update(len(obj).to_bytes(4, 'big'))
+            h.update(obj)
+        elif isinstance(obj, str):
+            b = obj.encode()
+            h.update(b'S')
+            h.update(len(b).to_bytes(4, 'big'))
+            h.update(b)
+        elif isinstance(obj, int):
+            if obj == 0:
+                b = b"\x00"
+            else:
+                nbytes = (obj.bit_length() + 7) // 8
+                b = obj.to_bytes(nbytes, 'big', signed=False)
+            h.update(b'I')
+            h.update(len(b).to_bytes(4, 'big'))
+            h.update(b)
+        elif isinstance(obj, Ciphertext):
+            _update_hasher(obj.c1, h)
+            _update_hasher(obj.c2, h)
+        elif isinstance(obj, (list, tuple)):
+            h.update(b'L')
+            h.update(len(obj).to_bytes(4, 'big'))
+            for el in obj:
+                _update_hasher(el, h)
+        else:
+            # Fallback: use string representation as bytes (should be rare)
+            b = str(obj).encode()
+            h.update(b'U')
+            h.update(len(b).to_bytes(4, 'big'))
+            h.update(b)
+
+    h = hashlib.sha256()
+    _update_hasher(msg, h)
+    return int.from_bytes(h.digest(), 'big') % prime
 
 if __name__ == "__main__":
     input = [0, 2]

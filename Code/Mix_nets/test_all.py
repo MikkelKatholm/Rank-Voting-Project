@@ -52,9 +52,9 @@ class TestMixNet:
     def test_full_protocol(self):
         # Setup TTP and servers
         ttp = TTP.TTP()
-        #verifier = Verifier.Verifier()
         params, pk, shares = ttp.return_info()
         servers = [Server.Server(params, pk, THRESHOLD, NUM_SERVERS, shares[i]) for i in range(NUM_SERVERS)]
+        verifier = Verifier.Verifier(params, pk)
 
         # Generate ballots and save to files
         generate_fresh_ballots(NUM_CLIENTS)
@@ -74,6 +74,8 @@ class TestMixNet:
         
         # Run mixing protocol through all servers
         current_ballots, proof = servers[0].run_mixing_protocol()
+        if not verifier.verify_shuffle_elgamal_pairs(encrypted_ballots, current_ballots, proof):
+            raise ValueError("The proof is invalid: Shuffle proof verification failed at server 0.")
         for i in range(1, NUM_SERVERS):
             for ballot in current_ballots:
                 servers[i].receive_ballot(ballot)

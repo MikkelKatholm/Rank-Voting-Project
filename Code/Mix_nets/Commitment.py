@@ -107,8 +107,14 @@ class Prover:
         c = hash([self.generator, Gamma, X, Y, Theta], self.params.q)
 
         # Step 5: Compute some skrammel
-        prods = [div_mod(x_hat[0], y_hat[0], self.params.q)]
-        prods += [div_mod(x_hat[i], y_hat[i], self.params.q) * prods[i-1] for i in range(1, self.k)]
+        prod0 = div_mod(x_hat[0], y_hat[0], self.params.q)
+        prods = [prod0]
+        for i in range(1, self.k):
+            prod = div_mod(x_hat[i], y_hat[i], self.params.q) * prods[i-1] % self.params.q
+            prods.append(prod)        
+        #prods += [div_mod(x_hat[i], y_hat[i], self.params.q) * prods[i-1] for i in range(1, self.k)]
+
+
         alpha = [(theta[i] + c * prods[i]) for i in range(self.k)]
         alpha += [theta[i] + c * pow(gamma, i-2*self.k, self.params.q) for i in range(self.k, 2*self.k - 1)]
 

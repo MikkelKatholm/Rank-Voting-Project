@@ -7,6 +7,7 @@ import Client
 import TTP
 import pytest
 import Tally
+import Verifier
 
 
 def test_perm_roundtrip():
@@ -51,6 +52,7 @@ class TestMixNet:
     def test_full_protocol(self):
         # Setup TTP and servers
         ttp = TTP.TTP()
+        #verifier = Verifier.Verifier()
         params, pk, shares = ttp.return_info()
         servers = [Server.Server(params, pk, THRESHOLD, NUM_SERVERS, shares[i]) for i in range(NUM_SERVERS)]
 

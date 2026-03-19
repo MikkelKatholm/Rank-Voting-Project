@@ -1,4 +1,5 @@
 from typing import Tuple, Optional, NamedTuple, TYPE_CHECKING, List
+import hashlib
 import math
 
 if TYPE_CHECKING:
@@ -98,6 +99,9 @@ class Ciphertext:
     def __repr__(self):
         return f"Ciphertext(c1={self.c1}, c2={self.c2})"
     
+    def __str__(self):
+        return self.__repr__()
+    
     def __add__(self, other):
         return NotImplemented
     
@@ -118,6 +122,9 @@ class Ciphertext:
     def __iter__(self):
         yield self.c1
         yield self.c2
+
+def hash(msg: str, prime: int) -> int:
+    return int(hashlib.sha256(msg.encode()).hexdigest(), 16) % prime
 
 if __name__ == "__main__":
     input = [0, 2]

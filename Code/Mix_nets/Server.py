@@ -1,7 +1,6 @@
 from Consts import *
 from ElGamal import ElGamalCrypto, ElGamalParams
-import Shamir
-import random
+from Crypto.Random import random as crypto_random
 
 class Server:
     def __init__(self, params: ElGamalParams, pk: PublicKey, t: int, n: int, sk_share: Share):
@@ -11,6 +10,8 @@ class Server:
         self.n = n
         self.sk_share = sk_share
         self.ballots: list[Ciphertext] = []
+        self.perm = list(range(len(self.ballots)))
+        crypto_random.shuffle(self.perm)
 
     def receive_ballot(self, ballot: Ciphertext):
         """Receive an encrypted ballot and store it for later decryption."""
@@ -18,8 +19,8 @@ class Server:
     
     def shuffle(self):
         """Shuffle the received ballots using a random permutation."""
-        random.shuffle(self.ballots)
-        
+        self.ballots = [self.ballots[i] for i in self.perm]
+
     def re_encrypt(self):
         """Re-encrypt the shuffled ballots to further obfuscate them."""
         re_encrypted_ballots = []

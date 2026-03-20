@@ -17,7 +17,7 @@ class Client:
         filename = f'{BALLOT_FOLDER}/{self.ID}_ballot'
         with open(filename, 'r') as f:
             ballot = [int(x) for x in f.read().strip().split()]
-        print(f"Client {self.ID} read ballot: {ballot}")
+        
         message = perm_to_int(ballot)
         if message >= self.crypto.params.q:
             raise ValueError("Encoded ballot does not fit in group (must be < q)")

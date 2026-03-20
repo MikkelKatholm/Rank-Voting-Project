@@ -48,7 +48,9 @@ def test_tally():
 
 
 class TestMixNet:
-    def test_full_protocol(self):
+
+    @pytest.mark.parametrize("i", range(1000))  # Run the test 10 times to catch randomness issues
+    def test_full_protocol(self, i):
         
         # Setup TTP and servers
         ttp = TTP.TTP()
@@ -92,9 +94,6 @@ class TestMixNet:
             decrypted = server.decrypt_ballots(all_shares, current_ballots)
             server_results.append(decrypted)
 
-        print("Decrypted ballots from servers:")
-        for idx, res in enumerate(server_results):
-            print(f"Server {idx}: {res}")
         # Sort the results.
         sorted_results = [sorted(res) for res in server_results]
 

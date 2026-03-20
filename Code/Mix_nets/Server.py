@@ -43,8 +43,15 @@ class Server:
         self.perm = list(range(len(self.ballots)))
         crypto_random.shuffle(self.perm)
         """Run the full mixing protocol: shuffle and re-encrypt."""
-        self.shuffle()
+#        self.shuffle()
+#        new_enc = self.re_encrypt()
+        
+        self.new_ballots = self.ballots
         new_enc = self.re_encrypt()
+        self.ballots = new_enc
+        self.shuffle()
+        
+        
         #gen proof
         proof = self.gen_proof()
         return new_enc, proof

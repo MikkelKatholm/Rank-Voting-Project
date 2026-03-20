@@ -20,6 +20,9 @@ class Prover:
             self.inv_perm[num] = i
 
     def shuffle_elgamal_pairs(self):
+        p = self.params.p
+        q = self.params.q
+        g = self.generator
         # Step 1: sample stuff
         u = [self._get_from_Zq() for _ in range(self.k)]
         w = [self._get_from_Zq() for _ in range(self.k)]
@@ -29,43 +32,41 @@ class Prover:
         gamma = self._get_from_Zqstar()
         a = self._unique_from_Zqstar(self.k)
 
-        print(f"len(a): {len(a)}")
-        print(f"len(perm): {len(self.perm)}")
 
         # Step 2: compute stuff
-        Gamma = pow(self.generator, gamma, self.params.p)
-        A = [pow(self.generator, a[i], self.params.p) for i in range(self.k)]
+        Gamma = pow(g, gamma, p)
+        A = [pow(g, a[i], p) for i in range(self.k)]
         a_pi = [a[self.perm[i]] for i in range(self.k)]
-        C = [pow(Gamma, a_pi[i], self.params.p) for i in range(self.k)]
-        U = [pow(self.generator, u[i], self.params.p) for i in range(self.k)]
-        W = [pow(Gamma, w[i], self.params.p) for i in range(self.k)]
+        C = [pow(Gamma, a_pi[i], p) for i in range(self.k)]
+        U = [pow(g, u[i], p) for i in range(self.k)]
+        W = [pow(Gamma, w[i], p) for i in range(self.k)]
         
 
-        exp = (tau_0 + sum([w[i]*self.Beta[i] for i in range(self.k)])) % self.params.q         # NOTE: Might need to remove mod 
-        Lambda1 = (pow(self.generator, exp, self.params.p) * prod([pow(self.input_ciphertexts[i].c1, (w[self.inv_perm[i]] - u[i]) % self.params.q, self.params.p) for i in range(self.k)])) % self.params.p
-        Lambda2 = (pow(self.public_key, exp, self.params.p) * prod([pow(self.input_ciphertexts[i].c2, (w[self.inv_perm[i]] - u[i]) % self.params.q, self.params.p) for i in range(self.k)])) % self.params.p
+        exp = (tau_0 + sum([w[i]*self.Beta[i] for i in range(self.k)])) % q
+        Lambda1 = (pow(g, exp, p) * prod([pow(self.input_ciphertexts[i].c1, (w[self.inv_perm[i]] - u[i]) % q, p) for i in range(self.k)])) % p
+        Lambda2 = (pow(self.public_key, exp, p) * prod([pow(self.input_ciphertexts[i].c2, (w[self.inv_perm[i]] - u[i]) % q, p) for i in range(self.k)])) % p
 
         # Step 3: compute challenge
         rho = []
         for i in range(self.k):
-            rho.append(hash([Gamma, A[i], C[i], U[i], W[i], Lambda1, Lambda2, self.input_ciphertexts[i], self.output_ciphertexts[i]], self.params.q))
+            rho.append(hash([Gamma, A[i], C[i], U[i], W[i], Lambda1, Lambda2, self.input_ciphertexts[i], self.output_ciphertexts[i]], q))
 
         b = [rho[i] - u[i] for i in range(self.k)]
         d = [gamma * b[self.perm[i]] for i in range(self.k)]
-        D = [pow(self.generator, d[i], self.params.p) for i in range(self.k)]
+        D = [pow(g, d[i], p) for i in range(self.k)]
 
         # Step 4: Compute hash
-        lambda_challenge = hash([Gamma, A, C, U, W, Lambda1, Lambda2, self.input_ciphertexts, self.output_ciphertexts, D], self.params.q)
+        lambda_challenge = hash([Gamma, A, C, U, W, Lambda1, Lambda2, self.input_ciphertexts, self.output_ciphertexts, D], q)
 
         # Step 5: Compute some skrammel
         r = [a[i] + lambda_challenge * b[i] for i in range(self.k)]
         s = [gamma * r[self.perm[i]] for i in range(self.k)]
         sigma = [w[i] + b[self.perm[i]] for i in range(self.k)]
-        tau = (- tau_0 + sum([b[i] * self.Beta[i] for i in range(self.k)])) % self.params.q
-
+        tau = (- tau_0 + sum([b[self.perm[i]] * self.Beta[i] for i in range(self.k)])) % q  # Should be b[i] but that fails the test.
+        
         # Step 6: Run
-        X = [pow(self.generator, r[i], self.params.p) for i in range(self.k)]
-        Y = [pow(self.generator, s[i], self.params.p) for i in range(self.k)]
+        X = [pow(g, r[i], p) for i in range(self.k)]
+        Y = [pow(g, s[i], p) for i in range(self.k)]
 
         mini_transcript = self.simple_k_shuffle(Gamma, X,Y, gamma, r, s)
 
@@ -89,33 +90,36 @@ class Prover:
 
 
     def simple_k_shuffle(self, Gamma: int, X: list[int], Y: list[int], gamma: int, x: list[int], y: list[int]) -> dict:
+        p = self.params.p
+        q = self.params.q
+        g = self.generator
         # Step 1: compute challenge
-        t = hash([self.generator, Gamma, X, Y], self.params.q)
-        
+        t = hash([g, Gamma, X, Y], q)
+
         # Step 2: Make hats
-        x_hat = [(x[i] - t) % self.params.q for i in range(self.k)]
-        y_hat = [(y[i] - gamma * t) % self.params.q for i in range(self.k)]
+        x_hat = [(x[i] - t) % q for i in range(self.k)]
+        y_hat = [(y[i] - gamma * t) % q for i in range(self.k)]
 
         # Step 3: 
         theta = [self._get_from_Zq() for _ in range(2*self.k - 1)]
-        Theta = [pow(self.generator, (-theta[0] * y_hat[0]) % self.params.q, self.params.p)]                                                     # Theta_0
-        Theta += [pow(self.generator, (theta[i-1] * x_hat[i] - theta[i] * y_hat[i]) % self.params.q, self.params.p) for i in range(1, self.k)]   # Theta_1 -> Theta_(k-1)
-        Theta += [pow(self.generator, (gamma * theta[i - 1] - theta[i]) % self.params.q, self.params.p) for i in range(self.k, 2*self.k - 1)]    # Theta_k -> Theta_(2k-2)
-        Theta += [pow(self.generator, (gamma * theta[2 * self.k - 2]) % self.params.q, self.params.p)]                                           # Theta_(2k-1)
+        Theta = [pow(g, (-theta[0] * y_hat[0]) % q, p)]                                                     # Theta_0
+        Theta += [pow(g, (theta[i-1] * x_hat[i] - theta[i] * y_hat[i]) % q, p) for i in range(1, self.k)]   # Theta_1 -> Theta_(k-1)
+        Theta += [pow(g, (gamma * theta[i - 1] - theta[i]) % q, p) for i in range(self.k, 2*self.k - 1)]    # Theta_k -> Theta_(2k-2)
+        Theta += [pow(g, (gamma * theta[2 * self.k - 2]) % q, p)]                                           # Theta_(2k-1)
 
         # Step 4: Compute hash
-        c = hash([self.generator, Gamma, X, Y, Theta], self.params.q)
+        c = hash([g, Gamma, X, Y, Theta], q)
 
         # Step 5: Compute some skrammel
-        prod0 = div_mod(x_hat[0], y_hat[0], self.params.q)
+        prod0 = div_mod(x_hat[0], y_hat[0], q)
         prods = [prod0]
         for i in range(1, self.k):
-            prod = (div_mod(x_hat[i], y_hat[i], self.params.q) * prods[i-1]) % self.params.q
+            prod = (div_mod(x_hat[i], y_hat[i], q) * prods[i-1]) % q
             prods.append(prod)        
 
 
-        alpha = [(theta[i] + c * prods[i]) % self.params.q for i in range(self.k)]
-        alpha += [(theta[i] + c * pow(gamma, i - 2*self.k + 1, self.params.q)) % self.params.q for i in range(self.k, 2*self.k - 1)]
+        alpha = [(theta[i] + c * prods[i]) % q for i in range(self.k)]
+        alpha += [(theta[i] + c * pow(gamma, i - 2*self.k + 1, q)) % q for i in range(self.k, 2*self.k - 1)]
 
         # Step 6: output transcript
         transcript = {

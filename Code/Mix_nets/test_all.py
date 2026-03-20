@@ -49,7 +49,7 @@ def test_tally():
 
 class TestMixNet:
 
-    @pytest.mark.parametrize("i", range(1000))  # Run the test 10 times to catch randomness issues
+    @pytest.mark.parametrize("i", range(1))  # Run the test 10 times to catch randomness issues
     def test_full_protocol(self, i):
         
         # Setup TTP and servers

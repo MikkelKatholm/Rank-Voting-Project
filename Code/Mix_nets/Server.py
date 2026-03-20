@@ -22,26 +22,27 @@ class Server:
     
     def shuffle(self):
         """Shuffle the received ballots using a random permutation."""
-        self.new_ballots = [self.ballots[i] for i in self.perm]
+        self.new_ballots = [self.new_ballots[i] for i in self.perm]
 
     def re_encrypt(self):
         """Re-encrypt the shuffled ballots to further obfuscate them."""
-        pass
-
-    def run_mixing_protocol(self) -> tuple[list[Ciphertext], dict]:
-        self.perm = list(range(len(self.ballots)))
-        crypto_random.shuffle(self.perm)
-        """Run the full mixing protocol: re-encrypt and shuffle."""
-        # 1. Re-encrypt
         re_encrypted_ballots = []
         for ballot in self.ballots:
             randomness = crypto_random.randint(0, self.crypto.params.q - 1)
             self.beta.append(randomness)
             random_enc = self.crypto.enc(self.pk, 1, randomness)
             re_encrypted_ballots.append(ballot * random_enc)
+        self.new_ballots = re_encrypted_ballots
+
+    def run_mixing_protocol(self) -> tuple[list[Ciphertext], dict]:
+        self.perm = list(range(len(self.ballots)))
+        crypto_random.shuffle(self.perm)
+        """Run the full mixing protocol: re-encrypt and shuffle."""
+        # 1. Re-encrypt
+        self.re_encrypt()
             
         # 2. Shuffle
-        self.new_ballots = [re_encrypted_ballots[i] for i in self.perm]
+        self.shuffle()
                 
         #gen proof
         proof = self.gen_proof()

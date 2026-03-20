@@ -12,7 +12,7 @@ NUM_CLIENTS = 2
 NUM_CANDS = 2
 
 
-BIT_LENGTH = 64 # Diego says to use 3072
+BIT_LENGTH = 3072 # Diego says to use 3072
 PublicKey = int
 SecretKey = int
 KeyPair = NamedTuple('KeyPair', [('pk', PublicKey), ('sk', SecretKey)])

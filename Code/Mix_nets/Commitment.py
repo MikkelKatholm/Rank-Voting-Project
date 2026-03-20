@@ -42,7 +42,7 @@ class Prover:
         W = [pow(Gamma, w[i], p) for i in range(self.k)]
         
 
-        exp = (tau_0 + sum([w[i]*self.Beta[i] for i in range(self.k)])) % q
+        exp = (tau_0 + sum([w[self.inv_perm[i]] * self.Beta[i] for i in range(self.k)])) % q
         Lambda1 = (pow(g, exp, p) * prod([pow(self.input_ciphertexts[i].c1, (w[self.inv_perm[i]] - u[i]) % q, p) for i in range(self.k)])) % p
         Lambda2 = (pow(self.public_key, exp, p) * prod([pow(self.input_ciphertexts[i].c2, (w[self.inv_perm[i]] - u[i]) % q, p) for i in range(self.k)])) % p
 

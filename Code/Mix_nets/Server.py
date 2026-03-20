@@ -26,35 +26,26 @@ class Server:
 
     def re_encrypt(self):
         """Re-encrypt the shuffled ballots to further obfuscate them."""
-        re_encrypted_ballots = []
-        for ballot in self.new_ballots:
-            # Re-encrypt by encrypting the ciphertext again with a random r
-            randomness = crypto_random.randint(0, self.crypto.params.q - 1)
-            self.beta.append(randomness)
-            random_enc = self.crypto.enc(self.pk, 1, randomness)
-            # Combine the original ciphertext with the random encryption
-            re_encrypted_ballots.append(ballot * random_enc)
-        # Destroy all knowledge of the original ballot (in a real implementation, we would also need to securely erase the original ciphertext)
-        self.new_ballots = re_encrypted_ballots
-
-        return re_encrypted_ballots
+        pass
 
     def run_mixing_protocol(self) -> tuple[list[Ciphertext], dict]:
         self.perm = list(range(len(self.ballots)))
         crypto_random.shuffle(self.perm)
-        """Run the full mixing protocol: shuffle and re-encrypt."""
-#        self.shuffle()
-#        new_enc = self.re_encrypt()
-        
-        self.new_ballots = self.ballots
-        new_enc = self.re_encrypt()
-        self.ballots = new_enc
-        self.shuffle()
-        
-        
+        """Run the full mixing protocol: re-encrypt and shuffle."""
+        # 1. Re-encrypt
+        re_encrypted_ballots = []
+        for ballot in self.ballots:
+            randomness = crypto_random.randint(0, self.crypto.params.q - 1)
+            self.beta.append(randomness)
+            random_enc = self.crypto.enc(self.pk, 1, randomness)
+            re_encrypted_ballots.append(ballot * random_enc)
+            
+        # 2. Shuffle
+        self.new_ballots = [re_encrypted_ballots[i] for i in self.perm]
+                
         #gen proof
         proof = self.gen_proof()
-        return new_enc, proof
+        return self.new_ballots, proof
     
     def decrypt_ballots(self, shares: Shares, ciphertexts: list[Ciphertext]):
         """Decrypt the ballots using the shares of the secret key."""

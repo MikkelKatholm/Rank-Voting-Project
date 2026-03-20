@@ -62,7 +62,7 @@ class Prover:
         r = [a[i] + lambda_challenge * b[i] for i in range(self.k)]
         s = [gamma * r[self.perm[i]] for i in range(self.k)]
         sigma = [w[i] + b[self.perm[i]] for i in range(self.k)]
-        tau = (- tau_0 + sum([b[self.perm[i]] * self.Beta[i] for i in range(self.k)])) % q  # Should be b[i] but that fails the test.
+        tau = (- tau_0 + sum([b[i] * self.Beta[i] for i in range(self.k)])) % q  # Should be b[i] but that fails the test.
         
         # Step 6: Run
         X = [pow(g, r[i], p) for i in range(self.k)]

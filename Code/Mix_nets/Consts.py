@@ -8,11 +8,11 @@ if TYPE_CHECKING:
 BALLOT_FOLDER = 'ballots'
 NUM_SERVERS = 3
 THRESHOLD = 2
-NUM_CLIENTS = 4
-NUM_CANDS = 5
+NUM_CLIENTS = 2
+NUM_CANDS = 2
 
 
-BIT_LENGTH = 12 # Diego says to use 3072
+BIT_LENGTH = 10 # Diego says to use 3072
 PublicKey = int
 SecretKey = int
 KeyPair = NamedTuple('KeyPair', [('pk', PublicKey), ('sk', SecretKey)])

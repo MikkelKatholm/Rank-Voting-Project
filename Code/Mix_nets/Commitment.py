@@ -42,8 +42,8 @@ class Prover:
         
 
         exp = (tau_0 + sum([w[i]*self.Beta[i] for i in range(self.k)])) % self.params.q         # NOTE: Might need to remove mod 
-        Lambda1 = pow(self.generator, exp, self.params.p) + prod([pow(self.input_ciphertexts[i].c1, w[self.inv_perm[i]] - u[i], self.params.p) for i in range(self.k)]) % self.params.p
-        Lambda2 = pow(self.public_key, exp, self.params.p) + prod([pow(self.input_ciphertexts[i].c2, w[self.inv_perm[i]] - u[i], self.params.p) for i in range(self.k)]) % self.params.p
+        Lambda1 = (pow(self.generator, exp, self.params.p) * prod([pow(self.input_ciphertexts[i].c1, (w[self.inv_perm[i]] - u[i]) % self.params.q, self.params.p) for i in range(self.k)])) % self.params.p
+        Lambda2 = (pow(self.public_key, exp, self.params.p) * prod([pow(self.input_ciphertexts[i].c2, (w[self.inv_perm[i]] - u[i]) % self.params.q, self.params.p) for i in range(self.k)])) % self.params.p
 
         # Step 3: compute challenge
         rho = []
@@ -94,14 +94,14 @@ class Prover:
         
         # Step 2: Make hats
         x_hat = [(x[i] - t) % self.params.q for i in range(self.k)]
-        y_hat = [(y[i] - t) % self.params.q for i in range(self.k)]
+        y_hat = [(y[i] - gamma * t) % self.params.q for i in range(self.k)]
 
         # Step 3: 
-        theta = [self._get_from_Zq() for _ in range(2*self.k - 1)]                                              
-        Theta = [pow(self.generator, -theta[0] * y_hat[0])]                                                     # Theta_0
-        Theta += [pow(self.generator, theta[i-1] * x_hat[i] - theta[i] * y_hat[i]) for i in range(1, self.k)]   # Theta_1 -> Theta_(k-1)
-        Theta += [pow(self.generator, gamma * theta[i - 1] - theta[i]) for i in range(self.k, 2*self.k - 1)]    # Theta_k -> Theta_(2k-2)
-        Theta += [pow(self.generator, gamma * theta[2 * self.k - 2])]                                           # Theta_(2k-1)
+        theta = [self._get_from_Zq() for _ in range(2*self.k - 1)]
+        Theta = [pow(self.generator, (-theta[0] * y_hat[0]) % self.params.q, self.params.p)]                                                     # Theta_0
+        Theta += [pow(self.generator, (theta[i-1] * x_hat[i] - theta[i] * y_hat[i]) % self.params.q, self.params.p) for i in range(1, self.k)]   # Theta_1 -> Theta_(k-1)
+        Theta += [pow(self.generator, (gamma * theta[i - 1] - theta[i]) % self.params.q, self.params.p) for i in range(self.k, 2*self.k - 1)]    # Theta_k -> Theta_(2k-2)
+        Theta += [pow(self.generator, (gamma * theta[2 * self.k - 2]) % self.params.q, self.params.p)]                                           # Theta_(2k-1)
 
         # Step 4: Compute hash
         c = hash([self.generator, Gamma, X, Y, Theta], self.params.q)
@@ -110,13 +110,12 @@ class Prover:
         prod0 = div_mod(x_hat[0], y_hat[0], self.params.q)
         prods = [prod0]
         for i in range(1, self.k):
-            prod = div_mod(x_hat[i], y_hat[i], self.params.q) * prods[i-1] % self.params.q
+            prod = (div_mod(x_hat[i], y_hat[i], self.params.q) * prods[i-1]) % self.params.q
             prods.append(prod)        
-        #prods += [div_mod(x_hat[i], y_hat[i], self.params.q) * prods[i-1] for i in range(1, self.k)]
 
 
-        alpha = [(theta[i] + c * prods[i]) for i in range(self.k)]
-        alpha += [theta[i] + c * pow(gamma, i-2*self.k, self.params.q) for i in range(self.k, 2*self.k - 1)]
+        alpha = [(theta[i] + c * prods[i]) % self.params.q for i in range(self.k)]
+        alpha += [(theta[i] + c * pow(gamma, i - 2*self.k + 1, self.params.q)) % self.params.q for i in range(self.k, 2*self.k - 1)]
 
         # Step 6: output transcript
         transcript = {

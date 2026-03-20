@@ -11,6 +11,9 @@ class Verifier:
 
 
     def verify_shuffle_elgamal_pairs(self, input_ciphertexts: list[Ciphertext], output_ciphertexts: list[Ciphertext], transcript: dict):
+        p = self.params.p
+        q = self.params.q
+        g = self.generator
         Gamma = transcript["Gamma"]
         sigma = transcript["sigma"]
         W = transcript["W"]
@@ -25,11 +28,11 @@ class Verifier:
 
         lambda_challenge = hash([Gamma, transcript["A"], transcript["C"], transcript["U"], transcript["W"], transcript["Lambda1"], transcript["Lambda2"], input_ciphertexts, output_ciphertexts, transcript["D"]], self.params.q)
         
-        X = [transcript["A"][i] * pow(B[i], lambda_challenge, self.params.p) % self.params.p for i in range(k)]
-        Y = [transcript["C"][i] * pow(transcript["D"][i], lambda_challenge, self.params.p) % self.params.p for i in range(k)]
+        X = [(transcript["A"][i] * pow(B[i], lambda_challenge, self.params.p)) % self.params.p for i in range(k)]
+        Y = [(transcript["C"][i] * pow(transcript["D"][i], lambda_challenge, self.params.p)) % self.params.p for i in range(k)]
 
-        Phi1 = prod([pow(output_ciphertexts[i].c1, sigma[i], self.params.p) * pow(input_ciphertexts[i].c1, -rho[i], self.params.p) for i in range(k)]) % self.params.p
-        Phi2 = prod([pow(output_ciphertexts[i].c2, sigma[i], self.params.p) * pow(input_ciphertexts[i].c2, -rho[i], self.params.p) for i in range(k)]) % self.params.p
+        Phi1 = (prod([pow(output_ciphertexts[i].c1, sigma[i], self.params.p) * pow(input_ciphertexts[i].c1, (-rho[i]) % self.params.q, self.params.p) for i in range(k)])) % self.params.p
+        Phi2 = (prod([pow(output_ciphertexts[i].c2, sigma[i], self.params.p) * pow(input_ciphertexts[i].c2, (-rho[i]) % self.params.q, self.params.p) for i in range(k)])) % self.params.p
 
         # Step 2: check Simple shuffle proof
         if not self.verify_simple_shuffle_proof(X, Y, transcript):
@@ -42,10 +45,10 @@ class Verifier:
             if left_side != right_side:
                 raise ValueError(f"The proof is invalid: Equation 1 does not hold for i={i}.")
         
-        left_side_Phi1 = transcript["Lambda1"] * pow(self.generator, transcript["tau"], self.params.p) % self.params.p
+        left_side_Phi1 = (transcript["Lambda1"] * pow(self.generator, transcript["tau"], self.params.p)) % self.params.p
         if left_side_Phi1 != Phi1:
             raise ValueError("The proof is invalid: Equation 2 does not hold for Phi1.")
-        left_side_Phi2 = transcript["Lambda2"] * pow(self.public_key, transcript["tau"], self.params.p) % self.params.p
+        left_side_Phi2 = (transcript["Lambda2"] * pow(self.public_key, transcript["tau"], self.params.p)) % self.params.p
         if left_side_Phi2 != Phi2:
             raise ValueError("The proof is invalid: Equation 2 does not hold for Phi2.")
         
@@ -69,23 +72,24 @@ class Verifier:
         # Check the equations
         U = pow(self.generator, -t, self.params.p)
         W = pow(Gamma, -t, self.params.p)
-        X_hat = [X[i] * U for i in range(k)]
-        Y_hat = [Y[i] * W for i in range(k)]
+        X_hat = [(X[i] * U) % self.params.p for i in range(k)]
+        Y_hat = [(Y[i] * W) % self.params.p for i in range(k)]
 
 
         alpha = transcript["alpha"]
-        right_side1 = pow(X_hat[0], c, self.params.p) * pow(Y_hat[0], - alpha[0], self.params.p) % self.params.p
+        right_side1 = (pow(X_hat[0], c, self.params.p) * pow(Y_hat[0], (-alpha[0]) % self.params.q, self.params.p)) % self.params.p
+        print(f"Verifier: Theta[0]={Theta[0]}, right_side1={right_side1}")
         if Theta[0] !=  right_side1:
             raise ValueError("The proof is invalid: Theta[0] does not match the right side of the equation.")
         for i in range(1, k):
-            right_side = pow(X_hat[i], alpha[i-1], self.params.p) * pow(Y_hat[i], - alpha[i], self.params.p) % self.params.p
+            right_side = (pow(X_hat[i], alpha[i-1], self.params.p) * pow(Y_hat[i], (-alpha[i]) % self.params.q, self.params.p)) % self.params.p
             if Theta[i] != right_side:
                 raise ValueError(f"The proof is invalid: Theta[{i}] does not match the right side of the equation.")
         for i in range(k, 2*k - 2):
-            right_side = pow(Gamma, alpha[i-1], self.params.p) * pow(self.generator, - alpha[i], self.params.p) % self.params.p
+            right_side = (pow(Gamma, alpha[i-1], self.params.p) * pow(self.generator, (-alpha[i]) % self.params.q, self.params.p)) % self.params.p
             if Theta[i] != right_side:
                 raise ValueError(f"The proof is invalid: Theta[{i}] does not match the right side of the equation.")
-        right_side2k_1 = pow(Gamma, alpha[2*k - 2], self.params.p) * pow(self.generator, - c, self.params.p) % self.params.p
+        right_side2k_1 = (pow(Gamma, alpha[2*k - 2], self.params.p) * pow(self.generator, - c, self.params.p)) % self.params.p
         if Theta[2*k - 1] != right_side2k_1:
             raise ValueError("The proof is invalid: Theta[2k-1] does not match the right side of the equation.")
         

@@ -23,9 +23,8 @@ def test_elgamal_encrypt_decrypt_perm():
     params = ElGamal.ElGamalParams(16)  # small safe prime for test speed
     crypto = ElGamal.ElGamalCrypto(params)
     pk, sk = crypto.gen()
-    perm = [1, 2, 3]
+    perm = [i for i in range(NUM_CANDS)]
     
-    n = len(perm)
     encoded = perm_to_int(perm)
     
     assert encoded < params.q
@@ -50,6 +49,7 @@ def test_tally():
 
 class TestMixNet:
     def test_full_protocol(self):
+        
         # Setup TTP and servers
         ttp = TTP.TTP()
         params, pk, shares = ttp.return_info()

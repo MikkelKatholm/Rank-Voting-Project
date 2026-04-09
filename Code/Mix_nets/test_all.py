@@ -9,7 +9,6 @@ import pytest
 import Tally
 import Verifier
 
-
 def test_perm_roundtrip():
     perm = [i for i in range(NUM_CANDS)]
     random.shuffle(perm)
@@ -17,7 +16,6 @@ def test_perm_roundtrip():
     v = perm_to_int(perm)
     perm2 = int_to_perm(v)
     assert perm == perm2
-
 
 def test_elgamal_encrypt_decrypt_perm():
     params = ElGamal.ElGamalParams(16)  # small safe prime for test speed

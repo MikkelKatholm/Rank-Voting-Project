@@ -30,7 +30,9 @@ class Server:
         for ballot in self.ballots:
             randomness = crypto_random.randint(0, self.crypto.params.q - 1)
             self.beta.append(randomness)
-            random_enc = self.crypto.enc(self.pk, 1, randomness)
+            c1 = pow(self.crypto.params.g, randomness, self.crypto.params.p)
+            c2 = pow(self.pk, randomness, self.crypto.params.p)
+            random_enc = Ciphertext(c1, c2, self.crypto.params)          
             re_encrypted_ballots.append(ballot * random_enc)
         self.new_ballots = re_encrypted_ballots
 

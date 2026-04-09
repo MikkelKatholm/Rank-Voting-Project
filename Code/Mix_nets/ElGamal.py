@@ -19,11 +19,24 @@ RFC_3526_3072_PRIME = int(
     "15728E5A8AACAA68FFFFFFFFFFFFFFFF", 16
 )
 
+RFC_3526_1536_PRIME = int(
+    "FFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD1"
+    "29024E088A67CC74020BBEA63B139B22514A08798E3404DD"
+    "EF9519B3CD3A431B302B0A6DF25F14374FE1356D6D51C245"
+    "E485B576625E7EC6F44C42E9A637ED6B0BFF5CB6F406B7ED"
+    "EE386BFB5A899FA5AE9F24117C4B1FE649286651ECE45B3D"
+    "C2007CB8A163BF0598DA48361C55D39A69163FA8FD24CF5F"
+    "83655D23DCA3AD961C62F356208552BB9ED529077096966D"
+    "670C354E4ABC9804F1746C08CA237327FFFFFFFFFFFFFFFF"
+, 16)
+
 class ElGamalParams:
     def __init__(self, bits: int):
-        if bits == 3072:
+        if bits == 3072 :
             # Use standard 3072-bit safe prime
             self.p = RFC_3526_3072_PRIME
+        elif bits == 1536:
+            self.p = RFC_3526_1536_PRIME
         else:
             self.p = self._get_prime(bits)
             
@@ -31,6 +44,8 @@ class ElGamalParams:
         # For RFC 3526 groups, 2 is always a generator of the entire group.
         # We square it to get a generator of the prime-order subgroup Gq.
         if bits == 3072:
+            self.g = pow(2, 2, self.p)
+        elif bits == 1536:
             self.g = pow(2, 2, self.p)
         else:
             g = self._find_primitive_root(self.p)
@@ -97,7 +112,10 @@ class ElGamalCrypto:
 
         c1 = pow(g, r, p)
         # new scheme: c2 = pk^r * m (mod p)
-        c2 = (pow(pk, r, p) * (m_int % p)) % p
+        val = (m_int + 1) % p
+        if pow(val, q, p) != 1:
+            val = p - val
+        c2 = (pow(pk, r, p) * val) % p
         return Ciphertext(c1, c2, self.params)
 
     def dec(self, sk: SecretKey, ciphertext: Ciphertext) -> Message:
@@ -106,7 +124,10 @@ class ElGamalCrypto:
         c1, c2 = ciphertext
         x = pow(c1, sk, p)
         # gm = m_int (mod p)
-        m_int = (c2 * pow(x, -1, p)) % p
+        M = (c2 * pow(x, -1, p)) % p
+        if M > self.params.q:
+            M = p - M
+        m_int = (M - 1) % p
         return m_int
 
 
@@ -137,7 +158,10 @@ class ElGamalCrypto:
         for value in d_i_power_basis:
             d = (d * value) % self.params.p
 
-        m_int = (c2 * pow(d, -1, self.params.p)) % self.params.p
+        M = (c2 * pow(d, -1, self.params.p)) % self.params.p
+        if M > self.params.q:
+            M = self.params.p - M
+        m_int = (M - 1) % self.params.p
         return m_int
 
     def calculate_di_for_shamir(self, c1, share):

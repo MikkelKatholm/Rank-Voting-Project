@@ -5,7 +5,8 @@ import math
 if TYPE_CHECKING:
     import ElGamal
 
-BALLOT_FOLDER = 'ballots'
+BALLOT_FILE = 'ballots.txt'
+BALLOT_LINE_LENGTH = 100
 NUM_SERVERS = 3
 THRESHOLD = 2
 NUM_CLIENTS = 10 #1_000_000

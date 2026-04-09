@@ -95,12 +95,12 @@ class TestMixNet:
         # Sort the results.
         sorted_results = [sorted(res) for res in server_results]
 
-        # Compare to the ballots in the ballot folder
+        # Compare to the ballots in the ballot file
         original_ballots = []
-        for idx in range(NUM_CLIENTS):
-            with open(f'{BALLOT_FOLDER}/{idx}_ballot', 'r') as f:
-                original_ballot = [int(x) for x in f.read().strip().split()]
-                original_ballots.append(original_ballot)
+        with open(BALLOT_FILE, 'r') as f:
+            for _ in range(NUM_CLIENTS):
+                line = f.read(BALLOT_LINE_LENGTH).strip()
+                original_ballots.append([int(x) for x in line.split()])
         
         # Check that all servers got the same decrypted ballots and that they match the original ballots
         for res in sorted_results:

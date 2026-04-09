@@ -14,9 +14,11 @@ class Client:
 
     def read_and_encrypt_ballot(self) -> Ciphertext:
         """Read the ballot from a file and encrypt it using the public key."""
-        filename = f'{BALLOT_FOLDER}/{self.ID}_ballot'
-        with open(filename, 'r') as f:
-            ballot = [int(x) for x in f.read().strip().split()]
+        with open(BALLOT_FILE, 'r') as f:
+            f.seek(self.ID * BALLOT_LINE_LENGTH)
+            line = f.read(BALLOT_LINE_LENGTH).strip()
+            
+        ballot = [int(x) for x in line.split()]
         
         message = perm_to_int(ballot)
         if message >= self.crypto.params.q:

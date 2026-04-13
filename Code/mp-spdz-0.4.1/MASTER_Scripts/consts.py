@@ -3,8 +3,8 @@ from Compiler.library import *
 from dotenv import load_dotenv
 import os
 
-
-load_dotenv("consts.env")
+script_dir = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(script_dir, "consts.env"))
 
 PORTNUM = int(os.getenv("PORTNUM"))
 NUM_CLIENTS = int(os.getenv("NUM_VOTERS"))
@@ -24,3 +24,18 @@ def print_ballot_as_matrix(ballot_matrix: Matrix):
     clear = ballot_matrix.reveal_nested()
     for row in clear:
         print_ln("%s", row)
+
+
+TIMER_IDS = {
+    "send_and_receive_ballots": 10,
+    "clean_ballots": 11,
+    "convert_ballots": 12,
+    "tally": 13,
+}
+
+
+def dict_value_to_key(d: dict, value):
+    for k, v in d.items():
+        if v == value:
+            return k
+    raise ValueError(f"Value {value} not found in dictionary")

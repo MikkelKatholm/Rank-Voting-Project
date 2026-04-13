@@ -22,17 +22,25 @@ def run_tally(ballots: list[Matrix]) -> sint:
         return RCV_tally_no_leak.tally(ballots)
 
 def main():
+    
+    timer_send_and_receive_ballots = start_timer(timer_id=TIMER_IDS["send_and_receive_ballots"])
     ballots = RCV_receive_ballots.receive_ballots()
     print_ln("🧾 Received %s ballots", len(ballots))
-    
+    stop_timer(timer_id=TIMER_IDS["send_and_receive_ballots"])
+
+    timer_clean_ballots = start_timer(timer_id=TIMER_IDS["clean_ballots"])
     clean_ballots = RCV_clean_ballots.clean_ballots(ballots)
     print_ln("🧹 Cleaned ballots")
+    stop_timer(timer_id=TIMER_IDS["clean_ballots"])
 
+    timer_convert_ballots = start_timer(timer_id=TIMER_IDS["convert_ballots"])
     sbit_ballots = RCV_convert_ballots.convert_ballots(clean_ballots)
     print_ln("🔢 Converted ballots to sbit format")
+    stop_timer(timer_id=TIMER_IDS["convert_ballots"])
 
-
+    timer_tally = start_timer(timer_id=TIMER_IDS["tally"])
     winner = run_tally(sbit_ballots)
+    stop_timer(timer_id=TIMER_IDS["tally"])
     print_ln("🏆 Winner is candidate ID: %s", winner.reveal())
     
 main()

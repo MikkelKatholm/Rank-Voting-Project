@@ -79,8 +79,11 @@ class TestMixNet:
         for i in range(1, NUM_SERVERS):
             for ballot in current_ballots:
                 servers[i].receive_ballot(ballot)
+            last_round_ballots = current_ballots
             current_ballots, proof = servers[i].run_mixing_protocol()
-        
+            if not verifier.verify_shuffle_elgamal_pairs(last_round_ballots, current_ballots, proof):
+                raise ValueError(f"The proof is invalid: Shuffle proof verification failed at server {i}.")
+
         # Pool shares from all servers
         all_shares = []
         for server in servers:

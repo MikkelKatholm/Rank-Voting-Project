@@ -1,19 +1,20 @@
 from typing import Tuple, Optional, NamedTuple, TYPE_CHECKING, List, Any
 import hashlib
 import math
+import Consts_script
 
 if TYPE_CHECKING:
     import ElGamal
 
 BALLOT_FILE = 'ballots.txt'
 BALLOT_LINE_LENGTH = 100
-NUM_SERVERS = 3
-THRESHOLD = 2
-NUM_CLIENTS = 10 #1_000_000
-NUM_CANDS = 3
-
-
+NUM_SERVERS = Consts_script.NUM_SERVERS
+NUM_CLIENTS = Consts_script.NUM_CLIENTS
+NUM_CANDS = Consts_script.NUM_CANDS
+THRESHOLD = Consts_script.THRESHOLD
 BIT_LENGTH = 1536 # Diego says to use 3072
+
+
 PublicKey = int
 SecretKey = int
 KeyPair = NamedTuple('KeyPair', [('pk', PublicKey), ('sk', SecretKey)])

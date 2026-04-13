@@ -34,4 +34,5 @@ def main():
 
     winner = run_tally(sbit_ballots)
     print_ln("🏆 Winner is candidate ID: %s", winner.reveal())
+    
 main()

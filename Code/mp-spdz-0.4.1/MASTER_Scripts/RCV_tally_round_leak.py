@@ -246,4 +246,5 @@ def tally(ballots: list[Matrix]):
         def _():
             print_ln(" ")
             break_loop
+    
     return winner

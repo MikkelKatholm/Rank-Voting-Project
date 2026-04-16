@@ -94,10 +94,10 @@ def simulate_election(ballots: list[list[int]]) -> int:
         print("New round of counting votes...")
         votes_in_round = {}
         for ballot in ballots:
-            for prio in ballot:
-                if prio in eliminated_candidates:
+            for cand in ballot:
+                if cand in eliminated_candidates:
                     continue
-                votes_in_round[prio] = votes_in_round.get(prio, 0) + 1
+                votes_in_round[cand] = votes_in_round.get(cand, 0) + 1
                 break
 
         total_votes = sum(votes_in_round.values())

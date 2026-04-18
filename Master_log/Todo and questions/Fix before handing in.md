@@ -1,8 +1,12 @@
 
-- [ ] Header with leading capital letters eg. `This Is A Header`
-- [ ] `\paragraph{text:}` or `\paragraph{text}`
+- [ ] Header and paragraphs with leading capital letters eg. `This Is A Header`
+- [ ] `\paragraph{text:}` NOT `\paragraph{text}`
 - [ ] Find fucked \ref{}. search for `??`
 - [ ] Fly fucking En masse
-- [ ] `Secret-shares` or `secret shares` ???
+- [ ] `Secret shares` NOT `secret-shares` ???
 - [ ] `Mix-net` NOT `Mix net`
-- [ ] `Zero-knowledge` or `Zero knowledge`
+- [ ] `Zero-knowledge` NOT `Zero knowledge`
+- [ ] `Secure Multiparty computation` Not something else
+- [ ] `Single-winner` and `Multi-winner`
+- [ ] Must be `ElGamal`
+- [ ] Only use `\Cref{}` Not `\cref{}`

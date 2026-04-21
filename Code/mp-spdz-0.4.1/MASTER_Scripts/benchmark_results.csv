@@ -1,0 +1,3 @@
+NUM_SERVERS,NUM_VOTERS,NUM_CANDS,RUN_LEAK_VERSION,total_time_s,data_sent_mb,data_sent_rounds,global_data_sent_mb,send_and_receive_ballots_time_s,send_and_receive_ballots_data_mb,send_and_receive_ballots_rounds,clean_ballots_time_s,clean_ballots_data_mb,clean_ballots_rounds,convert_ballots_time_s,convert_ballots_data_mb,convert_ballots_rounds,tally_time_s,tally_data_mb,tally_rounds
+2,4,4,0,36.3536,1472.8,16089,2945.59,2.87931,19.4928,30,0.109069,0.016128,768,21.571,896.137,7376,11.7861,557.151,7906
+2,4,4,1,25.976,981.41,11183,1962.82,2.93321,19.4928,30,0.0783849,0.016128,768,21.5569,896.137,7376,1.3875,65.7647,3004

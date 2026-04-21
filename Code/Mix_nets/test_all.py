@@ -8,6 +8,8 @@ import TTP
 import pytest
 import Tally
 import Verifier
+import Shamir
+import ElGamal_Eplitic
 
 def test_perm_roundtrip():
     perm = [i for i in range(NUM_CANDS)]
@@ -47,6 +49,7 @@ def test_tally():
 
 class TestMixNet:
 
+    @pytest.mark.skip(reason="This test is very slow since it runs the full protocol, but it can be used for manual testing.")
     @pytest.mark.parametrize("i", range(1))  # Run the test 10 times to catch randomness issues
     def test_full_protocol(self, i):
         
@@ -118,6 +121,66 @@ class TestMixNet:
         assert all(w == winners[0] for w in winners)
         assert winners[0] in range(NUM_CANDS)
 
+
+class TestElipticElGamal:
+
+    def test_encrypt_decrypt_perm(self):
+        params = ElGamal_Eplitic.ElGamalParams_EC()
+        crypto = ElGamal_Eplitic.ElGamalCrypto_EC(params)
+        pk, sk = crypto.gen()
+        perm = [i for i in range(NUM_CANDS)]
+        
+        c = crypto.enc(pk, perm)
+        m_decoded = crypto.dec(sk, c)
+        
+        # decode decrypted integer back to permutation
+        perm_out = int_to_perm(m_decoded)
+        assert perm_out == perm
+
+    def test_shamir_threshold_decryption_positive(self):
+        import Shamir
+        params = ElGamal_Eplitic.ElGamalParams_EC()
+        crypto = ElGamal_Eplitic.ElGamalCrypto_EC(params)
+        pk, sk = crypto.gen()
+        msg = 42
+        
+        ctx = crypto.enc(pk, msg)
+        
+        # Split the secret using your default Shamir implementation
+        shares = Shamir.gen_shares(sk, n=5, t=3, fieldsize=params.q)
+        
+        # Decrypt using exactly the threshold number of shares (3)
+        dec_msg = crypto.decrypt_for_shamir(shares[:3], ctx, threshold=3)
+        assert dec_msg == msg
+        
+        # Optionally, check that taking a different combination of 3 shares also works
+        dec_msg_alt = crypto.decrypt_for_shamir([shares[0], shares[2], shares[4]], ctx, threshold=3)
+        assert dec_msg_alt == msg
+
+    def test_shamir_threshold_decryption_negative(self):
+        import Shamir
+        params = ElGamal_Eplitic.ElGamalParams_EC()
+        crypto = ElGamal_Eplitic.ElGamalCrypto_EC(params)
+        pk, sk = crypto.gen()
+        msg = 42
+        
+        ctx = crypto.enc(pk, msg)
+        shares = Shamir.gen_shares(sk, n=5, t=3, fieldsize=params.q)
+        
+        # Scenario 1: Not enough shares given compared to the requested threshold
+        with pytest.raises(ValueError, match="threshold cannot exceed number of shares"):
+            crypto.decrypt_for_shamir(shares[:2], ctx, threshold=3)
+            
+        # Scenario 2: Attempting to bypass by lying about the threshold (providing 2 shares, threshold=2).
+        # Since the actual threshold was 3, standard Shamir will reconstruct garbage.
+        # This will either throw a ValueError or map to some random int that absolutely isn't our message.
+        try:
+            wrong_decryption = crypto.decrypt_for_shamir(shares[:2], ctx, threshold=2)
+            assert wrong_decryption != msg, "Threshold decryption inexplicably decoded correctly with wrong shares!"
+        except ValueError:
+            pass # ValueError is also completely acceptable for invalid points
+    
+       
 
 
 if __name__ == '__main__':

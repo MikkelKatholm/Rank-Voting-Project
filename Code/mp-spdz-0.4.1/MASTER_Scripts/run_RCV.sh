@@ -58,7 +58,7 @@ sleep 1
 # Generate the ballots for clients
 if [ "$gen_ballots" = true ]; then
     echo "⚙️ Generating ballots for $TOTAL_CLIENTS clients..."
-    python MASTER_Scripts/generate_ballots.py
+    python3 MASTER_Scripts/generate_ballots.py
     sleep 1
 fi
 

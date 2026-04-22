@@ -45,7 +45,7 @@ def setup_and_run_protocol(consts, num_servers, num_clients, num_cands):
         consts['THRESHOLD'] = threshold 
 
         write_consts_to_file(consts)
-        run.run_all()
+        run.main()
 
 
 

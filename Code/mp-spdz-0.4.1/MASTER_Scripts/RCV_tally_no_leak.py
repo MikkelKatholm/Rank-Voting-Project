@@ -30,8 +30,6 @@ def sbit_to_sint(sbit_value: sbit) -> sint:
 #######################################################
 
 
-
-
 def remove_eliminated_candidates(ballot: Matrix, active_candidates: Array) -> Matrix:
     """ Remove eliminated candidates from the ballot matrix. 
     
@@ -62,8 +60,6 @@ def remove_non_highest_priority(ballot: Matrix) -> Matrix:
              [0, 0, 0]  # Candidate 1 is not highest priority
              [1, 0, 0]] # Candidate 2 is highest priority
     """
-
-
     found_highest = sb(1)
     @for_range(NUM_CANDS)
     def _(col):

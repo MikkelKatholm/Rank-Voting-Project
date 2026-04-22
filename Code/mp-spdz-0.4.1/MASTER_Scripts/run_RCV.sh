@@ -64,7 +64,7 @@ fi
 
 # Compile & Certs
 echo "🔨 Compiling..."
-./compile.py -F 40 MASTER_Scripts/RCV_server.mpc > /dev/null
+./compile.py -F 40 -b 100 MASTER_Scripts/RCV_server.mpc > /dev/null
 
 echo "🔐 Generating Certs..."
 if [ "$DEBUG" -eq 0 ]; then

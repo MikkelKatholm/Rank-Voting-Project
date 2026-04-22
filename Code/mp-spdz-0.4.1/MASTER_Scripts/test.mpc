@@ -12,12 +12,9 @@ sb = sbits.get_type(1)
 
 def main():
     my_sint = sint(0)
-    my_sbit = sbit(1)
+    my_sbit = sb(1)
 
-    result = sint(0)
-    for i in range(3000): 
-        added = sint(sbit(1))
-        result = result + added
+    result = my_sbit & my_sint
     print_ln("Added: %s with type %s", result.reveal(), type(result))
 
 

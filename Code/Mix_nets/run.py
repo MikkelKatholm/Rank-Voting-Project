@@ -106,6 +106,7 @@ def run_all():
         "NUM_CANDS": [NUM_CANDS],
         "THRESHOLD": [THRESHOLD],
         "BIT_LENGTH": [BIT_LENGTH],
+        "Use_Elliptic_Curve": [USE_ELLIPTIC_CURVE],
         "t_setup": [t_setup],
         "t_gen_ballots": [t_gen_ballots],
         "t_make_clients": [t_make_clients],

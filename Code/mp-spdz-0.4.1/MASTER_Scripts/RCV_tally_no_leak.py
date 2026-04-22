@@ -7,6 +7,31 @@ from MASTER_Scripts.consts import *
 program.use_edabit(True)
 
 
+
+#######################################################
+###             Helpers                             ###
+#######################################################
+def sbit_to_sint(sbit_value: sbit) -> sint:
+    """ Convert a secret-shared bit (sbit) to a secret-shared integer (sint).
+    
+    :param sbit_value: A secret-shared bit value to convert.
+    :return: A secret-shared integer representing the same value as the input bit.
+    
+    Example:
+    >>> sbit_to_sint(sbit(1))
+        returns sint(1)
+    >>> sbit_to_sint(sbit(0))
+        returns sint(0)
+    """
+    return sint(sbit_value)
+
+#######################################################
+###             Helpers End                         ###
+#######################################################
+
+
+
+
 def remove_eliminated_candidates(ballot: Matrix, active_candidates: Array) -> Matrix:
     """ Remove eliminated candidates from the ballot matrix. 
     
@@ -72,29 +97,22 @@ def initialize_active_candidates() -> Array:
     active_candidates.assign_all(sb(1))
     return active_candidates
 
-def sum_rows(ballot: Matrix) -> sbitintvec:
+def sum_rows(ballot: Matrix) -> list[sint]:
     """ Sum each row of the ballot matrix.
     
     :param ballot: A NUM_CANDS x NUM_CANDS secret-shared ballot matrix.
     :return: An array of secret-shared integers representing the sum of each row.
     """
-
-    # get rows as list of sbits
-    rows_as_lists = []
+    summed_list = []
     for row in range(NUM_CANDS):
-        row_list = []
+        row_sum = sb(0)
         for col in range(NUM_CANDS):
-            row_list.append(ballot[col][row])
-        rows_as_lists.append(row_list)
-
-    summed_list = siv([sb(0) for _ in range(NUM_CANDS)])
-    for row in range(NUM_CANDS):
-        row_vector = siv(rows_as_lists[row])
-        summed_list = (summed_list + row_vector)
+            row_sum = row_sum + ballot[col][row]
+        summed_list.append(sbit_to_sint(row_sum))
+        
     return summed_list
 
-
-def sum_vectors(vectors: list[sbitintvec]) -> Array:
+def sum_vectors(vectors: list[list[sint]]) -> Array:
     """ Sum a list of secret-shared bit arrays element-wise.
     
     :param vectors: A list of secret-shared bits arrays.
@@ -104,27 +122,14 @@ def sum_vectors(vectors: list[sbitintvec]) -> Array:
     >>> sum_vectors([Array([1,0,1]), Array([0,1,1]), Array([1,1,0])])
         returns Array([2,2,2])
     """
-    result = siv([sb(0) for _ in range(NUM_CANDS)])
-    for v in vectors:
-        result = (result + v)
 
-    as_array = Array(NUM_CANDS, sint)                     # Works if type is sint. Find workaround please
-    as_array.assign_vector(result)
+    results = [sint(0) for _ in range(NUM_CANDS)]
+    for vector in vectors:
+        for i in range(NUM_CANDS):
+            results[i] = results[i] + vector[i]
 
-    return as_array
-
-def majority(vector: Array) -> tuple[sint, Array]:
-    """ Determine if any candidate has a majority and return the winner.
-    :param vector: A secret-shared integer array representing candidate vote counts.
-    :return: A tuple (has_majority, input) where has_majority is a secret-shared bit indicating if a candidate has majority, and winner_vector is a secret-shared bit array indicating the winning candidate.
-    """
-    has_majority = sint(0)
-    @for_range(NUM_CANDS)
-    def _(i): 
-        condition = (vector[i] > sint(NUM_CLIENTS // 2))
-        has_majority = condition.if_else(has_majority + sint(1), has_majority + sint(0))
-
-    return has_majority, vector
+    as_array = Array(NUM_CANDS, sint)
+    return as_array.assign(results)
 
 def find_winner(vector: Array) -> sint:
     """ Find the candidate with the highest votes.
@@ -136,7 +141,6 @@ def find_winner(vector: Array) -> sint:
  
     @for_range(NUM_CANDS)
     def _(i):
-        #is_winner = (vector[i] > sint(NUM_CLIENTS // 2))
         is_winner = (vector[i] != cint(0))  # Since we only call this in the last round where one candidate must win
         winner_id.update(is_winner.if_else(cint(i), winner_id))
 
@@ -181,7 +185,10 @@ def copy_matrix(matrix: Matrix) -> Matrix:
     return new_m
 
 def tally(ballots: list[Matrix]):
-    """ Run the RCV protocol. """
+    """ Run the RCV protocol. 
+    
+    : param ballots: A list of secret-shared ballot matrices with the sbit type
+    """
 
     active_candidates = initialize_active_candidates()
     winner = sint(-1)                                                                                                   
@@ -189,11 +196,11 @@ def tally(ballots: list[Matrix]):
     # Do a round
     for round in range(NUM_CANDS):
         round_ballots: list[Matrix] = [copy_matrix(b) for b in ballots]
-        row_sums_array: list[sbitintvec] = []                                                                       
+        row_sums_array: list[list[sint]] = []
         for ballot_id in range(NUM_CLIENTS):
             round_ballots[ballot_id] = remove_eliminated_candidates(round_ballots[ballot_id], active_candidates)
             round_ballots[ballot_id] = remove_non_highest_priority(round_ballots[ballot_id])                        
-            row_sums = sum_rows(round_ballots[ballot_id])
+            row_sums = sum_rows(round_ballots[ballot_id])                                                               # Returns a list of sint
             row_sums_array.append(row_sums)
         vote_vector = sum_vectors(row_sums_array)
         active_candidates.assign(update_eliminated_candidates(vote_vector, active_candidates))

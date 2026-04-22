@@ -8,11 +8,18 @@ import MASTER_Scripts.test_1 as test_1
 
 program.use_edabit(True)
 
+sb = sbits.get_type(1)
 
 def main():
-    t_start = start_timer(timer_id=10)
-    test_1.run_test()
-    stop_timer(timer_id=10)
+    my_sint = sint(0)
+    my_sbit = sbit(1)
+
+    result = sint(0)
+    for i in range(3000): 
+        added = sint(sbit(1))
+        result = result + added
+    print_ln("Added: %s with type %s", result.reveal(), type(result))
+
 
 
 main()

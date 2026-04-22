@@ -12,8 +12,6 @@ import time
 import pandas as pd
 
 def run_all():    
-
-    print("--- Starting Protocol ---")
     time_total_start = time.time()
 
     # Setup TTP and servers

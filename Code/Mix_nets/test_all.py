@@ -122,6 +122,43 @@ class TestMixNet:
         assert all(w == winners[0] for w in winners)
         assert winners[0] in range(NUM_CANDS)
 
+    @pytest.mark.parametrize("i", range(1))
+    def test_full_protocol_negative(self, i):
+        from typing import cast
+        import copy
+        
+        # Setup TTP and servers
+        ttp = TTP.TTP()
+        params, pk, shares = ttp.return_info()
+        servers = [Server.Server(params, pk, THRESHOLD, NUM_SERVERS, shares[i]) for i in range(NUM_SERVERS)]
+        verifier = Verifier.Verifier(cast(ElGamal.ElGamalParams, params), cast(int, pk))
+
+        # Generate ballots and save to files
+        generate_fresh_ballots(NUM_CLIENTS)
+
+        # Initialize clients
+        clients = [Client.Client(params, pk, idx) for idx in range(NUM_CLIENTS)]
+
+        # Clients encrypt and send ballots to first server
+        encrypted_ballots = []
+        for client in clients:
+            encrypted_ballot = client.read_and_encrypt_ballot()
+            encrypted_ballots.append(encrypted_ballot)
+        
+        # Send encrypted ballots to first server
+        for ballot in encrypted_ballots:
+            servers[0].receive_ballot(ballot)
+        
+        # Run mixing protocol through all servers
+        current_ballots, proof = servers[0].run_mixing_protocol()
+        
+        # Tamper with the proof to make it invalid
+        invalid_proof = copy.copy(proof)
+        invalid_proof["tau"] = (invalid_proof["tau"] + 1) % params.q
+        
+        with pytest.raises(ValueError):
+            cast(Verifier.Verifier, verifier).verify_shuffle_elgamal_pairs(encrypted_ballots, current_ballots, invalid_proof)
+
 
 class TestElipticElGamal:
 

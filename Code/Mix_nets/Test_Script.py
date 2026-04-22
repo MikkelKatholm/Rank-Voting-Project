@@ -8,11 +8,11 @@ def write_consts_to_file(consts, filename="Consts_script.py"):
 def main():
 
     servers_default = 5
-    clients_default = 1_000
+    clients_default = 32
     candidates_default = 5
 
     servers = [i for i in range(2,11)]
-    clients = [2**i for i in range(2,21)]
+    clients = [20*i for i in range(1,31)]
     candidates = [2*i for i in range(2,11)]
 
     consts = dict(

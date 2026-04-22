@@ -4,9 +4,10 @@ from Shamir import div_mod
 from Crypto.Random import random as crypto_random
 from Consts import *
 from math import prod
+import ElGamal_Eplitic
 
 class Prover:
-    def __init__(self, Beta: list[int], perm: list[int], input_ciphertexts: list[Ciphertext], output_ciphertexts: list[Ciphertext], params: ElGamal.ElGamalParams, public_key: PublicKey):
+    def __init__(self, Beta: list[int], perm: list[int], input_ciphertexts: list[Any], output_ciphertexts: list[Any], params: Any, public_key: Any):
         self.Beta = Beta
         self.perm = perm
         self.input_ciphertexts = input_ciphertexts
@@ -18,6 +19,15 @@ class Prover:
         self.inv_perm = [0 for _ in range(self.k)]
         for i, num in enumerate(self.perm):
             self.inv_perm[num] = i
+
+    def sum_ec(self, points):
+        result = ElGamal_Eplitic.INFINITY
+        for pt in points:
+            if result.is_infinity():
+                result = pt
+            else:
+                result = result + pt
+        return result
 
     def shuffle_elgamal_pairs(self):
         p = self.params.p
@@ -32,19 +42,29 @@ class Prover:
         gamma = self._get_from_Zqstar()
         a = self._unique_from_Zqstar(self.k)
 
-
         # Step 2: compute stuff
-        Gamma = pow(g, gamma, p)
-        A = [pow(g, a[i], p) for i in range(self.k)]
-        a_pi = [a[self.perm[i]] for i in range(self.k)]
-        C = [pow(Gamma, a_pi[i], p) for i in range(self.k)]
-        U = [pow(g, u[i], p) for i in range(self.k)]
-        W = [pow(Gamma, w[i], p) for i in range(self.k)]
-        
+        if USE_ELLIPTIC_CURVE:
+            Gamma = gamma * g
+            A = [a[i] * g for i in range(self.k)]
+            a_pi = [a[self.perm[i]] for i in range(self.k)]
+            C = [a_pi[i] * Gamma for i in range(self.k)]
+            U = [u[i] * g for i in range(self.k)]
+            W = [w[i] * Gamma for i in range(self.k)]
 
-        exp = (tau_0 + sum([w[self.inv_perm[i]] * self.Beta[i] for i in range(self.k)])) % q
-        Lambda1 = (pow(g, exp, p) * prod([pow(self.input_ciphertexts[i].c1, (w[self.inv_perm[i]] - u[i]) % q, p) for i in range(self.k)])) % p
-        Lambda2 = (pow(self.public_key, exp, p) * prod([pow(self.input_ciphertexts[i].c2, (w[self.inv_perm[i]] - u[i]) % q, p) for i in range(self.k)])) % p
+            exp = (tau_0 + sum([w[self.inv_perm[i]] * self.Beta[i] for i in range(self.k)])) % q
+            Lambda1 = self.sum_ec([(exp * g)] + [((w[self.inv_perm[i]] - u[i]) % q) * self.input_ciphertexts[i].c1 for i in range(self.k)])
+            Lambda2 = self.sum_ec([(exp * self.public_key)] + [((w[self.inv_perm[i]] - u[i]) % q) * self.input_ciphertexts[i].c2 for i in range(self.k)])
+        else:
+            Gamma = pow(g, gamma, p)
+            A = [pow(g, a[i], p) for i in range(self.k)]
+            a_pi = [a[self.perm[i]] for i in range(self.k)]
+            C = [pow(Gamma, a_pi[i], p) for i in range(self.k)]
+            U = [pow(g, u[i], p) for i in range(self.k)]
+            W = [pow(Gamma, w[i], p) for i in range(self.k)]
+            
+            exp = (tau_0 + sum([w[self.inv_perm[i]] * self.Beta[i] for i in range(self.k)])) % q
+            Lambda1 = (pow(g, exp, p) * prod([pow(self.input_ciphertexts[i].c1, (w[self.inv_perm[i]] - u[i]) % q, p) for i in range(self.k)])) % p
+            Lambda2 = (pow(self.public_key, exp, p) * prod([pow(self.input_ciphertexts[i].c2, (w[self.inv_perm[i]] - u[i]) % q, p) for i in range(self.k)])) % p
 
         # Step 3: compute challenge
         rho = []
@@ -53,7 +73,11 @@ class Prover:
 
         b = [rho[i] - u[i] for i in range(self.k)]
         d = [gamma * b[self.perm[i]] for i in range(self.k)]
-        D = [pow(g, d[i], p) for i in range(self.k)]
+        
+        if USE_ELLIPTIC_CURVE:
+            D = [(d[i] % q) * g for i in range(self.k)]
+        else:
+            D = [pow(g, d[i], p) for i in range(self.k)]
 
         # Step 4: Compute hash
         lambda_challenge = hash([Gamma, A, C, U, W, Lambda1, Lambda2, self.input_ciphertexts, self.output_ciphertexts, D], q)
@@ -62,13 +86,17 @@ class Prover:
         r = [a[i] + lambda_challenge * b[i] for i in range(self.k)]
         s = [gamma * r[self.perm[i]] for i in range(self.k)]
         sigma = [w[i] + b[self.perm[i]] for i in range(self.k)]
-        tau = (- tau_0 + sum([b[i] * self.Beta[i] for i in range(self.k)])) % q  # Should be b[i] but that fails the test.
+        tau = (- tau_0 + sum([b[i] * self.Beta[i] for i in range(self.k)])) % q 
         
         # Step 6: Run
-        X = [pow(g, r[i], p) for i in range(self.k)]
-        Y = [pow(g, s[i], p) for i in range(self.k)]
+        if USE_ELLIPTIC_CURVE:
+            X = [(r[i] % q) * g for i in range(self.k)]
+            Y = [(s[i] % q) * g for i in range(self.k)]
+        else:
+            X = [pow(g, r[i], p) for i in range(self.k)]
+            Y = [pow(g, s[i], p) for i in range(self.k)]
 
-        mini_transcript = self.simple_k_shuffle(Gamma, X,Y, gamma, r, s)
+        mini_transcript = self.simple_k_shuffle(Gamma, X, Y, gamma, r, s)
 
         # Step 7: output transcript
         transcript = {
@@ -89,7 +117,7 @@ class Prover:
         return transcript
 
 
-    def simple_k_shuffle(self, Gamma: int, X: list[int], Y: list[int], gamma: int, x: list[int], y: list[int]) -> dict:
+    def simple_k_shuffle(self, Gamma: Any, X: list[Any], Y: list[Any], gamma: int, x: list[int], y: list[int]) -> dict:
         p = self.params.p
         q = self.params.q
         g = self.generator
@@ -102,10 +130,17 @@ class Prover:
 
         # Step 3: 
         theta = [self._get_from_Zq() for _ in range(2*self.k - 1)]
-        Theta = [pow(g, (-theta[0] * y_hat[0]) % q, p)]                                                     # Theta_0
-        Theta += [pow(g, (theta[i-1] * x_hat[i] - theta[i] * y_hat[i]) % q, p) for i in range(1, self.k)]   # Theta_1 -> Theta_(k-1)
-        Theta += [pow(g, (gamma * theta[i - 1] - theta[i]) % q, p) for i in range(self.k, 2*self.k - 1)]    # Theta_k -> Theta_(2k-2)
-        Theta += [pow(g, (gamma * theta[2 * self.k - 2]) % q, p)]                                           # Theta_(2k-1)
+        
+        if USE_ELLIPTIC_CURVE:
+            Theta = [((-theta[0] * y_hat[0]) % q) * g]
+            Theta += [(((theta[i-1] * x_hat[i] - theta[i] * y_hat[i]) % q) * g) for i in range(1, self.k)]
+            Theta += [(((gamma * theta[i - 1] - theta[i]) % q) * g) for i in range(self.k, 2*self.k - 1)]
+            Theta += [(((gamma * theta[2 * self.k - 2]) % q) * g)]
+        else:
+            Theta = [pow(g, (-theta[0] * y_hat[0]) % q, p)]
+            Theta += [pow(g, (theta[i-1] * x_hat[i] - theta[i] * y_hat[i]) % q, p) for i in range(1, self.k)]
+            Theta += [pow(g, (gamma * theta[i - 1] - theta[i]) % q, p) for i in range(self.k, 2*self.k - 1)]
+            Theta += [pow(g, (gamma * theta[2 * self.k - 2]) % q, p)]
 
         # Step 4: Compute hash
         c = hash([g, Gamma, X, Y, Theta], q)
@@ -116,7 +151,6 @@ class Prover:
         for i in range(1, self.k):
             prod = (div_mod(x_hat[i], y_hat[i], q) * prods[i-1]) % q
             prods.append(prod)        
-
 
         alpha = [(theta[i] + c * prods[i]) % q for i in range(self.k)]
         alpha += [(theta[i] + c * pow(gamma, i - 2*self.k + 1, q)) % q for i in range(self.k, 2*self.k - 1)]
@@ -131,7 +165,6 @@ class Prover:
             "alpha": alpha
         }
         return transcript
-
 
     def _unique_from_Zqstar(self, n):
         seen = set()

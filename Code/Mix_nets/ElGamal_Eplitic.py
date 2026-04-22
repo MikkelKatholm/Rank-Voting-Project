@@ -25,6 +25,10 @@ class ECPoint:
             return True
         return (self.y**2 - (self.x**3 + A * self.x + B)) % P_CURVE == 0
 
+    def __repr__(self):
+        if self.is_infinity(): return "Infinity"
+        return f"ECPoint({self.x}, {self.y})"
+
     def __eq__(self, other):
         if not isinstance(other, ECPoint):
             return False

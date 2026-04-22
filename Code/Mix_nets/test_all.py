@@ -49,15 +49,16 @@ def test_tally():
 
 class TestMixNet:
 
-    @pytest.mark.skip(reason="This test is very slow since it runs the full protocol, but it can be used for manual testing.")
+    #@pytest.mark.skip(reason="This test is very slow since it runs the full protocol, but it can be used for manual testing.")
     @pytest.mark.parametrize("i", range(1))  # Run the test 10 times to catch randomness issues
     def test_full_protocol(self, i):
+        from typing import cast
         
         # Setup TTP and servers
         ttp = TTP.TTP()
         params, pk, shares = ttp.return_info()
         servers = [Server.Server(params, pk, THRESHOLD, NUM_SERVERS, shares[i]) for i in range(NUM_SERVERS)]
-        verifier = Verifier.Verifier(params, pk)
+        verifier = Verifier.Verifier(cast(ElGamal.ElGamalParams, params), cast(int, pk))
 
         # Generate ballots and save to files
         generate_fresh_ballots(NUM_CLIENTS)
@@ -77,14 +78,14 @@ class TestMixNet:
         
         # Run mixing protocol through all servers
         current_ballots, proof = servers[0].run_mixing_protocol()
-        if not verifier.verify_shuffle_elgamal_pairs(encrypted_ballots, current_ballots, proof):
+        if not cast(Verifier.Verifier, verifier).verify_shuffle_elgamal_pairs(encrypted_ballots, current_ballots, proof):
             raise ValueError("The proof is invalid: Shuffle proof verification failed at server 0.")
         for i in range(1, NUM_SERVERS):
             for ballot in current_ballots:
                 servers[i].receive_ballot(ballot)
             last_round_ballots = current_ballots
             current_ballots, proof = servers[i].run_mixing_protocol()
-            if not verifier.verify_shuffle_elgamal_pairs(last_round_ballots, current_ballots, proof):
+            if not cast(Verifier.Verifier, verifier).verify_shuffle_elgamal_pairs(last_round_ballots, current_ballots, proof):
                 raise ValueError(f"The proof is invalid: Shuffle proof verification failed at server {i}.")
 
         # Pool shares from all servers

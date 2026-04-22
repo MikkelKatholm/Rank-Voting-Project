@@ -12,7 +12,9 @@ NUM_SERVERS = Consts_script.NUM_SERVERS
 NUM_CLIENTS = Consts_script.NUM_CLIENTS
 NUM_CANDS = Consts_script.NUM_CANDS
 THRESHOLD = Consts_script.THRESHOLD
-BIT_LENGTH = 1536 # Diego says to use 3072
+BIT_LENGTH = 3072 # Diego says to use 3072
+
+USE_ELLIPTIC_CURVE = False
 
 
 PublicKey = int

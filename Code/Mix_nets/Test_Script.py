@@ -8,7 +8,7 @@ def write_consts_to_file(consts, filename="Consts_script.py"):
 def main():
 
     servers_default = 5
-    clients_default = 1_0
+    clients_default = 1_000
     candidates_default = 5
 
     servers = [i for i in range(2,11)]

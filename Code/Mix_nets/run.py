@@ -92,7 +92,7 @@ def run_all():
     t0 = time.time()
     winners = []
     for server in servers:
-        winner = Tally.tally(server.decrypt_ballots(all_shares, current_ballots))
+        winner = Tally.tally(server_results)
         winners.append(winner)
     t_tally = time.time() - t0
 

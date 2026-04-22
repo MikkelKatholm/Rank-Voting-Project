@@ -14,7 +14,7 @@ NUM_CANDS = Consts_script.NUM_CANDS
 THRESHOLD = Consts_script.THRESHOLD
 BIT_LENGTH = 3072 # Diego says to use 3072
 
-USE_ELLIPTIC_CURVE = False
+USE_ELLIPTIC_CURVE = True
 
 
 PublicKey = int

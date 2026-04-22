@@ -45,8 +45,8 @@ class Verifier:
             X = [transcript["A"][i] + ((lambda_challenge % q) * B[i]) for i in range(k)]
             Y = [transcript["C"][i] + ((lambda_challenge % q) * transcript["D"][i]) for i in range(k)]
             
-            Phi1 = self.sum_ec([(sigma[i] * output_ciphertexts[i].c1) + (((-rho[i]) % q) * input_ciphertexts[i].c1) for i in range(k)])
-            Phi2 = self.sum_ec([(sigma[i] * output_ciphertexts[i].c2) + (((-rho[i]) % q) * input_ciphertexts[i].c2) for i in range(k)])
+            Phi1 = self.sum_ec([((sigma[i] % q) * output_ciphertexts[i].c1) + (((-rho[i]) % q) * input_ciphertexts[i].c1) for i in range(k)])
+            Phi2 = self.sum_ec([((sigma[i] % q) * output_ciphertexts[i].c2) + (((-rho[i]) % q) * input_ciphertexts[i].c2) for i in range(k)])
         else:
             X = [(transcript["A"][i] * pow(B[i], lambda_challenge, p)) % p for i in range(k)]
             Y = [(transcript["C"][i] * pow(transcript["D"][i], lambda_challenge, p)) % p for i in range(k)]
@@ -61,7 +61,7 @@ class Verifier:
         # Step 3: check the equations
         for i in range(k):
             if USE_ELLIPTIC_CURVE:
-                left_side = sigma[i] * Gamma
+                left_side = (sigma[i] % q) * Gamma
                 right_side = W[i] + D[i]
             else:
                 left_side = pow(Gamma, sigma[i], p)

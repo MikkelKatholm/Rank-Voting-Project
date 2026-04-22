@@ -92,7 +92,7 @@ def run_all():
     t0 = time.time()
     winners = []
     for server in servers:
-        winner = Tally.tally(server_results)
+        winner = Tally.tally(server_results[0])
         winners.append(winner)
     t_tally = time.time() - t0
 

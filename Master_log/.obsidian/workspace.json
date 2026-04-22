@@ -4,81 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "d9df4de4c04c65fb",
+        "id": "9d00f81f0f21a2ca",
         "type": "tabs",
         "children": [
           {
-            "id": "a36940739f87ba2f",
+            "id": "4ef9a02bedab8a83",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Daily_logs/2026-03-23.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "2026-03-23"
-            }
-          },
-          {
-            "id": "97876e452ed6c990",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Todo and questions/Fix before handing in.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Fix before handing in"
-            }
-          },
-          {
-            "id": "f2487af257672d94",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Todo and questions/Fix before handing in.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Fix before handing in"
-            }
-          },
-          {
-            "id": "e087a9a33772d92d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Todo and questions/Fix before handing in.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Fix before handing in"
-            }
-          },
-          {
-            "id": "80379f06d5943510",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Todo and questions/Questions.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Questions"
+              "title": "New tab"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -135,8 +74,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "6c6c387e251dd537",
@@ -242,14 +180,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "f2487af257672d94",
+  "active": "4ef9a02bedab8a83",
   "lastOpenFiles": [
-    "Daily_logs/2026-04-15.md",
-    "Todo and questions/Fix before handing in.md",
-    "Daily_logs/2026-04-07.md",
     "Daily_logs/2026-03-23.md",
-    "Daily_logs/2026-03-18.md",
+    "Todo and questions/Fix before handing in.md",
     "Todo and questions/Questions.md",
+    "Daily_logs/2026-04-15.md",
+    "Daily_logs/2026-04-07.md",
+    "Daily_logs/2026-03-18.md",
     "Daily_logs/2026-03-05.md",
     "Daily_logs/2026-02-25.md",
     "Daily_logs/2026-02-20.md",

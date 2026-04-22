@@ -18,42 +18,59 @@ from consts import TIMER_IDS, dict_value_to_key
 
 
 def main():
-    servers = [i for i in range(2,11)]
-    clients = [2**i for i in range(2,21)]
-    candidates = [2*i for i in range(2,11)]
+
+    servers_default = 5
+    candidates_default = 5
+    voters_default = 1000
+
+    servers_range = range(2, 11)  # 2 to 10 servers
+    candidates_range = range(2, 10)  # 2 to 9 candidates
+    voters_range = [2**i for i in range(2, 15)] # 4 to 16.384 voters
     run_leak_version = [0, 1]
 
     results = []
 
+    for leak in run_leak_version:
+        # Vary the number of servers while keeping other parameters fixed
+        for num_servers in servers_range:
+            run_test(num_servers, voters_default, candidates_default, leak, results)
 
-    for num_servers in servers:
-        for num_clients in clients:
-            for num_cands in candidates:
-                for leak_version in run_leak_version:
-                    print(f"Running with {num_servers} servers, {num_clients} clients, {num_cands} candidates, leak version: {leak_version}")
-                    # Update the .env file with the new values
-                    consts = {
-                        "NUM_SERVERS": num_servers,
-                        "NUM_VOTERS": num_clients,
-                        "NUM_CANDS": num_cands,
-                        "RUN_LEAK_VERSION": leak_version
-                    }
-                    update_consts(consts)
+        # Vary the number of candidates while keeping other parameters fixed
+        for num_cands in candidates_range:
+            run_test(servers_default, voters_default, num_cands, leak, results)
 
-                    # Run the test script
-                    result = subprocess.run(
-                        ["bash", str(SCRIPT_DIR / "run_RCV.sh"), "-g", "true"],
-                        cwd=REPO_ROOT,
-                        capture_output=True,
-                        text=True,
-                        check=True,
-                    )
-                    row_data = parse_output(result.stdout, consts)
-                    results.append(row_data)
+        # Vary the number of voters while keeping other parameters fixed
+        for num_voters in voters_range:
+            run_test(servers_default, num_voters, candidates_default, leak, results)
 
-                    # Save incrementally in case of crash
-                    df = pd.DataFrame(results)
-                    df.to_csv(SCRIPT_DIR / "benchmark_results.csv", index=False, sep=";")
+
+
+
+def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: int, results: list):
+    print(f"Running with {num_servers} servers, {num_clients} clients, {num_cands} candidates, leak version: {leak_version}")
+    # Update the .env file with the new values
+    consts = {
+        "NUM_SERVERS": num_servers,
+        "NUM_VOTERS": num_clients,
+        "NUM_CANDS": num_cands,
+        "RUN_LEAK_VERSION": leak_version
+    }
+    update_consts(consts)
+
+    # Run the test script
+    result = subprocess.run(
+        ["bash", str(SCRIPT_DIR / "run_RCV.sh"), "-g", "true"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    row_data = parse_output(result.stdout, consts)
+    results.append(row_data)
+
+    # Save incrementally in case of crash
+    df = pd.DataFrame(results)
+    df.to_csv(SCRIPT_DIR / "benchmark_results.csv", index=False, sep=";")
 
 
 def update_consts(consts: dict):

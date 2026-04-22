@@ -4,6 +4,7 @@ from Compiler.library import *
 
 from MASTER_Scripts.consts import *
 
+program.use_edabit(True)
 
 
 def remove_eliminated_candidates(ballot: Matrix, active_candidates: Array) -> Matrix:

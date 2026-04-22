@@ -23,8 +23,8 @@ def main():
     candidates_default = 5
     voters_default = 1000
 
-    servers_range = range(2, 11)  # 2 to 10 servers
-    candidates_range = range(2, 10)  # 2 to 9 candidates
+    servers_range = range(2, 10)  # 2 to 9 servers
+    candidates_range = range(2, 11)  # 2 to 10 candidates
     voters_range = [2**i for i in range(2, 15)] # 4 to 16.384 voters
     run_leak_version = [0, 1]
 

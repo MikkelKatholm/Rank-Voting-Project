@@ -21,14 +21,13 @@ def main():
         NUM_CANDS = 0,
         THRESHOLD = 0
     )
+    for num_clients in clients:
+        print(f"Running protocol with {servers_default} servers, {num_clients} clients and {candidates_default} candidates...")
+        setup_and_run_protocol(consts, servers_default, num_clients, candidates_default)
 
     for num_servers in servers:
         print(f"Running protocol with {num_servers} servers, {clients_default} clients and {candidates_default} candidates...")
         setup_and_run_protocol(consts, num_servers, clients_default, candidates_default)
-    
-    for num_clients in clients:
-        print(f"Running protocol with {servers_default} servers, {num_clients} clients and {candidates_default} candidates...")
-        setup_and_run_protocol(consts, servers_default, num_clients, candidates_default)
     
     for num_cands in candidates:
         print(f"Running protocol with {servers_default} servers, {clients_default} clients and {num_cands} candidates...")

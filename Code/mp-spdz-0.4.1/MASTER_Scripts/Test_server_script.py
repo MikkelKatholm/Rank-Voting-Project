@@ -21,11 +21,11 @@ def main():
 
     servers_default = 5
     candidates_default = 5
-    voters_default = 1000
+    voters_default = 32
 
     servers_range = range(2, 10)  # 2 to 9 servers
     candidates_range = range(2, 11)  # 2 to 10 candidates
-    voters_range = [2**i for i in range(2, 15)] # 4 to 16.384 voters
+    voters_range = [20*i for i in range(1, 31)] # 20 to 600 voters in increments of 20
     run_leak_version = [0, 1]
 
     results = []
@@ -40,7 +40,8 @@ def main():
             run_test(servers_default, voters_default, num_cands, leak, results)
 
         # Vary the number of voters while keeping other parameters fixed
-        for num_voters in voters_range:
+    for num_voters in voters_range:
+        for leak in run_leak_version:
             run_test(servers_default, num_voters, candidates_default, leak, results)
 
 

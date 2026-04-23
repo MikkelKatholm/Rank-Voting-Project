@@ -125,7 +125,7 @@ def main():
         new_df.at[index, 't_tally'] = new_time_tally
         new_df.at[index, 'total_time'] = new_total_time
 
-    new_df.to_csv('Mix_nets_results_with_network_delay.csv', index=False)
+    new_df.to_csv('Mix_nets_results_with_network_delay.csv', index=False, sep=';')
     print("New results with network delay have been saved to Mix_nets_results_with_network_delay.csv")
 
 if __name__ == "__main__":

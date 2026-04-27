@@ -145,4 +145,4 @@ def parse_output(output: str, run_params: dict) -> dict:
 
 
 if __name__ == "__main__":
-    main()
+    run_missing()

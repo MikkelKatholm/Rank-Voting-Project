@@ -1,7 +1,9 @@
 from Compiler.GC.types import *
 from Compiler.types import *
 from Compiler.library import *
-from MASTER_Scripts.RCV_tally_no_leak import remove_non_highest_priority, remove_eliminated_candidates, sum_rows, sum_vectors
+from MASTER_Scripts.RCV_tally_no_leak import remove_non_highest_priority, remove_eliminated_candidates, sum_rows
+
+program.use_edabit(True)
 
 from MASTER_Scripts.consts import *
 
@@ -12,10 +14,22 @@ def eliminate_candidate(active_candidates: Array, cand_id: cint) -> Array:
     :param cand_id: The candidate ID to eliminate.
     :return: Updated active_candidates list with the specified candidate eliminated.
     """
-
     active_candidates[cand_id] = cbits(0)
 
     return active_candidates
+
+def sum_vectors(vectors: list[list[sint]]) -> Array:
+
+    result = Array(NUM_CANDS, sint)
+    result.assign_all(cint(0))
+    for vector in vectors:
+        for i in range(NUM_CANDS):
+            result[i] += vector[i]
+
+    res_clear = result.reveal_list()
+    res_array = Array(NUM_CANDS, cint)
+    res_array.assign_vector(res_clear)
+    return res_array
 
 def initialize_active_candidates() -> Array:
     """ Initialize all candidates as active (1). 
@@ -32,7 +46,7 @@ def reveal_winner(winner_id: sint) -> int:
     """
     return winner_id.reveal()
 
-def update_eliminated_candidates(vector: sbitvec, active_candidates: Array) -> Array:
+def update_eliminated_candidates(vector: list[sint], active_candidates: Array) -> Array:
     """ Find the candidate with the lowest votes among active candidates.
 
     If there is a tie for lowest votes, the candidate with the lowest index is eliminated.
@@ -112,7 +126,7 @@ def tally(ballots: list[Matrix]):
         @if_e(winner == cint(-1))
         def _():
             round_ballots: list[Matrix] = [copy_matrix(b) for b in ballots]                                             
-            row_sums_array: list[sbitintvec] = []                                                                       
+            row_sums_array: list[list[sint]] = []
             for ballot_id in range(NUM_CLIENTS):
                 round_ballots[ballot_id] = remove_eliminated_candidates(round_ballots[ballot_id], active_candidates)    
                 round_ballots[ballot_id] = remove_non_highest_priority(round_ballots[ballot_id])                        

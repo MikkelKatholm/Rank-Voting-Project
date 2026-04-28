@@ -47,19 +47,19 @@ def main():
 
 def run_missing():
     missing = [
-        {"num_servers": 6, "num_clients": 32, "num_cands": 5, "leak_version": 0},
-        {"num_servers": 9, "num_clients": 32, "num_cands": 5, "leak_version": 0},
-        {"num_servers": 5, "num_clients": 32, "num_cands": 2, "leak_version": 0},
-        {"num_servers": 5, "num_clients": 32, "num_cands": 6, "leak_version": 0},
-        {"num_servers": 5, "num_clients": 32, "num_cands": 10, "leak_version": 0},
         {"num_servers": 9, "num_clients": 32, "num_cands": 5, "leak_version": 1},
-        {"num_servers": 5, "num_clients": 32, "num_cands": 2, "leak_version": 1},
-        {"num_servers": 5, "num_clients": 20, "num_cands": 5, "leak_version": 0}
+        {"num_servers": 5, "num_clients": 32, "num_cands": 6, "leak_version": 0},
+        {"num_servers": 5, "num_clients": 32, "num_cands": 10, "leak_version": 0}
     ]
     results = []
     for params in missing:
         run_test(params["num_servers"], params["num_clients"], params["num_cands"], params["leak_version"], results)
 
+
+    voters_range = [20*i for i in range(3, 31)]
+    for num_voters in voters_range:
+        for leak in [0,1]:
+            run_test(5, num_voters, 5, leak, results)
 
 
 def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: int, results: list):

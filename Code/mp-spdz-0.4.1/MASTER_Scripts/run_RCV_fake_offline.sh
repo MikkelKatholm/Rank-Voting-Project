@@ -67,11 +67,18 @@ if [ "$skip_build" = false ]; then
         echo "   ℹ️  SECURE = -DINSECURE already present, skipping."
     fi
 
-    if ! grep -q "Wno-deprecated-literal-operator" CONFIG.mine 2>/dev/null; then
-        echo "MY_CFLAGS += -Wno-deprecated-literal-operator" >> CONFIG.mine
-        echo "   ✅ Added -Wno-deprecated-literal-operator to CONFIG.mine"
+    # Only add -Wno-deprecated-literal-operator if clang supports it
+    if clang++ -Wno-deprecated-literal-operator -x c++ /dev/null -fsyntax-only 2>/dev/null; then
+        if ! grep -q "Wno-deprecated-literal-operator" CONFIG.mine 2>/dev/null; then
+            echo "MY_CFLAGS += -Wno-deprecated-literal-operator" >> CONFIG.mine
+            echo "   ✅ Added -Wno-deprecated-literal-operator to CONFIG.mine"
+        else
+            echo "   ℹ️  -Wno-deprecated-literal-operator already present, skipping."
+        fi
     else
-        echo "   ℹ️  -Wno-deprecated-literal-operator already present, skipping."
+        echo "   ℹ️  clang doesn't support -Wno-deprecated-literal-operator, skipping."
+        # Remove it if it was previously added
+        sed -i '/Wno-deprecated-literal-operator/d' CONFIG.mine 2>/dev/null || true
     fi
 
     echo "--- CONFIG.mine now contains ---"

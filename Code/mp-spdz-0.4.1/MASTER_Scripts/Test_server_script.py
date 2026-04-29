@@ -5,7 +5,6 @@ import re
 import pandas as pd
 
 
-
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 CONSTS_FILE = SCRIPT_DIR / "consts.env"
@@ -45,22 +44,6 @@ def main():
             run_test(servers_default, num_voters, candidates_default, leak, results)
 
 
-def run_missing():
-    missing = [
-        {"num_servers": 9, "num_clients": 32, "num_cands": 5, "leak_version": 1},
-        {"num_servers": 5, "num_clients": 32, "num_cands": 6, "leak_version": 0},
-        {"num_servers": 5, "num_clients": 32, "num_cands": 10, "leak_version": 0}
-    ]
-    results = []
-    for params in missing:
-        run_test(params["num_servers"], params["num_clients"], params["num_cands"], params["leak_version"], results)
-
-
-    voters_range = [20*i for i in range(3, 31)]
-    for num_voters in voters_range:
-        for leak in [0,1]:
-            run_test(5, num_voters, 5, leak, results)
-
 
 def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: int, results: list):
     print(f"Running with {num_servers} servers, {num_clients} clients, {num_cands} candidates, leak version: {leak_version}")
@@ -75,7 +58,7 @@ def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: i
 
     # Run the test script
     result = subprocess.run(
-        ["bash", str(SCRIPT_DIR / "run_RCV.sh"), "-g", "true"],
+        ["bash", str(SCRIPT_DIR / "run_RCV_fake_offline.sh"), "-g", "true", "-s"],
         cwd=REPO_ROOT,
         capture_output=True,
         text=True,
@@ -145,4 +128,4 @@ def parse_output(output: str, run_params: dict) -> dict:
 
 
 if __name__ == "__main__":
-    run_missing()
+    main()

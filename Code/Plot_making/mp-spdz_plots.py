@@ -10,11 +10,11 @@ x_axis_dict = {
 }
 
 variable_to_color_marker_label = {
-    'total_time_s': ('black', 'o', 'Total Time'),
-    'clean_ballots_time_s': ('green', 's', 'Clean Ballots Time'),
-    'send_and_receive_ballots_time_s': ('darkorange', 'X', 'Send and Receive Ballots Time'),
-    'convert_ballots_time_s': ('red', 'D', 'Convert Ballots Time'),
-    'tally_time_s': ('blue', '*', 'Tally Time')
+    'total_time_s': ('black', 'o', 'Total'),
+    'clean_ballots_time_s': ('green', 's', 'Clean Ballots'),
+    'send_and_receive_ballots_time_s': ('darkorange', 'X', 'Send and Receive Ballots'),
+    'convert_ballots_time_s': ('red', 'D', 'Convert Ballots'),
+    'tally_time_s': ('blue', '*', 'Tally')
 }
 
 default_values = {
@@ -68,7 +68,7 @@ def plot_everything(data, x_axis, filename):
     plt.grid()
     plt.xlabel(x_axis_dict[x_axis])
     plt.ylabel('Time (s)')
-    plt.legend()
+    plt.legend(loc='upper left')
     plt.savefig(f"mp-spdz_plots/{filename}.pdf", bbox_inches='tight')
 
 def plot_tally_time(data, x_axis, filename):
@@ -84,7 +84,7 @@ def plot_tally_time(data, x_axis, filename):
     plt.grid()
     plt.xlabel(x_axis_dict[x_axis])
     plt.ylabel('Time (s)')
-    plt.legend()
+    plt.legend(loc='upper left')
     plt.savefig(f"mp-spdz_plots/{filename}.pdf", bbox_inches='tight')
 
 def plot_varying_servers():
@@ -134,7 +134,7 @@ def plot_varying_servers():
 
     plot_everything_leak()
     plot_everything_no_leak()
-    #plot_tally_time()
+    plot_tally_time_servers()
 
 def plot_varying_candidates():
     filtered_data = data[

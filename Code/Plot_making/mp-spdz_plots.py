@@ -1,7 +1,10 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
-data = pd.read_csv('mp-spdz_results.csv', sep=";")
+with_online = True
+
+data = pd.read_csv(f'mp-spdz_results_{"online" if with_online else "with_offline"}.csv', sep=";")
 
 x_axis_dict = {
     'NUM_SERVERS': 'Number of Servers',
@@ -69,7 +72,7 @@ def plot_everything(data, x_axis, filename):
     plt.xlabel(x_axis_dict[x_axis])
     plt.ylabel('Time (s)')
     plt.legend(loc='upper left')
-    plt.savefig(f"mp-spdz_plots/{filename}.pdf", bbox_inches='tight')
+    plt.savefig(f"mp-spdz_plots/{filename}{'_online' if with_online else ''}.pdf", bbox_inches='tight')
 
 def plot_tally_time(data, x_axis, filename):
     plt.figure()
@@ -84,8 +87,9 @@ def plot_tally_time(data, x_axis, filename):
     plt.grid()
     plt.xlabel(x_axis_dict[x_axis])
     plt.ylabel('Time (s)')
+    plt.ylim(bottom=0)
     plt.legend(loc='upper left')
-    plt.savefig(f"mp-spdz_plots/{filename}.pdf", bbox_inches='tight')
+    plt.savefig(f"mp-spdz_plots/{filename}{'_online' if with_online else ''}.pdf", bbox_inches='tight')
 
 def plot_varying_servers():
     filtered_data = data[
@@ -186,6 +190,62 @@ def plot_varying_candidates():
     plot_everything_no_leak()
     plot_tally_time_candidates()
 
+def plot_varying_voters():
+    filtered_data = data[
+        (data['NUM_SERVERS'] == default_values['NUM_SERVERS']) &
+        (data['NUM_CANDS'] == default_values['NUM_CANDS'])
+    ]
+
+    no_leak_data = filtered_data[filtered_data['RUN_LEAK_VERSION'] == 0]
+    leak_data = filtered_data[filtered_data['RUN_LEAK_VERSION'] == 1]
+
+    grouped_no_leak = (
+        no_leak_data
+        .groupby('NUM_VOTERS')
+        .agg({
+            'total_time_s': 'mean',
+            'send_and_receive_ballots_time_s': 'mean',
+            'clean_ballots_time_s' : 'mean',
+            'convert_ballots_time_s': 'mean',
+            'tally_time_s': 'mean'
+        })
+    )
+
+    grouped_leak = (
+        leak_data
+        .groupby('NUM_VOTERS')
+        .agg({
+            'total_time_s': 'mean',
+            'send_and_receive_ballots_time_s': 'mean',
+            'clean_ballots_time_s' : 'mean',
+            'convert_ballots_time_s': 'mean',
+            'tally_time_s': 'mean'
+        })
+    )
+    grouped_leak = grouped_leak.reset_index()
+    grouped_no_leak = grouped_no_leak.reset_index()
+
+    a,b = np.polyfit(grouped_leak['NUM_VOTERS'].values.tolist(), grouped_leak['tally_time_s'].values.tolist(), 1)
+    print(f"Leak version: Tally time = {a} * NUM_VOTERS + {b}")
+
+    a,b = np.polyfit(grouped_no_leak['NUM_VOTERS'].values.tolist(), grouped_no_leak['tally_time_s'].values.tolist(), 1)
+    print(f"No leak version: Tally time = {a} * NUM_VOTERS + {b}")
+
+    def plot_everything_leak():
+        plot_everything(grouped_leak, "NUM_VOTERS", 'mp-spdz_varying_voters_plot_leak')
+
+    def plot_everything_no_leak():
+        plot_everything(grouped_no_leak, "NUM_VOTERS", 'mp-spdz_varying_voters_plot_no_leak')
+
+    def plot_tally_time_voters():
+        plot_tally_time(grouped_leak, "NUM_VOTERS", 'mp-spdz_varying_voters_plot_leak_tally_time')
+        plot_tally_time(grouped_no_leak, "NUM_VOTERS", 'mp-spdz_varying_voters_plot_no_leak_tally_time')
+
+    plot_everything_leak()
+    plot_everything_no_leak()
+    plot_tally_time_voters()
+
 if __name__ == "__main__":
     plot_varying_servers()
     plot_varying_candidates()
+    plot_varying_voters()

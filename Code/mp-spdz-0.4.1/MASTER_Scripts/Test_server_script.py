@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from dotenv import load_dotenv, set_key
 import subprocess
@@ -64,6 +65,13 @@ def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: i
         text=True,
         check=True,
     )
+
+    os.makedirs(SCRIPT_DIR / "outputs", exist_ok=True)
+    output_file = os.path.join(SCRIPT_DIR, "outputs", f"output_servers{num_servers}_clients{num_clients}_cands{num_cands}_leak{leak_version}.txt")
+    with open(output_file, "w") as f:
+        f.write(result.stdout)
+
+
     row_data = parse_output(result.stdout, consts)
     results.append(row_data)
 

@@ -30,23 +30,33 @@ def main():
 
     results = []
 
-    for leak in run_leak_version:
-        # Vary the number of servers while keeping other parameters fixed
-        for num_servers in servers_range:
-            run_test(num_servers, voters_default, candidates_default, leak, results)
 
-        # Vary the number of candidates while keeping other parameters fixed
-        for num_cands in candidates_range:
-            run_test(servers_default, voters_default, num_cands, leak, results)
+    success180 = run_test(servers_default, 180, candidates_default, 0, results)
+    while not success180:
+        print("Test failed for 180 voters, retrying...")
+        success180 = run_test(servers_default, 180, candidates_default, 0, results)
+    
+    success220 = run_test(servers_default, 220, candidates_default, 1, results)
+    while not success220:
+        print("Test failed for 220 voters, retrying...")
+        success220 = run_test(servers_default, 220, candidates_default, 1, results)
 
-        # Vary the number of voters while keeping other parameters fixed
+    success260 = run_test(servers_default, 260, candidates_default, 1, results)
+    while not success260:
+        print("Test failed for 260 voters, retrying...")
+        success260 = run_test(servers_default, 260, candidates_default, 1, results)
+
+    # Vary the number of voters while keeping other parameters fixed
     for num_voters in voters_range:
         for leak in run_leak_version:
-            run_test(servers_default, num_voters, candidates_default, leak, results)
+            success = run_test(servers_default, num_voters, candidates_default, leak, results)
+            while not success:
+                print(f"Test failed for {num_voters} voters, retrying...")
+                success = run_test(servers_default, num_voters, candidates_default, leak, results)
 
 
 
-def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: int, results: list):
+def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: int, results: list) -> bool:
     print(f"Running with {num_servers} servers, {num_clients} clients, {num_cands} candidates, leak version: {leak_version}")
     # Update the .env file with the new values
     consts = {
@@ -73,12 +83,17 @@ def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: i
 
 
     row_data = parse_output(result.stdout, consts)
+
+    if row_data['total_time_s'] is None:
+        return False
+
     results.append(row_data)
 
     # Save incrementally in case of crash
     df = pd.DataFrame(results)
     df.to_csv(SCRIPT_DIR / "benchmark_results.csv", index=False, sep=";")
 
+    return True
 
 def update_consts(consts: dict):
     if not CONSTS_FILE.exists():

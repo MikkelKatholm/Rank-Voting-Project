@@ -18,7 +18,6 @@ from consts import TIMER_IDS, dict_value_to_key
 
 
 def main():
-
     servers_default = 5
     candidates_default = 5
     voters_default = 32
@@ -30,21 +29,18 @@ def main():
 
     results = []
 
-
-    success180 = run_test(servers_default, 180, candidates_default, 0, results)
-    while not success180:
-        print("Test failed for 180 voters, retrying...")
-        success180 = run_test(servers_default, 180, candidates_default, 0, results)
-    
-    success220 = run_test(servers_default, 220, candidates_default, 1, results)
-    while not success220:
-        print("Test failed for 220 voters, retrying...")
-        success220 = run_test(servers_default, 220, candidates_default, 1, results)
-
-    success260 = run_test(servers_default, 260, candidates_default, 1, results)
-    while not success260:
-        print("Test failed for 260 voters, retrying...")
-        success260 = run_test(servers_default, 260, candidates_default, 1, results)
+    for leak in run_leak_version:
+        for num_servers in servers_range:
+            success = run_test(num_servers, voters_default, candidates_default, leak, results)
+            while not success:
+                print(f"Test failed for {num_servers} servers, retrying...")
+                success = run_test(num_servers, voters_default, candidates_default, leak, results)
+        
+        for num_cands in candidates_range:
+            success = run_test(servers_default, voters_default, num_cands, leak, results)
+            while not success:
+                print(f"Test failed for {num_cands} candidates, retrying...")
+                success = run_test(servers_default, voters_default, num_cands, leak, results)
 
     # Vary the number of voters while keeping other parameters fixed
     for num_voters in voters_range:
@@ -53,7 +49,6 @@ def main():
             while not success:
                 print(f"Test failed for {num_voters} voters, retrying...")
                 success = run_test(servers_default, num_voters, candidates_default, leak, results)
-
 
 
 def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: int, results: list) -> bool:

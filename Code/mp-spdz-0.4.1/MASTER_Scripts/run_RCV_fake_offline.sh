@@ -117,7 +117,7 @@ fi
 # STEP 3: Compile MPC program
 # -----------------------------------------------------------------------
 echo "🔨 Compiling MPC program..."
-./compile.py -F 40 -b 100 MASTER_Scripts/RCV_server.mpc > /dev/null
+./compile.py -R 16 -b 100 MASTER_Scripts/RCV_server.mpc > /dev/null
 
 # -----------------------------------------------------------------------
 # STEP 4: Certs

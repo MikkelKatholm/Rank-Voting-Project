@@ -34,8 +34,8 @@ set +a
 # --- Configuration ---
 N_PARTIES=$NUM_SERVERS
 TOTAL_CLIENTS=$NUM_VOTERS
-PROTOCOL="spdz2k"
-RING_SIZE=16
+PROTOCOL="mascot"
+FIELD_BITS=40
 # ---------------------
 
 if [ ! -f "compile.py" ]; then
@@ -84,9 +84,9 @@ if [ "$skip_build" = false ]; then
     cat CONFIG.mine
     echo "--------------------------------"
 
-    echo "🔨 Rebuilding Fake-Offline.x and $PROTOCOL-party.x..."
+    echo "🔨 Rebuilding Fake-Offline.x and mascot-party.x..."
     make clean
-    env -u DEBUG make Fake-Offline.x $PROTOCOL-party.x
+    env -u DEBUG make -j8 Fake-Offline.x mascot-party.x
     echo "   ✅ Build complete."
 else
     echo "⏩ Skipping rebuild (-s flag set)."
@@ -95,10 +95,8 @@ fi
 # STEP 2: Generate fake offline preprocessing data
 # -----------------------------------------------------------------------
 echo "🎲 Generating fake offline preprocessing data..."
-#Scripts/setup-online.sh $N_PARTIES $FIELD_BITS &> /dev/null
-#./Fake-Offline.x $N_PARTIES -e 1,40,41,79 &> /dev/null
-./Fake-Offline.x $N_PARTIES -Z $RING_SIZE -S 64 -e 1,15,16,40,41,79
-
+Scripts/setup-online.sh $N_PARTIES $FIELD_BITS &> /dev/null
+./Fake-Offline.x $N_PARTIES -e 1,40,41,79 &> /dev/null
 echo "✅ Fake preprocessing data written to Player-Data/"
 
 
@@ -119,7 +117,7 @@ fi
 # STEP 3: Compile MPC program
 # -----------------------------------------------------------------------
 echo "🔨 Compiling MPC program..."
-./compile.py -R $RING_SIZE -b 100 MASTER_Scripts/RCV_server.mpc > /dev/null
+./compile.py -F 40 -b 100 MASTER_Scripts/RCV_server.mpc > /dev/null
 
 # -----------------------------------------------------------------------
 # STEP 4: Certs

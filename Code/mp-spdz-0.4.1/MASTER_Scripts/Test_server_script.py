@@ -21,6 +21,7 @@ def main():
     servers_default = 5
     candidates_default = 5
     voters_default = 32
+    runs = 10
 
     servers_range = range(2, 10)  # 2 to 9 servers
     candidates_range = range(2, 11)  # 2 to 10 candidates
@@ -29,26 +30,13 @@ def main():
 
     results = []
 
-    for leak in run_leak_version:
-        for num_servers in servers_range:
-            success = run_test(num_servers, voters_default, candidates_default, leak, results)
-            while not success:
-                print(f"Test failed for {num_servers} servers, retrying...")
-                success = run_test(num_servers, voters_default, candidates_default, leak, results)
-        
+    for _ in range(runs):
         for num_cands in candidates_range:
-            success = run_test(servers_default, voters_default, num_cands, leak, results)
+            success = run_test(servers_default, voters_default, num_cands, run_leak_version[0], results)
             while not success:
                 print(f"Test failed for {num_cands} candidates, retrying...")
-                success = run_test(servers_default, voters_default, num_cands, leak, results)
-
-    # Vary the number of voters while keeping other parameters fixed
-    for num_voters in voters_range:
-        for leak in run_leak_version:
-            success = run_test(servers_default, num_voters, candidates_default, leak, results)
-            while not success:
-                print(f"Test failed for {num_voters} voters, retrying...")
-                success = run_test(servers_default, num_voters, candidates_default, leak, results)
+                success = run_test(servers_default, voters_default, num_cands, run_leak_version[0], results)
+                
 
 
 def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: int, results: list) -> bool:

@@ -33,7 +33,7 @@ set +a
 # --- Configuration ---
 N_PARTIES=$NUM_SERVERS              # Number of MPC servers
 TOTAL_CLIENTS=$NUM_VOTERS           # Set this to however many clients you want
-PROTOCOL="spdz2k"                   # Arithmetic protocol
+PROTOCOL="mascot"                   # Arithmetic protocol
 # ---------------------
 
 # Validation & Setup
@@ -64,7 +64,7 @@ fi
 
 # Compile & Certs
 echo "🔨 Compiling..."
-./compile.py -R 16 -b 100 MASTER_Scripts/RCV_server.mpc > /dev/null
+./compile.py -F 40 -b 100 MASTER_Scripts/RCV_server.mpc > /dev/null
 
 echo "🔐 Generating Certs..."
 if [ "$DEBUG" -eq 0 ]; then
@@ -83,7 +83,7 @@ sleep 2
 
 # Launch Clients with Random Inputs
 echo "👥 Launching $TOTAL_CLIENTS clients"
-
+H
 for (( i=0; i<$TOTAL_CLIENTS; i++ ))
 do
     if [ "$i" -lt $((TOTAL_CLIENTS-1)) ]; then

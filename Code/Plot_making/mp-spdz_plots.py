@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+from pathlib import Path
+import matplotlib as mpl
 
 with_online = True
 
@@ -14,7 +16,7 @@ x_axis_dict = {
 
 variable_to_color_marker_label = {
     'total_time_s': ('black', 'o', 'Total'),
-    'clean_ballots_time_s': ('green', 's', 'Clean Ballots'),
+    'clean_ballots_time_s': ('green', 's', 'Ballot Validation'),
     'send_and_receive_ballots_time_s': ('darkorange', 'X', 'Send and Receive Ballots'),
     'convert_ballots_time_s': ('red', 'D', 'Convert Ballots'),
     'tally_time_s': ('blue', '*', 'Tally')
@@ -25,6 +27,13 @@ default_values = {
     'NUM_CANDS': 5,
     'NUM_VOTERS': 32,
 }
+
+
+font_dict = {
+    'family': mpl.font_manager.FontProperties(fname=Path(mpl.get_data_path(), "fonts/ttf/cmr10.ttf")).get_name(),
+    'size': 12
+}
+
 
 def plot_everything(data, x_axis, filename):
     plt.figure()
@@ -69,9 +78,9 @@ def plot_everything(data, x_axis, filename):
         color=variable_to_color_marker_label['tally_time_s'][0]
     )
     plt.grid()
-    plt.xlabel(x_axis_dict[x_axis])
-    plt.ylabel('Time (s)')
-    plt.legend(loc='upper left')
+    plt.xlabel(x_axis_dict[x_axis], font_dict)
+    plt.ylabel('Time (s)', font_dict)
+    plt.legend(loc='upper left', prop=font_dict)
     plt.savefig(f"mp-spdz_plots/{filename}{'_online' if with_online else ''}.pdf", bbox_inches='tight')
 
 def plot_tally_time(data, x_axis, filename):
@@ -84,11 +93,21 @@ def plot_tally_time(data, x_axis, filename):
         linestyle='',
         color=variable_to_color_marker_label['tally_time_s'][0]
     )
+    
+    plt.plot(
+        data[x_axis],
+        data['clean_ballots_time_s'],
+        marker=variable_to_color_marker_label['clean_ballots_time_s'][1],
+        label=variable_to_color_marker_label['clean_ballots_time_s'][2],
+        linestyle='',
+        color=variable_to_color_marker_label['clean_ballots_time_s'][0]
+    )
+
     plt.grid()
-    plt.xlabel(x_axis_dict[x_axis])
-    plt.ylabel('Time (s)')
+    plt.xlabel(x_axis_dict[x_axis], font_dict)
+    plt.ylabel('Time (s)', font_dict)
     plt.ylim(bottom=0)
-    plt.legend(loc='upper left')
+    plt.legend(loc='upper left', prop=font_dict)
     plt.savefig(f"mp-spdz_plots/{filename}{'_online' if with_online else ''}.pdf", bbox_inches='tight')
 
 def plot_varying_servers():
@@ -193,7 +212,8 @@ def plot_varying_candidates():
 def plot_varying_voters():
     filtered_data = data[
         (data['NUM_SERVERS'] == default_values['NUM_SERVERS']) &
-        (data['NUM_CANDS'] == default_values['NUM_CANDS'])
+        (data['NUM_CANDS'] == default_values['NUM_CANDS']) &
+        (data['NUM_VOTERS'] != 32)
     ]
 
     no_leak_data = filtered_data[filtered_data['RUN_LEAK_VERSION'] == 0]

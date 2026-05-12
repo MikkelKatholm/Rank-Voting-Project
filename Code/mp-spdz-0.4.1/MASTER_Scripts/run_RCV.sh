@@ -83,7 +83,7 @@ sleep 2
 
 # Launch Clients with Random Inputs
 echo "👥 Launching $TOTAL_CLIENTS clients"
-H
+
 for (( i=0; i<$TOTAL_CLIENTS; i++ ))
 do
     if [ "$i" -lt $((TOTAL_CLIENTS-1)) ]; then

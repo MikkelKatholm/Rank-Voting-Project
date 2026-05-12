@@ -36,7 +36,7 @@ def main():
             while not success:
                 print(f"Test failed for {num_cands} candidates, retrying...")
                 success = run_test(servers_default, voters_default, num_cands, run_leak_version[0], results)
-                
+
 
 
 def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: int, results: list) -> bool:
@@ -52,7 +52,7 @@ def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: i
 
     # Run the test script
     result = subprocess.run(
-        ["bash", str(SCRIPT_DIR / "run_RCV_fake_offline.sh"), "-g", "true", "-s"],
+        ["bash", str(SCRIPT_DIR / "run_RCV.sh"), "-g", "true"],
         cwd=REPO_ROOT,
         capture_output=True,
         text=True,

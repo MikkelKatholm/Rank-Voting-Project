@@ -53,7 +53,6 @@ Programs/Functions
 *.dll
 *.exe
 *.x
-!mascot-party.x
 *.o
 *.so
 *.pyc

@@ -32,10 +32,10 @@ def main():
 
     for _ in range(runs):
         for num_cands in candidates_range:
-            success = run_test(servers_default, voters_default, num_cands, run_leak_version[0], results)
+            success = run_test(servers_default, voters_default, num_cands, 1, results)
             while not success:
                 print(f"Test failed for {num_cands} candidates, retrying...")
-                success = run_test(servers_default, voters_default, num_cands, run_leak_version[0], results)
+                success = run_test(servers_default, voters_default, num_cands, 1, results)
 
 
 

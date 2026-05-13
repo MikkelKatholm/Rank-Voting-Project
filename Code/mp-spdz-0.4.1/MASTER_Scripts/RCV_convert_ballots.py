@@ -6,7 +6,6 @@ from MASTER_Scripts.consts import *
 
 def sint_to_sbit(s: sint) -> sb:        # type: ignore
     return s - sb(0)
-    return sbitvec(s, 1)[0]
 
 
 def convert_ballot(ballot: Matrix) -> Matrix:

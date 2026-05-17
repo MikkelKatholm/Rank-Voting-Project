@@ -14,7 +14,9 @@ import pandas as pd
 def run_all():    
     time_total_start = time.time()
 
-    # Setup TTP and servers
+    ###################################
+    #       Setup TTP and servers
+    ###################################
     t0 = time.time()
     ttp = TTP.TTP()
     params, pk, shares = ttp.return_info()
@@ -22,17 +24,23 @@ def run_all():
     verifier = Verifier.Verifier(params, pk)
     t_setup = time.time() - t0
 
+    ###################################
     # Generate ballots and save to files
+    ###################################
     t0 = time.time()
     generate_fresh_ballots(NUM_CLIENTS)
     t_gen_ballots = time.time() - t0
 
-    # Initialize clients
+    ###################################
+    #       Initialize clients
+    ###################################
     t0 = time.time()
     clients = [Client.Client(params, pk, idx) for idx in range(NUM_CLIENTS)]
     t_make_clients = time.time() - t0
 
+    ###################################
     # Clients encrypt and send ballots to first server
+    ###################################
     t0 = time.time()
     encrypted_ballots = []
     for client in clients:
@@ -40,13 +48,17 @@ def run_all():
         encrypted_ballots.append(encrypted_ballot)
     t_encrypt_ballots = time.time() - t0
 
+    ###################################
     # Send encrypted ballots to first server
+    ###################################
     t0 = time.time()
     for ballot in encrypted_ballots:
         servers[0].receive_ballot(ballot)
     t_send_ballots = time.time() - t0
 
+    ###################################
     # Run mixing protocol through all servers
+    ###################################
     time_verifying_proofs = 0
     time_mixing = 0
 
@@ -72,34 +84,38 @@ def run_all():
             raise ValueError(f"The proof is invalid: Shuffle proof verification failed at server {i}.")
         time_verifying_proofs += time.time() - t_ver_start
 
+    ###################################
     # Pool shares from all servers
+    ###################################
     t0 = time.time()
     all_shares = []
     for server in servers:
         all_shares.append(server.sk_share)
     t_pool_shares = time.time() - t0
 
+    ###################################
     # All servers collaborate to decrypt the ballots and use majority vote to check correctness
+    ###################################
     t0 = time.time()
-    server_results = []
-    for server in servers:
-        decrypted = server.decrypt_ballots(all_shares, current_ballots)
-        server_results.append(decrypted)
+
+    server_result = servers[0].decrypt_ballots(all_shares, current_ballots)
     t_decrypt = time.time() - t0
 
             
+    ###################################
     # Run the tally function on the decrypted ballots to find the winner
+    ###################################
     t0 = time.time()
-    winners = []
-    for server in servers:
-        winner = Tally.tally(server_results[0])
-        winners.append(winner)
+    winner = Tally.tally(server_result)
     t_tally = time.time() - t0
+
 
     time_total = time.time() - time_total_start
     
 
+    ###################################
     # Save the timeing results to a CSV file with the constants used in a column for reference
+    ###################################
     results_df = pd.DataFrame({
         "NUM_SERVERS": [NUM_SERVERS],
         "NUM_CLIENTS": [NUM_CLIENTS],

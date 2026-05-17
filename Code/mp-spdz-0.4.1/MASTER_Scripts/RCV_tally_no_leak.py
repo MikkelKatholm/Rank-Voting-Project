@@ -103,7 +103,7 @@ def sum_rows(ballot: Matrix) -> list[sint]:
     for row in range(NUM_CANDS):
         row_sum = sb(0)
         for col in range(NUM_CANDS):
-            row_sum = row_sum + ballot[col][row]
+            row_sum = row_sum + ballot[row][col]
         summed_list.append(sbit_to_sint(row_sum))
         
     return summed_list

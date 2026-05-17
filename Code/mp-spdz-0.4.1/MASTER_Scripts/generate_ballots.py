@@ -37,6 +37,6 @@ def main():
         os.makedirs(ballot_folder)
     clear_ballots()
     generate_all_ballots(num_voters, num_cands)
-
+    
 if __name__ == "__main__":
     main()

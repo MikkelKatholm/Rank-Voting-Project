@@ -1,0 +1,17 @@
+from Compiler.types import *
+from Compiler.GC.types import *
+from Compiler.library import *
+from Compiler.util import if_else
+
+
+
+def run_test():
+    a = Array(10, sint)
+    for i in range(10):
+        a[i] = sint(i)
+#    b = a[:9]
+    for i in range(len(a)-1):
+        print_ln("a[%s] = %s", i, a[i].reveal())
+    print_ln("Done")
+
+run_test()

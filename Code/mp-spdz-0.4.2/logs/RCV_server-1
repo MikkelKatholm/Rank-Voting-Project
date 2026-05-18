@@ -1,0 +1,17 @@
+Using SPDZ2k security parameter 64
+Using statistical security parameter 40
+Trying to run 16-bit computation
+Starting timer 10 at 0 (0 MB, 0 rounds) after 1.7321e-05
+Stopped timer 10 at 4.25598 (11.0797 MB, 35 rounds)
+Starting timer 13 at 0 (0 MB, 0 rounds) after 4.819e-06
+Stopped timer 13 at 4.36409 (111.037 MB, 7918 rounds)
+Significant amount of unused triples of SPDZ2^(16+64) distorting the benchmark. For more accurate benchmarks, consider reducing the batch size with --batch-size.
+Significant amount of unused dabits of SPDZ2^(16+64) distorting the benchmark. For more accurate benchmarks, consider reducing the batch size with --batch-size.
+Significant amount of unused edaBits of size 12. This protocol has a large minimum batch size, which makes this unavoidable for small programs.
+Significant amount of unused triples of Tinier distorting the benchmark. This protocol has a large minimum batch size, which makes this unavoidable for small programs.
+The following benchmarks are including preprocessing (offline phase).
+Time = 8.64368 seconds 
+Time10 = 4.25598 seconds (11.0797 MB, 35 rounds)
+Time13 = 4.36409 seconds (111.037 MB, 7918 rounds)
+Data sent = 122.117 MB in ~7958 rounds (party 1 only; use '-v' for more details)
+Global data sent = 244.234 MB (all parties)

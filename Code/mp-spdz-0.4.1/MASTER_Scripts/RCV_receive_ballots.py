@@ -5,6 +5,7 @@ from Compiler.util import if_else
 
 from MASTER_Scripts.consts import *
 
+BALLOT_SIZE = NUM_CANDS
 
 def accept_client():
     client_socket_id = accept_client_connection(PORTNUM)
@@ -20,7 +21,7 @@ def client_input(client_socket_id) -> list[sint]:
     """
     Send share of random value, receive input and deduce share.
     """
-    return sint.receive_from_client(NUM_CANDS * NUM_CANDS, client_socket_id)
+    return sint.receive_from_client(BALLOT_SIZE, client_socket_id)
 
 def debug_print(secret_ballot):
     if not DEBUG:
@@ -40,8 +41,8 @@ def run_client_server() -> Matrix:
 
     # Use a Matrix to store all ballots.
     # Rows = clients, Cols = flattened ballot entries
-    flat_ballots = Matrix(NUM_CANDS * NUM_CANDS, NUM_CLIENTS, sint)
-    flat_ballots.assign_all(0)
+    flat_ballots = Matrix(BALLOT_SIZE, NUM_CLIENTS, sint)
+    flat_ballots.assign_all(-1)
 
     @do_while
     def _():
@@ -56,30 +57,23 @@ def run_client_server() -> Matrix:
     @for_range(number_clients)
     def _(client_id):
         ballot_sint = client_input(client_id)
-        
-        for i in range(NUM_CANDS * NUM_CANDS):
+        for i in range(BALLOT_SIZE):
             flat_ballots[i][client_id] = ballot_sint[i]
-
         debug_print(ballot_sint)
         closeclientconnection(client_id)
-    
     return flat_ballots
 
-def format_ballots_as_list(flat_ballots: Matrix) -> list[Matrix]:
-    ballots: list[Matrix] = []
-    for idx in range(NUM_CLIENTS):
-        ballot_matrix = Matrix(NUM_CANDS, NUM_CANDS, sint)
+def format_ballots_as_list(flat_ballots: Matrix) -> list[Array]:
+    ballots: list[Array] = []
+    for idx in range(NUM_CLIENTS):        
+        ballot_array = Array(length=BALLOT_SIZE, value_type=sint)
         flat_ballot = flat_ballots.get_column(idx)
-        for i in range(NUM_CANDS * NUM_CANDS):
-            ballot_matrix[i // NUM_CANDS][i % NUM_CANDS] = flat_ballot[i]
-        ballots.append(ballot_matrix)
+        for i in range(BALLOT_SIZE):
+            ballot_array[i] = flat_ballot[i]
+        ballots.append(ballot_array)
     return ballots
-
-
 
 def receive_ballots():
     flat_ballots = run_client_server()
-
     ballots = format_ballots_as_list(flat_ballots)
-
     return ballots

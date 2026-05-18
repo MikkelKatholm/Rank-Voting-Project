@@ -3,10 +3,8 @@ from Compiler.GC.types import *
 from Compiler.library import *
 
 import MASTER_Scripts.RCV_receive_ballots as RCV_receive_ballots
-import MASTER_Scripts.RCV_clean_ballots as RCV_clean_ballots
-import MASTER_Scripts.RCV_convert_ballots as RCV_convert_ballots
 import MASTER_Scripts.RCV_tally_no_leak as RCV_tally_no_leak
-import MASTER_Scripts.RCV_tally_round_leak as RCV_tally_round_leak
+#import MASTER_Scripts.RCV_tally_round_leak as RCV_tally_round_leak
 
 from MASTER_Scripts.consts import *
 
@@ -14,12 +12,12 @@ program.active = True
 
 
 def run_tally(ballots: list[Matrix]) -> sint:
-    if RUN_LEAK_VERSION:
-        print_ln("⚠️ Running tally with round leak version (leaks round-by-round votes to all parties)")
-        return RCV_tally_round_leak.tally(ballots)
-    else:
-        print_ln("🔒 Running tally with no leak version (does not leak round-by-round votes)")
-        return RCV_tally_no_leak.tally(ballots)
+#    if RUN_LEAK_VERSION:
+#        print_ln("⚠️ Running tally with round leak version (leaks round-by-round votes to all parties)")
+#        return RCV_tally_round_leak.tally(ballots)
+#    else:
+    print_ln("🔒 Running tally with no leak version (does not leak round-by-round votes)")
+    return RCV_tally_no_leak.tally(ballots)
 
 def main():
     
@@ -28,19 +26,12 @@ def main():
     print_ln("🧾 Received %s ballots", len(ballots))
     stop_timer(timer_id=TIMER_IDS["send_and_receive_ballots"])
 
-    timer_clean_ballots = start_timer(timer_id=TIMER_IDS["clean_ballots"])
-    clean_ballots = RCV_clean_ballots.clean_ballots(ballots)
-    print_ln("🧹 Cleaned ballots")
-    stop_timer(timer_id=TIMER_IDS["clean_ballots"])
-
-    timer_convert_ballots = start_timer(timer_id=TIMER_IDS["convert_ballots"])
-    sbit_ballots = RCV_convert_ballots.convert_ballots(clean_ballots)
-    print_ln("🔢 Converted ballots to sbit format")
-    stop_timer(timer_id=TIMER_IDS["convert_ballots"])
+    for i, ballot in enumerate(ballots):
+        print_ln("Ballot %s: %s", i, ballot.reveal_list())
 
     timer_tally = start_timer(timer_id=TIMER_IDS["tally"])
-    winner = run_tally(sbit_ballots)
+    winner = run_tally(ballots)
     stop_timer(timer_id=TIMER_IDS["tally"])
-    print_ln("🏆 Winner is candidate ID: %s", winner.reveal())
+#    print_ln("🏆 Winner is candidate ID: %s", winner.reveal())
     
 main()

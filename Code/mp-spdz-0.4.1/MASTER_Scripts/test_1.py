@@ -6,12 +6,9 @@ from Compiler.util import if_else
 
 
 def run_test():
-    for i in range(1000):    
-        @if_e(1 == 1)
-        def _():
-            print_str("a")
-        @else_
-        def _():        
-            print_ln("b")
+    a = Array(10, sint)
+    a.assign_all(0)
+    for i in range(len(a)):
+        print_ln("a[%s] = %s", i, a[i].reveal())
     print_ln("Done")
 

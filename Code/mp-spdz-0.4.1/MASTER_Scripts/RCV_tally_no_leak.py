@@ -56,7 +56,7 @@ def update_eliminated_candidates(vote_vector: Array, active_candidates: Array) -
     :param active_candidates: An array of secret-shared integers indicating which candidates are currently active.
     :return: An updated array of secret-shared integers indicating which candidates are active after elimination.
     """
-    large_num = sint(1000000)
+    large_num = sint(1000)
     adjusted_votes = Array(NUM_CANDS, sint)
     for i in range(NUM_CANDS):
         adjusted_votes[i] = vote_vector[i] + (1 - active_candidates[i]) * large_num

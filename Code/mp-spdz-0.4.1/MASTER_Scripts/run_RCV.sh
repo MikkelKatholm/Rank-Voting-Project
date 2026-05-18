@@ -33,7 +33,7 @@ set +a
 # --- Configuration ---
 N_PARTIES=$NUM_SERVERS              # Number of MPC servers
 TOTAL_CLIENTS=$NUM_VOTERS           # Set this to however many clients you want
-PROTOCOL="mascot"                   # Arithmetic protocol
+PROTOCOL="spdz2k"                   # Arithmetic protocol
 # ---------------------
 
 # Validation & Setup
@@ -49,10 +49,12 @@ fi
 
 
 # Kill any lingering processes on the port
-# Nuke every mascot-pa processes
-echo "🧹 Cleaning up any existing processes on port $PORTNUM and mascot-pa processes..."
+# Nuke every protocol processes
+echo "🧹 Cleaning up any existing processes on port $PORTNUM and protocol processes..."
 lsof -ti:$PORTNUM 2>/dev/null | xargs kill -9 2>/dev/null || true
 pkill -9 mascot-pa 2>/dev/null || true
+pkill -9 spdz2k-pa 2>/dev/null || true
+pkill -9 spdz2k-party 2>/dev/null || true
 sleep 1
 
 # Generate the ballots for clients
@@ -64,7 +66,7 @@ fi
 
 # Compile & Certs
 echo "🔨 Compiling..."
-./compile.py -F 40 -b 100 MASTER_Scripts/RCV_server.mpc > /dev/null
+./compile.py -R 16 -b 100 MASTER_Scripts/RCV_server.mpc > /dev/null
 
 echo "🔐 Generating Certs..."
 if [ "$DEBUG" -eq 0 ]; then

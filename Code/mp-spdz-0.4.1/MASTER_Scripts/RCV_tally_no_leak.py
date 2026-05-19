@@ -2,88 +2,10 @@ from Compiler.GC.types import *
 from Compiler.types import *
 from Compiler.library import *
 
+from Compiler.util import if_else
 from MASTER_Scripts.consts import *
 
 program.use_edabit(True)
-
-
-
-#######################################################
-###             Helpers                             ###
-#######################################################
-def sbit_to_sint(sbit_value: sbit) -> sint:
-    """ Convert a secret-shared bit (sbit) to a secret-shared integer (sint).
-    
-    :param sbit_value: A secret-shared bit value to convert.
-    :return: A secret-shared integer representing the same value as the input bit.
-    
-    Example:
-    >>> sbit_to_sint(sbit(1))
-        returns sint(1)
-    >>> sbit_to_sint(sbit(0))
-        returns sint(0)
-    """
-    return sint(sbit_value)
-
-#######################################################
-###             Helpers End                         ###
-#######################################################
-
-
-def remove_eliminated_candidates(ballot: Matrix, active_candidates: Array) -> Matrix:
-    """ Remove eliminated candidates from the ballot matrix. 
-    
-    :param ballot: A NUM_CANDS x NUM_CANDS secret-shared ballot matrix.
-    :param active_candidates: A list of 0/1 sbits indicating active candidates.
-    :return: A modified ballot matrix with eliminated candidates removed.
-    """
-
-    for row in range(NUM_CANDS):
-        for col in range(NUM_CANDS):
-            ballot[row][col] = ballot[row][col] & active_candidates[row]
-    return ballot
-
-def remove_non_highest_priority(ballot: Matrix) -> Matrix:
-    """ Remove non-highest priority candidates from the ballot matrix.
-    
-    :param ballot: A NUM_CANDS x NUM_CANDS secret-shared ballot matrix.
-    :return: A modified ballot matrix with only the highest priority candidate retained.
-
-    Example:
-    >>> remove_non_highest_priority(ballot)
-        If the ballot matrix is:
-           [[0, 0, 0]  # Candidate 0 is eliminated
-            [0, 0, 1]  # Candidate 1 has priority 2
-            [1, 0, 0]] # Candidate 2 has priority 0
-        Then the resulting ballot matrix will be:
-            [[0, 0, 0]  # Candidate 0 is eliminated
-             [0, 0, 0]  # Candidate 1 is not highest priority
-             [1, 0, 0]] # Candidate 2 is highest priority
-    """
-    found_highest = sb(1)
-    @for_range(NUM_CANDS)
-    def _(col):
-        @for_range(NUM_CANDS)
-        def _(row):
-            is_highest = ballot[row][col] & (found_highest)
-            ballot[row][col] = is_highest
-            found_highest.update(found_highest ^ is_highest)
-
-    return ballot
-
-def eliminate_candidate(active_candidates: Array, cand_id: sint) -> Array:
-    """ Eliminate a candidate by setting their active flag to 0
-    
-    :param active_candidates: A list of 0/1 sbits indicating active candidates.
-    :param cand_id: The candidate ID to eliminate.
-    :return: Updated active_candidates list with the specified candidate eliminated.
-    """
-    @for_range(NUM_CANDS)
-    def _(i):
-        ci = sint(i)
-        condition = sb((ci == cand_id))
-        active_candidates[i] = condition.if_else(sb(0), active_candidates[i])
-    return active_candidates
 
 def initialize_active_candidates() -> Array:
     """ Initialize all candidates as active (1). 
@@ -93,118 +15,98 @@ def initialize_active_candidates() -> Array:
     active_candidates.assign_all(sb(1))
     return active_candidates
 
-def sum_rows(ballot: Matrix) -> list[sint]:
-    """ Sum each row of the ballot matrix.
-    
-    :param ballot: A NUM_CANDS x NUM_CANDS secret-shared ballot matrix.
-    :return: An array of secret-shared integers representing the sum of each row.
-    """
-    summed_list = []
-    for row in range(NUM_CANDS):
-        row_sum = sb(0)
-        for col in range(NUM_CANDS):
-            row_sum = row_sum + ballot[row][col]
-        summed_list.append(sbit_to_sint(row_sum))
-        
-    return summed_list
 
-def sum_vectors(vectors: list[list[sint]]) -> Array:
-    """ Sum a list of secret-shared bit arrays element-wise.
-    
-    :param vectors: A list of secret-shared bits arrays.
-    :return: A single secret-shared integers array representing the element-wise sum.
-    
-    # Example:
-    >>> sum_vectors([Array([1,0,1]), Array([0,1,1]), Array([1,1,0])])
-        returns Array([2,2,2])
-    """
-
-    results = [sint(0) for _ in range(NUM_CANDS)]
-    for vector in vectors:
-        for i in range(NUM_CANDS):
-            results[i] = results[i] + vector[i]
-
-    as_array = Array(NUM_CANDS, sint)
-    return as_array.assign(results)
-
-def find_winner(vector: Array) -> sint:
-    """ Find the candidate with the highest votes.
-    :param vector: A secret-shared integer array representing candidate vote counts.
-    :return: The candidate ID (sint) with the highest votes.
-    """
- 
-    winner_id = sint(-1)
- 
-    @for_range(NUM_CANDS)
-    def _(i):
-        is_winner = (vector[i] != cint(0))  # Since we only call this in the last round where one candidate must win
-        winner_id.update(is_winner.if_else(cint(i), winner_id))
-
-    return winner_id
-
-def update_eliminated_candidates(vector: Array, active_candidates: Array) -> Array:
-    """ Find the candidate with the lowest votes among active candidates.
-
-    If there is a tie for lowest votes, the candidate with the lowest index is eliminated.
-
-    :param vector: List of sint representing candidate vote counts.
+def compute_round_ballot(ballot: Matrix, active_candidates: Array) -> list[sb]:
+    """ For the given ballot, compute a list of sbits indicating which candidate receives the vote in the current round.
+    :param ballot: A NUM_CANDS x NUM_CANDS secret-shared ballot matrix. 
     :param active_candidates: A list of 0/1 sbits indicating active candidates.
-    :return: The updated active_candidates list with the lowest vote candidate eliminated. 
+    :return: A list of sbits indicating which candidate receives the vote in the current round.
+    """
+    res = [sb(0) for _ in range(NUM_CANDS)]
+    is_highest_found = sb(0)
+
+    for col in range(NUM_CANDS):
+        one_in_col = sb(0)
+        for row in range(NUM_CANDS):
+            is_highest_available = ballot[row][col] & active_candidates[row] & ~is_highest_found    # Will only be 1 if ballot[row][col] is 1, the candidate is active, and we haven't found a higher priority candidate yet
+            res[row] = res[row] ^ is_highest_available                                              # Attribute the vote to this candidate if it's the highest available
+            one_in_col = one_in_col ^ is_highest_available                                          # Track if we found a candidate in this column
+        # sbit does not natively support the | operator.
+        # Since one_in_col is 0 whenever is_highest_found is 1, they are mutually exclusive, so XOR (^) is equivalent to OR.
+        is_highest_found = is_highest_found ^ one_in_col                                            # Once we find a candidate in this column, we set is_highest_found to 1 so that lower priority candidates won't get the vote
+    return res
+
+def sb_vector_to_sint_vector(sb_vector: list[sb]) -> list[sint]:
+    """ Convert a list of secret-shared bits to a list of secret-shared integers.
+    
+    :param sb_vector: A list of secret-shared bits.
+    :return: A list of secret-shared integers representing the same values as the input bits.
+    """
+    return [sb_to_sint(bit) for bit in sb_vector]
+
+def sb_to_sint(sb_bit: sb) -> sint:
+    """ Convert a secret-shared bit to a secret-shared integer.
+    
+    :param sb_bit: A secret-shared bit.
+    :return: A secret-shared integer representing the same value as the input bit.
+    """
+    return sint(sb_bit)[0]
+
+def update_active_candidates(round_result: list[sint], active_candidates: Array) -> Array:
+    """ Update the list of active candidates based on the round result.
+    :param round_result: A list of secret-shared integers representing the number of votes each candidate received in the current round.
+    :param active_candidates: A list of 0/1 sbits indicating active candidates.
+    :return: An updated list of active candidates where candidates with the least votes are set to inactive (0).
     """
 
-    smallest_index = sint(-1)
-    smallest_value = sint(NUM_CLIENTS + 1)
-
-    @for_range(NUM_CANDS)
-    def _(i):
-        active = sint(active_candidates[i])[0]
-        adjusted_value = vector[i] + (sint(1) - active) * sint(NUM_CLIENTS + 1)
-        is_smallest = (adjusted_value < smallest_value)
-        smallest_value.update(is_smallest.if_else(adjusted_value, smallest_value))
-        smallest_index.update(is_smallest.if_else(sint(i), smallest_index))
+    high_value = NUM_CLIENTS + 1
+    adjusted_votes = [None] * NUM_CANDS
+    for cand_id in range(NUM_CANDS):
+        adjusted_votes[cand_id] = round_result[cand_id] + (sint(1) - sb_to_sint(active_candidates[cand_id])) * high_value
     
-    return eliminate_candidate(active_candidates, smallest_index)
+    min_votes = adjusted_votes[0]
+    elim_flag = Array(NUM_CANDS, sint)
+    elim_flag[0] = sint(1)
+
+    for i in range(1, NUM_CANDS):
+        is_smaller = adjusted_votes[i] < min_votes
+        min_votes = if_else(is_smaller, adjusted_votes[i], min_votes)
+        
+        for j in range(i):
+            elim_flag[j] = elim_flag[j] * (1 - is_smaller)
+        elim_flag[i] = is_smaller
+
+    for cand_id in range(NUM_CANDS):
+        active_candidates[cand_id] = active_candidates[cand_id] & ~sb(elim_flag[cand_id])
+
+    return active_candidates
 
 
-def copy_matrix(matrix: Matrix) -> Matrix:
-    """ Create a deep copy of a secret-shared matrix.
-    
-    :param matrix: A secret-shared matrix to copy.
-    :return: A new secret-shared matrix that is a copy of the input matrix.
-    """
-    new_m = Matrix(NUM_CANDS, NUM_CANDS, value_type=sb)
-    @for_range(NUM_CANDS)
-    def _(i):
-        @for_range(NUM_CANDS)
-        def _(j):
-            new_m[i][j] = matrix[i][j]
-    return new_m
 
 def tally(ballots: list[Matrix]):
     """ Run the RCV protocol. 
-    
-    : param ballots: A list of secret-shared ballot matrices with the sbit type
+    :param ballots: A list of secret-shared ballot matrices with the sbit type
     """
 
     active_candidates = initialize_active_candidates()
-    winner = sint(-1)                                                                                                   
+    for round in range(NUM_CANDS - 1):
+        round_result = Array(NUM_CANDS, sint)
+        round_result.assign_all(sint(0))
+        for ballot in range(NUM_CLIENTS):
+            round_result = sb_vector_to_sint_vector(compute_round_ballot(ballots[ballot], active_candidates))
+            for cand_id in range(NUM_CANDS):
+                round_result[cand_id] = round_result[cand_id] + round_result[cand_id]
+        active_candidates.assign(update_active_candidates(round_result, active_candidates))
+            
+    clear_cands = active_candidates.reveal_list()
+    winner = -1
 
-    # Do a round
-    for round in range(NUM_CANDS):
-        round_ballots: list[Matrix] = [copy_matrix(b) for b in ballots]
-        row_sums_array: list[list[sint]] = []
-        for ballot_id in range(NUM_CLIENTS):
-            round_ballots[ballot_id] = remove_eliminated_candidates(round_ballots[ballot_id], active_candidates)
-            round_ballots[ballot_id] = remove_non_highest_priority(round_ballots[ballot_id])                        
-            row_sums = sum_rows(round_ballots[ballot_id])                                                               # Returns a list of sint
-            row_sums_array.append(row_sums)
-        vote_vector = sum_vectors(row_sums_array)
-        active_candidates.assign(update_eliminated_candidates(vote_vector, active_candidates))
-
-        winner_id = find_winner(vote_vector)
-        winner.update(winner_id)
+    for i in range(NUM_CANDS):
+        @if_(clear_cands[i] == cbit(1))
+        def set_winner():
+            nonlocal winner
+            winner = i
+    
     return winner
 
 
-def l_print(stuff, msg=""):
-    print_ln_to(0, '%s %s', msg, stuff)

@@ -66,7 +66,7 @@ def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: i
 
     # Run the test script
     result = subprocess.run(
-        ["bash", str(SCRIPT_DIR / "run_RCV_fake_offline.sh"), "-g", "true"],
+        ["bash", str(SCRIPT_DIR / "run_RCV_fake_offline.sh"), "-g", "true" "-s"],
         cwd=REPO_ROOT,
         capture_output=True,
         text=True,

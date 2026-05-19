@@ -30,12 +30,26 @@ def main():
 
     results = []
 
-    for _ in range(runs):
-        for num_cands in candidates_range:
-            success = run_test(servers_default, voters_default, num_cands, 1, results)
+    for num_cands in candidates_range:
+        for leak_version in run_leak_version:
+            success = run_test(servers_default, voters_default, num_cands, leak_version, results)
             while not success:
-                print(f"Test failed for {num_cands} candidates, retrying...")
-                success = run_test(servers_default, voters_default, num_cands, 1, results)
+                print(f"Test failed for {num_cands} candidates and leak version {leak_version}, retrying...")
+                success = run_test(servers_default, voters_default, num_cands, leak_version, results)
+
+    for num_voters in voters_range:
+        for leak_version in run_leak_version:
+            success = run_test(servers_default, num_voters, candidates_default, leak_version, results)
+            while not success:
+                print(f"Test failed for {num_voters} voters and leak version {leak_version}, retrying...")
+                success = run_test(servers_default, num_voters, candidates_default, leak_version, results)
+
+    for num_servers in servers_range:
+        for leak_version in run_leak_version:
+            success = run_test(num_servers, voters_default, candidates_default, leak_version, results)
+            while not success:
+                print(f"Test failed for {num_servers} servers and leak version {leak_version}, retrying...")
+                success = run_test(num_servers, voters_default, candidates_default, leak_version, results)
 
 
 
@@ -52,7 +66,7 @@ def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: i
 
     # Run the test script
     result = subprocess.run(
-        ["bash", str(SCRIPT_DIR / "run_RCV.sh"), "-g", "true"],
+        ["bash", str(SCRIPT_DIR / "run_RCV_fake_offline.sh"), "-g", "true"],
         cwd=REPO_ROOT,
         capture_output=True,
         text=True,

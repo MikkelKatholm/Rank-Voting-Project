@@ -30,12 +30,12 @@ def main():
 
     results = []
 
-    for num_cands in candidates_range:
-        for leak_version in run_leak_version:
-            success = run_test(servers_default, voters_default, num_cands, leak_version, results)
-            while not success:
-                print(f"Test failed for {num_cands} candidates and leak version {leak_version}, retrying...")
-                success = run_test(servers_default, voters_default, num_cands, leak_version, results)
+#    for num_cands in candidates_range:
+#        for leak_version in run_leak_version:
+#            success = run_test(servers_default, voters_default, num_cands, leak_version, results)
+#            while not success:
+#                print(f"Test failed for {num_cands} candidates and leak version {leak_version}, retrying...")
+#                success = run_test(servers_default, voters_default, num_cands, leak_version, results)
 
     for num_voters in voters_range:
         for leak_version in run_leak_version:
@@ -44,12 +44,12 @@ def main():
                 print(f"Test failed for {num_voters} voters and leak version {leak_version}, retrying...")
                 success = run_test(servers_default, num_voters, candidates_default, leak_version, results)
 
-    for num_servers in servers_range:
-        for leak_version in run_leak_version:
-            success = run_test(num_servers, voters_default, candidates_default, leak_version, results)
-            while not success:
-                print(f"Test failed for {num_servers} servers and leak version {leak_version}, retrying...")
-                success = run_test(num_servers, voters_default, candidates_default, leak_version, results)
+#    for num_servers in servers_range:
+#        for leak_version in run_leak_version:
+#            success = run_test(num_servers, voters_default, candidates_default, leak_version, results)
+#            while not success:
+#                print(f"Test failed for {num_servers} servers and leak version {leak_version}, retrying...")
+#                success = run_test(num_servers, voters_default, candidates_default, leak_version, results)
 
 
 
@@ -72,7 +72,6 @@ def run_test(num_servers: int, num_clients: int, num_cands: int, leak_version: i
         text=True,
         check=True,
     )
-    print(result.stdout)
 
     os.makedirs(SCRIPT_DIR / "outputs", exist_ok=True)
     output_file = os.path.join(SCRIPT_DIR, "outputs", f"output_servers{num_servers}_clients{num_clients}_cands{num_cands}_leak{leak_version}.txt")

@@ -1,0 +1,33 @@
+⏩ Skipping rebuild (-s flag set).
+🎲 Generating fake offline preprocessing data...
+✅ Fake preprocessing data written to Player-Data/
+🧹 Cleaning up lingering processes...
+⚙️ Generating ballots for 120 clients...
+🔨 Compiling MPC program...
+🔐 Generating Certs...
+🚀 Starting 5 MPC parties (fake offline, -F flag)...
+Using statistical security parameter 40
+Starting timer 10 at 0 (0 MB, 0 rounds) after 1.3689e-05
+👂 Listening for client connections on base port 14000
+👥 Launching 120 clients...
+REUSING DATA - ONLY FOR BENCHMARKING
+🧾 Received 120 ballots
+Stopped timer 10 at 12.3199 (0 MB, 0 rounds)
+Starting timer 11 at 0 (0 MB, 0 rounds) after 2.794e-06
+Stopped timer 11 at 1.397e-06 (0 MB, 0 rounds)
+Starting timer 12 at 0 (0 MB, 0 rounds) after 1.885e-06
+🔢 Converted ballots to sbit format
+Stopped timer 12 at 0.0660582 (0.192416 MB, 12 rounds)
+Starting timer 13 at 0 (0 MB, 0 rounds) after 3.353e-06
+⚠️ Running tally with round leak version (leaks round-by-round votes to all parties)
+Stopped timer 13 at 0.0350153 (0.017872 MB, 248 rounds)
+🏆 Winner is candidate ID: 0
+The following benchmarks are excluding preprocessing (offline phase).
+Time = 12.426 seconds 
+Time10 = 12.3199 seconds (0 MB, 0 rounds)
+Time11 = 1.397e-06 seconds (0 MB, 0 rounds)
+Time12 = 0.0660582 seconds (0.192416 MB, 12 rounds)
+Time13 = 0.0350153 seconds (0.017872 MB, 248 rounds)
+Data sent = 0.2108 MB in ~265 rounds (party 0 only; use '-v' for more details)
+Global data sent = 0.43456 MB (all parties)
+✅ Done.

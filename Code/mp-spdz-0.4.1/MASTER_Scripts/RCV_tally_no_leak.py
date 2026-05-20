@@ -31,8 +31,6 @@ def compute_round_ballot(ballot: Matrix, active_candidates: Array) -> list[sb]:
             is_highest_available = ballot[row][col] & active_candidates[row] & ~is_highest_found    # Will only be 1 if ballot[row][col] is 1, the candidate is active, and we haven't found a higher priority candidate yet
             res[row] = res[row] ^ is_highest_available                                              # Attribute the vote to this candidate if it's the highest available
             one_in_col = one_in_col ^ is_highest_available                                          # Track if we found a candidate in this column
-        # sbit does not natively support the | operator.
-        # Since one_in_col is 0 whenever is_highest_found is 1, they are mutually exclusive, so XOR (^) is equivalent to OR.
         is_highest_found = is_highest_found ^ one_in_col                                            # Once we find a candidate in this column, we set is_highest_found to 1 so that lower priority candidates won't get the vote
     return res
 
@@ -93,20 +91,24 @@ def tally(ballots: list[Matrix]):
         round_result = Array(NUM_CANDS, sint)
         round_result.assign_all(sint(0))
         for ballot in range(NUM_CLIENTS):
-            round_result = sb_vector_to_sint_vector(compute_round_ballot(ballots[ballot], active_candidates))
+            ballot_result = sb_vector_to_sint_vector(compute_round_ballot(ballots[ballot], active_candidates))
             for cand_id in range(NUM_CANDS):
-                round_result[cand_id] = round_result[cand_id] + round_result[cand_id]
-        active_candidates.assign(update_active_candidates(round_result, active_candidates))
+                round_result[cand_id] = round_result[cand_id] + ballot_result[cand_id]
+        new_active_candidates = update_active_candidates(round_result, active_candidates)
+        #print_ln("Round %s result: %s", round, [i.reveal() for i in round_result])
+        #print_ln("Active candidates after round %s: %s", round, new_active_candidates.reveal_list())
+        active_candidates.assign(new_active_candidates)
             
     clear_cands = active_candidates.reveal_list()
-    winner = -1
+    clear_cands_array = Array(NUM_CANDS, cbit)
+    clear_cands_array.assign(clear_cands)
+    winner = cint(-1)
 
-    for i in range(NUM_CANDS):
-        @if_(clear_cands[i] == cbit(1))
-        def set_winner():
-            nonlocal winner
-            winner = i
-    
+    @for_range(NUM_CANDS)
+    def _(i):
+        winner_is_i = clear_cands_array[i] == cbit(1)
+        @if_(winner_is_i)
+        def _():
+            winner.update(i)
+
     return winner
-
-

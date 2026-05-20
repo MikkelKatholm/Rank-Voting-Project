@@ -79,9 +79,9 @@ def tally(ballots: list[Matrix]):
             round_result = Array(NUM_CANDS, sint)
             round_result.assign_all(sint(0))
             for ballot in range(NUM_CLIENTS):
-                round_result = sb_vector_to_sint_vector(compute_round_ballot(ballots[ballot], active_candidates))
+                ballot_result = sb_vector_to_sint_vector(compute_round_ballot(ballots[ballot], active_candidates))
                 for cand_id in range(NUM_CANDS):
-                    round_result[cand_id] = round_result[cand_id] + round_result[cand_id]
+                    round_result[cand_id] = round_result[cand_id] + ballot_result[cand_id]
             clear_round_result = [round_result[i].reveal() for i in range(NUM_CANDS)]
             clear_round_result_array = Array(NUM_CANDS, cint)
             clear_round_result_array.assign(clear_round_result)

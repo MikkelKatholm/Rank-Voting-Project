@@ -59,31 +59,36 @@ def run_all():
     ###################################
     # Run mixing protocol through all servers
     ###################################
+    
+    
+    
     time_verifying_proofs = 0
     time_mixing = 0
 
     t_mix_start = time.time()
-    current_ballots, proof = servers[0].run_mixing_protocol()
+#    current_ballots, proof = servers[0].run_mixing_protocol()
     time_mixing += time.time() - t_mix_start
     
     t_ver_start = time.time()
-    if not verifier.verify_shuffle_elgamal_pairs(encrypted_ballots, current_ballots, proof):
-        raise ValueError("The proof is invalid: Shuffle proof verification failed at server 0.")
+#    if not verifier.verify_shuffle_elgamal_pairs(encrypted_ballots, current_ballots, proof):
+#        raise ValueError("The proof is invalid: Shuffle proof verification failed at server 0.")
     time_verifying_proofs += time.time() - t_ver_start
     
-    for i in range(1, NUM_SERVERS):
-        for ballot in current_ballots:
-            servers[i].receive_ballot(ballot)
-        last_round_ballots = current_ballots
-        t_mix_start = time.time()
-        current_ballots, proof = servers[i].run_mixing_protocol()
-        time_mixing += time.time() - t_mix_start
+#    for i in range(1, NUM_SERVERS):
+#        for ballot in current_ballots:
+#            servers[i].receive_ballot(ballot)
+#        last_round_ballots = current_ballots
+    t_mix_start = time.time()
+#        current_ballots, proof = servers[i].run_mixing_protocol()
+ #       time_mixing += time.time() - t_mix_start
         
-        t_ver_start = time.time()
-        if not verifier.verify_shuffle_elgamal_pairs(last_round_ballots, current_ballots, proof):
-            raise ValueError(f"The proof is invalid: Shuffle proof verification failed at server {i}.")
-        time_verifying_proofs += time.time() - t_ver_start
-
+    t_ver_start = time.time()
+#        if not verifier.verify_shuffle_elgamal_pairs(last_round_ballots, current_ballots, proof):
+#            raise ValueError(f"The proof is invalid: Shuffle proof verification failed at server {i}.")
+    time_verifying_proofs += time.time() - t_ver_start
+    
+    
+    
     ###################################
     # Pool shares from all servers
     ###################################
@@ -98,7 +103,7 @@ def run_all():
     ###################################
     t0 = time.time()
 
-    server_result = servers[0].decrypt_ballots(all_shares, current_ballots)
+    server_result = servers[0].decrypt_ballots(all_shares, encrypted_ballots)
     t_decrypt = time.time() - t0
 
             

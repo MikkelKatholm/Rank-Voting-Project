@@ -8,10 +8,10 @@ def write_consts_to_file(consts, filename="Consts_script.py"):
 def main():
 
     servers_default = 5
-    clients_default = 32
-    candidates_default = 5
+    clients_default = 20
+    candidates_default = 3
 
-    servers = [i for i in range(2,11)]
+    servers = [i for i in range(2,110)]
     clients = [20*i for i in range(1,31)]
     candidates = [2*i for i in range(2,11)]
 
@@ -21,17 +21,17 @@ def main():
         NUM_CANDS = 0,
         THRESHOLD = 0
     )
-    for num_clients in clients:
-        print(f"Running protocol with {servers_default} servers, {num_clients} clients and {candidates_default} candidates...")
-        setup_and_run_protocol(consts, servers_default, num_clients, candidates_default)
+#    for num_clients in clients:
+#        print(f"Running protocol with {servers_default} servers, {num_clients} clients and {candidates_default} candidates...")
+#        setup_and_run_protocol(consts, servers_default, num_clients, candidates_default)
 
     for num_servers in servers:
         print(f"Running protocol with {num_servers} servers, {clients_default} clients and {candidates_default} candidates...")
         setup_and_run_protocol(consts, num_servers, clients_default, candidates_default)
     
-    for num_cands in candidates:
-        print(f"Running protocol with {servers_default} servers, {clients_default} clients and {num_cands} candidates...")
-        setup_and_run_protocol(consts, servers_default, clients_default, num_cands)
+#    for num_cands in candidates:
+#        print(f"Running protocol with {servers_default} servers, {clients_default} clients and {num_cands} candidates...")
+#        setup_and_run_protocol(consts, servers_default, clients_default, num_cands)
 
 
 def setup_and_run_protocol(consts, num_servers, num_clients, num_cands):

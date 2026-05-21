@@ -11,38 +11,40 @@ def is_valid_entry(entry: sint) -> bool:
     res = (exp == 0)
     return res
 
+def entry_product(entry: sint) -> sint:
+    return entry * (1 - entry)
+
 def check_ballot_validity(ballot: Matrix) -> regint:
     """
-    Verifies that a ballot is well-formed, i.e. each entry is either 0 or 1, and the sum of each row and column is 0 or 1.
+    Verifies that a ballot is well-formed, i.e. each entry is either 0 or 1, 
+    and the sum of each row and column is 0 or 1.
 
     :param ballot: A Matrix representing the ballot to be checked.
     :return: Boolean value indicating the validity of the ballot
     """
-    result = Array(1, regint) # Only works if kept in a container (array in this case)
-    result[0] = 1
-    for row in range(NUM_CANDS):
-        row_sum = sint(0)
-        for col in range(NUM_CANDS):
-            entry = ballot[row][col]
-            row_sum += entry
 
-            @if_(is_valid_entry(entry) == 0)
-            def _():
-                result[0] = 0
-        @if_(is_valid_entry(row_sum) == 0)
-        def _():
-            result[0] = 0
+    entry_products = []
+    sum_products = []
+
+    for row in range(NUM_CANDS):
+        for col in range(NUM_CANDS):
+            entry_products.append(entry_product(ballot[row][col]))
+
+    for row in range(NUM_CANDS):
+        s = sum(ballot[row][col] for col in range(NUM_CANDS))
+        sum_products.append(entry_product(s))
 
     for col in range(NUM_CANDS):
-        column = ballot.get_column(col)
-        col_sum = sint(0)
-        for entry in column:
-            col_sum += entry
+        s = sum(ballot[row][col] for row in range(NUM_CANDS))
+        sum_products.append(entry_product(s))
 
-        @if_(is_valid_entry(col_sum) == 0)
-        def _():
-            result[0] = 0
-    return result[0]
+    T_entry = sum(entry_products)
+    T_sums = sum(sum_products)
+
+    valid_entries = T_entry.reveal() == 0
+    valid_sums = T_sums.reveal() == 0
+
+    return valid_entries * valid_sums
 
 def clean_ballots(ballots: list[Matrix]) -> list[Matrix]:
     """
@@ -53,7 +55,7 @@ def clean_ballots(ballots: list[Matrix]) -> list[Matrix]:
     """
     clean_ballots = [0] * len(ballots)  # NOTE: If this is not initialized to a list of length of ballots the return list contains all the ballots twice.
     for i in range(len(ballots)):
-        ballot = ballots[i]
+        ballot = ballots[i]       
         is_valid = check_ballot_validity(ballot)
         @if_e(is_valid == 1)
         def _():
@@ -61,5 +63,6 @@ def clean_ballots(ballots: list[Matrix]) -> list[Matrix]:
         @else_
         def _():
             clean_ballots[i] = ballot.assign_all(0)
+            print_ln(f"Ballot {i} is invalid and has been set to 0.")
 
     return clean_ballots

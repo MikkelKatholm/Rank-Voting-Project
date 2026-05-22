@@ -6,36 +6,33 @@ A secure multi-party computation (MPC) implementation of Ranked Choice Voting (R
 
 ## Overview
 
-This project implements a privacy-preserving Ranked Choice Voting protocol that allows multiple parties to jointly conduct an election without any single party learning individual voter preferences. The protocol uses Shamir secret sharing and secure multi-party computation techniques to ensure voter privacy while computing the correct election result.
+This project implements a privacy-preserving Ranked Choice Voting protocol that allows multiple parties to jointly conduct an election without any single party learning individual voter preferences.
 
 ## Project Structure
 
 ```
 Rank-Voting-Project/
 └── Code/                             # Core implementation
-    └── mp-spdz-0.4.1/
-        └── My_scripts/               # Project-specific scripts
-            ├── rcv_matrix.mpc        # Main RCV protocol
-            ├── rcv_matrix_leak.mpc   # Variant with controlled leakage
-            ├── run_script.sh         # Main execution script
-            ├── generate_ballots.py   # Ballot generation
-            ├── Shamir.py             # Shamir secret sharing implementation
-            └── consts.py             # Configuration constants
+    ├── mp-spdz-0.4.1/
+    │   └── MASTER_Scripts/             # Project-specific scripts
+    │       ├── RCV_clean_ballots.py    # Subprocess for validating ballots
+    │       ├── RCV_client.py           # Client-side logic for ballot submission
+    │       ├── RCV_convert_ballots.py  # Subprocess for converting sbit to sint
+    │       ├── RCV_server.mpc          # Server-side logic for vote tallying
+    │       ├── RCV_tally_no_leak.py    # Subprocess for tallying votes without leaking information
+    │       ├── RCV_tally_round_leak.py # Subprocess for tallying votes with round information leakage
+    │       ├── run_RCV.sh              # Script to run the RCV protocol with real offline phase
+    │       ├── run_RCV_fake_offline.sh # Script to run the RCV protocol with a fake offline phase
+    │       └── consts.py               # Configuration constants
+    └── Mix_nets/
+        ├── run.py                     # Script to run the mix-net implementation
+        ├── ...                        # Additional scripts and modules for mix-nets
+        └── Consts_script.py           # Configuration constants for mix-nets
 ```
 
 ## Quick Start
-
-### Prerequisites
-
-- Linux-based system
-- Python 3.7+
-- C++ compiler (g++ or clang)
-- Make
-- OpenSSL development libraries
-- Standard build tools (gcc, automake, etc.)
-
-### Installation
-
+0. **Prerequisites**
+   - Refer to the [MP-SPDZ Documentation](https://mp-spdz.readthedocs.io/en/latest/) for prerequisites and setup instructions.
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
@@ -46,16 +43,30 @@ Rank-Voting-Project/
 
     Refer to the [MP-SPDZ Documentation](https://mp-spdz.readthedocs.io/en/latest/) for detailed build instructions
 
-### Basic Usage
 
-Run a complete RCV election with default parameters:
+## Basic Usage
 
+Edit the `consts.env` file in the `MASTER_Scripts` directory to configure the protocol parameters (e.g., number of parties, number of candidates, etc.). To edit the backend protocol (MASCOT is used by default), modify the `run_RCV.sh` and `run_RCV_fake_offline.sh` scripts to specify the desired backend. 
+
+> Note: If you want to use a different backend, ensure that the necessary setup and configuration for that backend are completed as per the MP-SPDZ documentation.
+
+### Run the protocol with real offline phase
+The `-g true` flag in the command indicates that a fresh set of random ballots will be generated for each run, if set to `false`, the same set of ballots from the last ballot generation will be used.
 ```bash
-cd Coding/mp-spdz-0.4.1/
+cd Code/mp-spdz-0.4.1/
 chmod +x MASTER_Scripts/run_RCV.sh
-./MASTER_Scripts/run_RCV.sh -g true
-# or 
-./MASTER_Scripts/run_RCV_fake_offline.sh -g true
+./MASTER_Scripts/run_RCV.sh -g true|false
+```
+
+### Run the protocol with a fake offline phase
+When running the protocol with a fake offline phase, leave the `-s` flag out for the first run to generate run the setup phase and generate the necessary random values. For subsequent runs, include the `-s` flag to skip the setup phase.
+```bash
+cd Code/mp-spdz-0.4.1/
+chmod +x MASTER_Scripts/run_RCV_fake_offline.sh
+# For the first run, use:
+./MASTER_Scripts/run_RCV_fake_offline.sh -g true|false 
+# For subsequent runs, use:
+./MASTER_Scripts/run_RCV_fake_offline.sh -g true|false -s
 ```
 
 ## License

@@ -4,6 +4,14 @@ import pandas as pd
 
 data = pd.read_csv('Mix_nets_results_with_network_delay.csv', sep=";")
 
+variable_to_color_marker_label = {
+    'total_time': ('black', 'o', 'Total'),
+    't_tally': ('blue', '*', 'Tally'),
+    'time_verifying_proofs': ('orange', 'x', 'Verification'),
+    't_decrypt': ('green', 's', 'Decryption'),
+    'time_mixing': ('red', 'D', 'Mixing')
+}
+
 def plot_varying_clients():
     filtered = data[
         (data['NUM_SERVERS'] == 5) &
@@ -26,16 +34,16 @@ def plot_varying_clients():
         .reset_index()
     )
     plt.figure()
-    plt.plot(grouped['NUM_CLIENTS'], grouped['time_mixing'], marker='*', label='Mixing Time', linestyle='')
-    plt.plot(grouped['NUM_CLIENTS'], grouped['time_verifying_proofs'], marker='x', label='Verification Time', linestyle='')
-    plt.plot(grouped['NUM_CLIENTS'], grouped['t_decrypt'], marker='s', label='Decryption Time', linestyle='')
-    plt.plot(grouped['NUM_CLIENTS'], grouped['t_tally'], marker='D', label='Tallying Time', linestyle='')
-    plt.plot(grouped['NUM_CLIENTS'], grouped['total_time'], marker='o', label='Total Time', linestyle='', color='black')
+    plt.plot(grouped['NUM_CLIENTS'], grouped['time_mixing'], color=variable_to_color_marker_label['time_mixing'][0], marker=variable_to_color_marker_label['time_mixing'][1], label=variable_to_color_marker_label['time_mixing'][2], linestyle='')
+    plt.plot(grouped['NUM_CLIENTS'], grouped['time_verifying_proofs'], color=variable_to_color_marker_label['time_verifying_proofs'][0], marker=variable_to_color_marker_label['time_verifying_proofs'][1], label=variable_to_color_marker_label['time_verifying_proofs'][2], linestyle='')
+    plt.plot(grouped['NUM_CLIENTS'], grouped['t_decrypt'], color=variable_to_color_marker_label['t_decrypt'][0], marker=variable_to_color_marker_label['t_decrypt'][1], label=variable_to_color_marker_label['t_decrypt'][2], linestyle='')
+    plt.plot(grouped['NUM_CLIENTS'], grouped['t_tally'], color=variable_to_color_marker_label['t_tally'][0], marker=variable_to_color_marker_label['t_tally'][1], label=variable_to_color_marker_label['t_tally'][2], linestyle='')
+    plt.plot(grouped['NUM_CLIENTS'], grouped['total_time'], color=variable_to_color_marker_label['total_time'][0], marker=variable_to_color_marker_label['total_time'][1], label=variable_to_color_marker_label['total_time'][2], linestyle='')
     plt.grid()
     plt.xlabel('Number of Votes')
     plt.ylabel('Time (s)')
     plt.legend()
-    plt.savefig('mix_net_varying_clients_plot.pdf', bbox_inches='tight')    
+    plt.savefig('mix_net_plots/mix_net_varying_clients_plot.pdf', bbox_inches='tight')    
 
 
 def plot_varying_servers():
@@ -58,16 +66,16 @@ def plot_varying_servers():
         .reset_index()
     )
     plt.figure()
-    plt.plot(grouped['NUM_SERVERS'], grouped['time_mixing'], marker='*', label='Mixing Time', linestyle='')
-    plt.plot(grouped['NUM_SERVERS'], grouped['time_verifying_proofs'], marker='x', label='Verification Time', linestyle='')
-    plt.plot(grouped['NUM_SERVERS'], grouped['t_decrypt'], marker='s', label='Decryption Time', linestyle='')
-    plt.plot(grouped['NUM_SERVERS'], grouped['t_tally'], marker='D', label='Tallying Time', linestyle='')
-    plt.plot(grouped['NUM_SERVERS'], grouped['total_time'], marker='o', label='Total Time', linestyle='', color='black')
+    plt.plot(grouped['NUM_SERVERS'], grouped['time_mixing'], color=variable_to_color_marker_label['time_mixing'][0], marker=variable_to_color_marker_label['time_mixing'][1], label=variable_to_color_marker_label['time_mixing'][2], linestyle='')
+    plt.plot(grouped['NUM_SERVERS'], grouped['time_verifying_proofs'], color=variable_to_color_marker_label['time_verifying_proofs'][0], marker=variable_to_color_marker_label['time_verifying_proofs'][1], label=variable_to_color_marker_label['time_verifying_proofs'][2], linestyle='')
+    plt.plot(grouped['NUM_SERVERS'], grouped['t_decrypt'], color=variable_to_color_marker_label['t_decrypt'][0], marker=variable_to_color_marker_label['t_decrypt'][1], label=variable_to_color_marker_label['t_decrypt'][2], linestyle='')
+    plt.plot(grouped['NUM_SERVERS'], grouped['t_tally'], color=variable_to_color_marker_label['t_tally'][0], marker=variable_to_color_marker_label['t_tally'][1], label=variable_to_color_marker_label['t_tally'][2], linestyle='')
+    plt.plot(grouped['NUM_SERVERS'], grouped['total_time'], color=variable_to_color_marker_label['total_time'][0], marker=variable_to_color_marker_label['total_time'][1], label=variable_to_color_marker_label['total_time'][2], linestyle='')
     plt.grid()
     plt.xlabel('Number of Servers')
     plt.ylabel('Time (s)')
     plt.legend()
-    plt.savefig('mix_net_varying_servers_plot.pdf', bbox_inches='tight')
+    plt.savefig('mix_net_plots/mix_net_varying_servers_plot.pdf', bbox_inches='tight')
 
 
 def plot_varying_candidates():
@@ -91,16 +99,16 @@ def plot_varying_candidates():
         .reset_index()
     )
     plt.figure()
-    plt.plot(grouped['NUM_CANDS'], grouped['time_mixing'], marker='*', label='Mixing Time', linestyle='')
-    plt.plot(grouped['NUM_CANDS'], grouped['time_verifying_proofs'], marker='x', label='Verification Time', linestyle='')
-    plt.plot(grouped['NUM_CANDS'], grouped['t_decrypt'], marker='s', label='Decryption Time', linestyle='')
-    plt.plot(grouped['NUM_CANDS'], grouped['t_tally'], marker='D', label='Tallying Time', linestyle='')
-    plt.plot(grouped['NUM_CANDS'], grouped['total_time'], marker='o', label='Total Time', linestyle='', color='black')
+    plt.plot(grouped['NUM_CANDS'], grouped['time_mixing'], color=variable_to_color_marker_label['time_mixing'][0], marker=variable_to_color_marker_label['time_mixing'][1], label=variable_to_color_marker_label['time_mixing'][2], linestyle='')
+    plt.plot(grouped['NUM_CANDS'], grouped['time_verifying_proofs'], color=variable_to_color_marker_label['time_verifying_proofs'][0], marker=variable_to_color_marker_label['time_verifying_proofs'][1], label=variable_to_color_marker_label['time_verifying_proofs'][2], linestyle='')
+    plt.plot(grouped['NUM_CANDS'], grouped['t_decrypt'], color=variable_to_color_marker_label['t_decrypt'][0], marker=variable_to_color_marker_label['t_decrypt'][1], label=variable_to_color_marker_label['t_decrypt'][2], linestyle='')
+    plt.plot(grouped['NUM_CANDS'], grouped['t_tally'], color=variable_to_color_marker_label['t_tally'][0], marker=variable_to_color_marker_label['t_tally'][1], label=variable_to_color_marker_label['t_tally'][2], linestyle='')
+    plt.plot(grouped['NUM_CANDS'], grouped['total_time'], color=variable_to_color_marker_label['total_time'][0], marker=variable_to_color_marker_label['total_time'][1], label=variable_to_color_marker_label['total_time'][2], linestyle='')
     plt.grid()
     plt.xlabel('Number of Candidates')
     plt.ylabel('Time (s)')
     plt.legend()
-    plt.savefig('mix_net_varying_candidates_plot.pdf', bbox_inches='tight')  
+    plt.savefig('mix_net_plots/mix_net_varying_candidates_plot.pdf', bbox_inches='tight')  
 
 
 plot_varying_candidates()

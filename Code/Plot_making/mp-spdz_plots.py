@@ -4,9 +4,10 @@ import numpy as np
 from pathlib import Path
 import matplotlib as mpl
 
-with_online = True
+online_only = True
+optimized = True
 
-data = pd.read_csv(f'mp-spdz_results_{"online" if with_online else "with_offline"}.csv', sep=";")
+data = pd.read_csv(f'mp-spdz_results_{"online" if online_only else "with_offline"}{"_optimized" if optimized else ""}.csv', sep=";")
 
 x_axis_dict = {
     'NUM_SERVERS': 'Number of Servers',
@@ -81,7 +82,10 @@ def plot_everything(data, x_axis, filename):
     plt.xlabel(x_axis_dict[x_axis], font_dict)
     plt.ylabel('Time (s)', font_dict)
     plt.legend(loc='upper left', prop=font_dict)
-    plt.savefig(f"mp-spdz_plots/{filename}{'_online' if with_online else ''}.pdf", bbox_inches='tight')
+    if online_only:
+        plt.savefig(f"mp-spdz_plots/online_only/{"non-optimized/" if not optimized else ""}{filename}_online.pdf", bbox_inches='tight')
+    else:
+        plt.savefig(f"mp-spdz_plots/with_offline_phase/{filename}.pdf", bbox_inches='tight')
 
 def plot_tally_time(data, x_axis, filename):
     plt.figure()
@@ -102,13 +106,16 @@ def plot_tally_time(data, x_axis, filename):
         linestyle='',
         color=variable_to_color_marker_label['clean_ballots_time_s'][0]
     )
-
+    
     plt.grid()
     plt.xlabel(x_axis_dict[x_axis], font_dict)
     plt.ylabel('Time (s)', font_dict)
-    plt.ylim(bottom=0)
-    plt.legend(loc='upper left', prop=font_dict)
-    plt.savefig(f"mp-spdz_plots/{filename}{'_online' if with_online else ''}.pdf", bbox_inches='tight')
+    plt.ylim(bottom=0, top=max(data['tally_time_s'].max(), data['clean_ballots_time_s'].max()) * 1.1)
+    plt.legend(prop=font_dict)
+    if online_only:
+        plt.savefig(f"mp-spdz_plots/online_only/{"non-optimized/" if not optimized else ""}{filename}_online.pdf", bbox_inches='tight')
+    else:
+        plt.savefig(f"mp-spdz_plots/with_offline_phase/{filename}.pdf", bbox_inches='tight')
 
 def plot_varying_servers():
     filtered_data = data[

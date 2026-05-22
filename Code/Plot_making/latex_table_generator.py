@@ -4,7 +4,7 @@ with_online = True
 
 # Read data
 data = pd.read_csv(
-    f'mp-spdz_results_{"online" if with_online else "with_offline"}.csv',
+    f'mp-spdz_results_{"online" if with_online else "with_offline"}_optimized.csv',
     sep=";"
 )
 

@@ -2,6 +2,7 @@ from Compiler.types import *
 from Compiler.GC.types import *
 from Compiler.library import *
 
+import MASTER_Scripts.generate_ballots as generate_ballots
 import MASTER_Scripts.RCV_receive_ballots as RCV_receive_ballots
 import MASTER_Scripts.RCV_clean_ballots as RCV_clean_ballots
 import MASTER_Scripts.RCV_convert_ballots as RCV_convert_ballots
@@ -21,22 +22,44 @@ def run_tally(ballots: list[Matrix]) -> sint:
         print_ln("🔒 Running tally with no leak version (does not leak round-by-round votes)")
         return RCV_tally_no_leak.tally(ballots)
 
+
+def get_ballots() -> list[Matrix]:
+    def ballot_as_sint(ballot):
+        new_ballot = Matrix(NUM_CANDS, NUM_CANDS, value_type=sb)
+        for row in range(NUM_CANDS):
+            for col in range(NUM_CANDS):
+                as_python_int = int(ballot[row][col])
+                new_ballot[row][col] = sb(as_python_int)
+        return new_ballot
+
+    ballots = []
+    for i in range(NUM_CLIENTS):
+        ballot = generate_ballots.generate_random_ballot(NUM_CANDS)
+        sint_ballot = ballot_as_sint(ballot)
+        ballots.append(sint_ballot)
+    return ballots
+
+
+
 def main():
     
     timer_send_and_receive_ballots = start_timer(timer_id=TIMER_IDS["send_and_receive_ballots"])
-    ballots = RCV_receive_ballots.receive_ballots()
-    print_ln("🧾 Received %s ballots", len(ballots))
+#    ballots = RCV_receive_ballots.receive_ballots()
+#    print_ln("🧾 Received %s ballots", len(ballots))
     stop_timer(timer_id=TIMER_IDS["send_and_receive_ballots"])
 
     timer_clean_ballots = start_timer(timer_id=TIMER_IDS["clean_ballots"])
-    clean_ballots = RCV_clean_ballots.clean_ballots(ballots)
-    print_ln("🧹 Cleaned ballots")
+#    clean_ballots = RCV_clean_ballots.clean_ballots(ballots)
+#    print_ln("🧹 Cleaned ballots")
     stop_timer(timer_id=TIMER_IDS["clean_ballots"])
 
     timer_convert_ballots = start_timer(timer_id=TIMER_IDS["convert_ballots"])
-    sbit_ballots = RCV_convert_ballots.convert_ballots(clean_ballots)
-    print_ln("🔢 Converted ballots to sbit format")
+#    sbit_ballots = RCV_convert_ballots.convert_ballots(clean_ballots)
+#    print_ln("🔢 Converted ballots to sbit format")
     stop_timer(timer_id=TIMER_IDS["convert_ballots"])
+
+
+    sbit_ballots = get_ballots()
 
     timer_tally = start_timer(timer_id=TIMER_IDS["tally"])
     winner = run_tally(sbit_ballots)

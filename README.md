@@ -24,10 +24,13 @@ Rank-Voting-Project/
     │       ├── run_RCV.sh              # Script to run the RCV protocol with real offline phase
     │       ├── run_RCV_fake_offline.sh # Script to run the RCV protocol with a fake offline phase
     │       └── consts.py               # Configuration constants
-    └── Mix_nets/
-        ├── run.py                     # Script to run the mix-net implementation
-        ├── ...                        # Additional scripts and modules for mix-nets
-        └── Consts_script.py           # Configuration constants for mix-nets
+    ├── Mix_nets/
+    │   ├── run.py                      # Script to run the mix-net implementation
+    │   ├── ...                         # Additional scripts and modules for mix-nets
+    │   └── Consts_script.py            # Configuration constants for mix-nets
+    └── Plot_making/
+        ├── *.py                        # Scripts for generating plots and visualizations
+        └── *.csv                       # Raw data from experiments for plotting
 ```
 
 ## Quick Start

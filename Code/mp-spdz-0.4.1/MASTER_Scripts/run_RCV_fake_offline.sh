@@ -143,14 +143,14 @@ sleep 2
 # STEP 6: Launch clients
 # -----------------------------------------------------------------------
 
-#echo "👥 Launching $TOTAL_CLIENTS clients..."
-#for (( i=0; i<$TOTAL_CLIENTS; i++ )); do
-#    if [ "$i" -lt $((TOTAL_CLIENTS-1)) ]; then
-#        python3 MASTER_Scripts/RCV_client.py $i 0 &
-#    else
-#        python3 MASTER_Scripts/RCV_client.py $i 1 &
-#    fi
-#done
+echo "👥 Launching $TOTAL_CLIENTS clients..."
+for (( i=0; i<$TOTAL_CLIENTS; i++ )); do
+    if [ "$i" -lt $((TOTAL_CLIENTS-1)) ]; then
+        python3 MASTER_Scripts/RCV_client.py $i 0 &
+    else
+        python3 MASTER_Scripts/RCV_client.py $i 1 &
+    fi
+done
 
 wait
 echo "✅ Done."

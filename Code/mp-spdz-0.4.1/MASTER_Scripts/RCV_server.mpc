@@ -44,22 +44,19 @@ def get_ballots() -> list[Matrix]:
 def main():
     
     timer_send_and_receive_ballots = start_timer(timer_id=TIMER_IDS["send_and_receive_ballots"])
-#    ballots = RCV_receive_ballots.receive_ballots()
-#    print_ln("🧾 Received %s ballots", len(ballots))
+    ballots = RCV_receive_ballots.receive_ballots()
+    print_ln("🧾 Received %s ballots", len(ballots))
     stop_timer(timer_id=TIMER_IDS["send_and_receive_ballots"])
 
     timer_clean_ballots = start_timer(timer_id=TIMER_IDS["clean_ballots"])
-#    clean_ballots = RCV_clean_ballots.clean_ballots(ballots)
-#    print_ln("🧹 Cleaned ballots")
+    clean_ballots = RCV_clean_ballots.clean_ballots(ballots)
+    print_ln("🧹 Cleaned ballots")
     stop_timer(timer_id=TIMER_IDS["clean_ballots"])
 
     timer_convert_ballots = start_timer(timer_id=TIMER_IDS["convert_ballots"])
-#    sbit_ballots = RCV_convert_ballots.convert_ballots(clean_ballots)
-#    print_ln("🔢 Converted ballots to sbit format")
+    sbit_ballots = RCV_convert_ballots.convert_ballots(clean_ballots)
+    print_ln("🔢 Converted ballots to sbit format")
     stop_timer(timer_id=TIMER_IDS["convert_ballots"])
-
-
-    sbit_ballots = get_ballots()
 
     timer_tally = start_timer(timer_id=TIMER_IDS["tally"])
     winner = run_tally(sbit_ballots)

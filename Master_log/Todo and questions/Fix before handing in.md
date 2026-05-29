@@ -3,10 +3,13 @@
 - [ ] `\paragraph{text:}` NOT `\paragraph{text}`
 - [ ] Find fucked \ref{}. search for `??`
 - [ ] Fly fucking En masse
-- [ ] `Secret shares` NOT `secret-shares` ???
 - [ ] `Mix-net` NOT `Mix net`
 - [ ] `Zero-knowledge` NOT `Zero knowledge`
 - [ ] `Secure Multiparty computation` Not something else
 - [ ] `Single-winner` and `Multi-winner`
 - [ ] Must be `ElGamal`
 - [ ] Only use `\Cref{}` Not `\cref{}`
+- [ ] Fix word into margin 
+	- [ ] Section 4.2.2.4
+	- [ ] Section 3.1.4.2
+- [ ] Change All `Tabulation` to `Tallying`

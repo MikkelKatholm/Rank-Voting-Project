@@ -37,7 +37,7 @@ def clean_ballots(ballots: list[Matrix]) -> list[Matrix]:
     """
     B = len(ballots)
 
-    # Phase 1: compute all products under secret sharing — no interaction
+    # Phase 1: compute all products under secret sharing — no interaction 
     T_entries = []
     T_sums = []
     for ballot in ballots:

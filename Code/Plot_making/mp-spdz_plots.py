@@ -38,14 +38,15 @@ font_dict = {
 
 def plot_everything(data, x_axis, filename):
     plt.figure()
-    plt.plot(
-        data[x_axis],
-        data['total_time_s'], 
-        marker=variable_to_color_marker_label['total_time_s'][1],
-        linestyle='',
-        label=variable_to_color_marker_label['total_time_s'][2],
-        color=variable_to_color_marker_label['total_time_s'][0]
-    )
+    if not optimized:
+        plt.plot(
+            data[x_axis],
+            data['total_time_s'], 
+            marker=variable_to_color_marker_label['total_time_s'][1],
+            linestyle='',
+            label=variable_to_color_marker_label['total_time_s'][2],
+            color=variable_to_color_marker_label['total_time_s'][0]
+        )
     plt.plot(
         data[x_axis],
         data['clean_ballots_time_s'],
@@ -54,14 +55,15 @@ def plot_everything(data, x_axis, filename):
         linestyle='',
         color=variable_to_color_marker_label['clean_ballots_time_s'][0]
     )
-    plt.plot(
-        data[x_axis],
-        data['send_and_receive_ballots_time_s'],
-        marker=variable_to_color_marker_label['send_and_receive_ballots_time_s'][1],
-        label=variable_to_color_marker_label['send_and_receive_ballots_time_s'][2],
-        linestyle='',
-        color=variable_to_color_marker_label['send_and_receive_ballots_time_s'][0]
-    )
+    if not optimized:
+        plt.plot(
+            data[x_axis],
+            data['send_and_receive_ballots_time_s'],
+            marker=variable_to_color_marker_label['send_and_receive_ballots_time_s'][1],
+            label=variable_to_color_marker_label['send_and_receive_ballots_time_s'][2],
+            linestyle='',
+            color=variable_to_color_marker_label['send_and_receive_ballots_time_s'][0]
+        )
     plt.plot(
         data[x_axis],
         data['convert_ballots_time_s'],
@@ -272,7 +274,45 @@ def plot_varying_voters():
     plot_everything_no_leak()
     plot_tally_time_voters()
 
+def linear_regression():
+    data = pd.read_csv(f'mp-spdz_results_online.csv', sep=";")
+    optimized_data = pd.read_csv(f'mp-spdz_results_online_optimized.csv', sep=";")
+
+    def print_regression_coefficients(data):
+        filtered_data = data[
+            (data['NUM_SERVERS'] == default_values['NUM_SERVERS']) &
+            (data['NUM_CANDS'] == default_values['NUM_CANDS']) &
+            (data['NUM_VOTERS'] != default_values['NUM_VOTERS'])
+        ]
+        leak_data = filtered_data[filtered_data['RUN_LEAK_VERSION'] == 1]
+        grouped_leak = (
+            leak_data
+            .groupby('NUM_VOTERS')
+            .agg({
+                'total_time_s': 'mean',
+                'send_and_receive_ballots_time_s': 'mean',
+                'clean_ballots_time_s' : 'mean',
+                'convert_ballots_time_s': 'mean',
+                'tally_time_s': 'mean'
+            })
+        )
+        grouped_leak = grouped_leak.reset_index()
+        a,b = np.polyfit(grouped_leak['NUM_VOTERS'].values.tolist(), grouped_leak['tally_time_s'].values.tolist(), 1)
+        print(f"Leak version: Tally time = {a} * NUM_VOTERS + {b}")
+
+        a,b,= np.polyfit(grouped_leak['NUM_VOTERS'].values.tolist(), grouped_leak['clean_ballots_time_s'].values.tolist(), 1)
+        print(f"Leak version: Ballot validation time = {a} * NUM_VOTERS + {b}")
+
+    print("Non-optimized version:")
+    print_regression_coefficients(data)
+    print("\nOptimized version:")
+    print_regression_coefficients(optimized_data)
+
 if __name__ == "__main__":
+    linear_regression()
+    """
     plot_varying_servers()
     plot_varying_candidates()
     plot_varying_voters()
+    """
+    

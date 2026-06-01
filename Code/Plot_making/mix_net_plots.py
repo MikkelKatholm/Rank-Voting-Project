@@ -33,6 +33,9 @@ def plot_varying_clients():
         })
         .reset_index()
     )
+
+    a,b = np.polyfit(grouped['NUM_CLIENTS'], grouped['total_time'], 1)
+    print(f"Total time linear fit: Time = {a:.4f} * Voters + {b:.4f}")
     plt.figure()
     plt.plot(grouped['NUM_CLIENTS'], grouped['time_mixing'], color=variable_to_color_marker_label['time_mixing'][0], marker=variable_to_color_marker_label['time_mixing'][1], label=variable_to_color_marker_label['time_mixing'][2], linestyle='')
     plt.plot(grouped['NUM_CLIENTS'], grouped['time_verifying_proofs'], color=variable_to_color_marker_label['time_verifying_proofs'][0], marker=variable_to_color_marker_label['time_verifying_proofs'][1], label=variable_to_color_marker_label['time_verifying_proofs'][2], linestyle='')

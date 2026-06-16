@@ -1,15 +1,6 @@
-
-- [ ] Header and paragraphs with leading capital letters eg. `This Is A Header`
-- [ ] `\paragraph{text:}` NOT `\paragraph{text}`
-- [ ] Find fucked \ref{}. search for `??`
+- [x] Find fucked \ref{}. search for `??`
 - [ ] Fly fucking En masse
-- [ ] `Mix-net` NOT `Mix net`
-- [ ] `Zero-knowledge` NOT `Zero knowledge`
-- [ ] `Secure Multiparty computation` Not something else
-- [ ] `Single-winner` and `Multi-winner`
-- [ ] Must be `ElGamal`
-- [ ] Only use `\Cref{}` Not `\cref{}`
 - [ ] Fix word into margin 
 	- [ ] Section 4.2.2.4
 	- [ ] Section 3.1.4.2
-- [ ] Change All `Tabulation` to `Tallying`
+- [ ] All allowed leakage and any variant hereof should be renamed to auxiliary output

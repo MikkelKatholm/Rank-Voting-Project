@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import matplotlib as mpl
+from pathlib import Path
 
 data = pd.read_csv('Mix_nets_results_with_network_delay.csv', sep=";")
 
@@ -10,6 +12,11 @@ variable_to_color_marker_label = {
     'time_verifying_proofs': ('orange', 'x', 'Verification'),
     't_decrypt': ('green', 's', 'Decryption'),
     'time_mixing': ('red', 'D', 'Mixing')
+}
+
+font_dict = {
+    'family': mpl.font_manager.FontProperties(fname=Path(mpl.get_data_path(), "fonts/ttf/cmr10.ttf")).get_name(),
+    'size': 12
 }
 
 def plot_varying_clients():
@@ -43,9 +50,9 @@ def plot_varying_clients():
     plt.plot(grouped['NUM_CLIENTS'], grouped['t_tally'], color=variable_to_color_marker_label['t_tally'][0], marker=variable_to_color_marker_label['t_tally'][1], label=variable_to_color_marker_label['t_tally'][2], linestyle='')
     plt.plot(grouped['NUM_CLIENTS'], grouped['total_time'], color=variable_to_color_marker_label['total_time'][0], marker=variable_to_color_marker_label['total_time'][1], label=variable_to_color_marker_label['total_time'][2], linestyle='')
     plt.grid()
-    plt.xlabel('Number of Votes')
-    plt.ylabel('Time (s)')
-    plt.legend()
+    plt.xlabel('Number of Votes', fontdict=font_dict)
+    plt.ylabel('Time (s)', fontdict=font_dict)
+    plt.legend(loc='upper left', prop=font_dict)
     plt.savefig('mix_net_plots/mix_net_varying_clients_plot.pdf', bbox_inches='tight')    
 
 
@@ -75,9 +82,9 @@ def plot_varying_servers():
     plt.plot(grouped['NUM_SERVERS'], grouped['t_tally'], color=variable_to_color_marker_label['t_tally'][0], marker=variable_to_color_marker_label['t_tally'][1], label=variable_to_color_marker_label['t_tally'][2], linestyle='')
     plt.plot(grouped['NUM_SERVERS'], grouped['total_time'], color=variable_to_color_marker_label['total_time'][0], marker=variable_to_color_marker_label['total_time'][1], label=variable_to_color_marker_label['total_time'][2], linestyle='')
     plt.grid()
-    plt.xlabel('Number of Servers')
-    plt.ylabel('Time (s)')
-    plt.legend()
+    plt.xlabel('Number of Servers', fontdict=font_dict)
+    plt.ylabel('Time (s)', fontdict=font_dict)
+    plt.legend(loc='upper left', prop=font_dict)
     plt.savefig('mix_net_plots/mix_net_varying_servers_plot.pdf', bbox_inches='tight')
 
 
@@ -108,9 +115,9 @@ def plot_varying_candidates():
     plt.plot(grouped['NUM_CANDS'], grouped['t_tally'], color=variable_to_color_marker_label['t_tally'][0], marker=variable_to_color_marker_label['t_tally'][1], label=variable_to_color_marker_label['t_tally'][2], linestyle='')
     plt.plot(grouped['NUM_CANDS'], grouped['total_time'], color=variable_to_color_marker_label['total_time'][0], marker=variable_to_color_marker_label['total_time'][1], label=variable_to_color_marker_label['total_time'][2], linestyle='')
     plt.grid()
-    plt.xlabel('Number of Candidates')
-    plt.ylabel('Time (s)')
-    plt.legend()
+    plt.xlabel('Number of Candidates', fontdict=font_dict)
+    plt.ylabel('Time (s)', fontdict=font_dict)
+    plt.legend(loc='upper left', prop=font_dict)
     plt.savefig('mix_net_plots/mix_net_varying_candidates_plot.pdf', bbox_inches='tight')  
 
 

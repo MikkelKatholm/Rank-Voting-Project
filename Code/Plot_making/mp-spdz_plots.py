@@ -4,9 +4,18 @@ import numpy as np
 from pathlib import Path
 import matplotlib as mpl
 
-online_only = True
-optimized = True
 
+# Custom color in rgb format
+AUDark = (0 / 255, 37 / 255, 70 / 255)
+
+online_only = True
+optimized = False
+mpl.rcParams["text.color"] = AUDark  # Global text (like legends)
+mpl.rcParams["axes.labelcolor"] = AUDark  # X and Y axis labels
+mpl.rcParams["axes.edgecolor"] = AUDark  # The outer box/spines
+mpl.rcParams["xtick.color"] = AUDark  # X-axis ticks and tick labels
+mpl.rcParams["ytick.color"] = AUDark  # Y-axis ticks and tick labels
+mpl.rcParams["axes.titlecolor"] = AUDark  # Graph titles (if you add them later)
 data = pd.read_csv(f'mp-spdz_results_{"online" if online_only else "with_offline"}{"_optimized" if optimized else ""}.csv', sep=";")
 
 x_axis_dict = {
@@ -16,7 +25,7 @@ x_axis_dict = {
 }
 
 variable_to_color_marker_label = {
-    'total_time_s': ('black', 'o', 'Total'),
+    'total_time_s': (AUDark, 'o', 'Total'),
     'clean_ballots_time_s': ('green', 's', 'Ballot Validation'),
     'send_and_receive_ballots_time_s': ('darkorange', 'X', 'Send and Receive Ballots'),
     'convert_ballots_time_s': ('red', 'D', 'Convert Ballots'),
@@ -30,8 +39,8 @@ default_values = {
 }
 
 fontpath = Path("fonts/AUPassata_Rg.ttf")
-mpl.font_manager.fontManager.addfont(str(fontpath))
-prop = mpl.font_manager.FontProperties(fname=str(fontpath))
+mpl.font_manager.fontManager.addfont(str(fontpath))                 # type: ignore
+prop = mpl.font_manager.FontProperties(fname=str(fontpath))         # type: ignore
 font_name = prop.get_name()  # gets the actual registered name
 font_dict = {'family': font_name, 'size': 12}
 
@@ -254,10 +263,10 @@ def plot_varying_voters():
     grouped_leak = grouped_leak.reset_index()
     grouped_no_leak = grouped_no_leak.reset_index()
 
-    a,b = np.polyfit(grouped_leak['NUM_VOTERS'].values.tolist(), grouped_leak['tally_time_s'].values.tolist(), 1)
+    a,b = np.polyfit(grouped_leak['NUM_VOTERS'].values.tolist(), grouped_leak['tally_time_s'].values.tolist(), 1) #type: ignore
     print(f"Leak version: Tally time = {a} * NUM_VOTERS + {b}")
 
-    a,b = np.polyfit(grouped_no_leak['NUM_VOTERS'].values.tolist(), grouped_no_leak['tally_time_s'].values.tolist(), 1)
+    a,b = np.polyfit(grouped_no_leak['NUM_VOTERS'].values.tolist(), grouped_no_leak['tally_time_s'].values.tolist(), 1) #type: ignore
     print(f"No leak version: Tally time = {a} * NUM_VOTERS + {b}")
 
     def plot_everything_leak():

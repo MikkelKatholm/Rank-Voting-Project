@@ -29,11 +29,12 @@ default_values = {
     'NUM_VOTERS': 32,
 }
 
+fontpath = Path("fonts/AU_Peto.ttf")
+mpl.font_manager.fontManager.addfont(str(fontpath))
 
-font_dict = {
-    'family': mpl.font_manager.FontProperties(fname=Path(mpl.get_data_path(), "fonts/ttf/cmr10.ttf")).get_name(),
-    'size': 12
-}
+prop = mpl.font_manager.FontProperties(fname=str(fontpath))
+font_name = prop.get_name()  # gets the actual registered name
+font_dict = {'family': font_name, 'size': 12}
 
 
 def plot_everything(data, x_axis, filename):
@@ -278,13 +279,14 @@ def linear_regression():
     data = pd.read_csv(f'mp-spdz_results_online.csv', sep=";")
     optimized_data = pd.read_csv(f'mp-spdz_results_online_optimized.csv', sep=";")
 
+
     def print_regression_coefficients(data):
         filtered_data = data[
             (data['NUM_SERVERS'] == default_values['NUM_SERVERS']) &
             (data['NUM_CANDS'] == default_values['NUM_CANDS']) &
             (data['NUM_VOTERS'] != default_values['NUM_VOTERS'])
         ]
-        leak_data = filtered_data[filtered_data['RUN_LEAK_VERSION'] == 1]
+        leak_data = filtered_data[filtered_data['RUN_LEAK_VERSION'] == 0]
         grouped_leak = (
             leak_data
             .groupby('NUM_VOTERS')
@@ -309,10 +311,10 @@ def linear_regression():
     print_regression_coefficients(optimized_data)
 
 if __name__ == "__main__":
-    linear_regression()
-    """
+    # linear_regression()
+    
     plot_varying_servers()
     plot_varying_candidates()
     plot_varying_voters()
-    """
+    
     

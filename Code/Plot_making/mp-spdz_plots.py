@@ -29,9 +29,8 @@ default_values = {
     'NUM_VOTERS': 32,
 }
 
-fontpath = Path("fonts/AU_Peto.ttf")
+fontpath = Path("fonts/AUPassata_Rg.ttf")
 mpl.font_manager.fontManager.addfont(str(fontpath))
-
 prop = mpl.font_manager.FontProperties(fname=str(fontpath))
 font_name = prop.get_name()  # gets the actual registered name
 font_dict = {'family': font_name, 'size': 12}
